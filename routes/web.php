@@ -25,7 +25,8 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
      Route::get('/create-customer', [CustomerController::class, 'create'])->name('customer.add');
-
+     Route::post('/get-cities', [CustomerController::class, 'getCities'])->name('get-cities');
+     Route::post('/add_clientinformation', [CustomerController::class, 'add_clientinformation'])->name('add_clientinformation');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

@@ -23,14 +23,19 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Client Information Entry Form</h4>
-                    <form class="form-sample">
-                      <div class="row">
+                    <form class="form-sample" method="POST" action="{{route('add_clientinformation')}}">
+                     @csrf   
+                    <div class="row">
                         <div class="col-md-6">
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Client Name</label>
                             <div class="col-sm-9">
-                              <input type="text" name="depname" id="depname" placeholder="Enter Client Name" class="form-control" />
+                              <input type="text" name="depname" id="depname" value="{{ old('depname') }}"  placeholder="Enter Client Name" class="form-control" />
+                              @if ($errors->has('depname'))
+                                  <div class="error text-danger">{{ $errors->first('depname') }}</div>
+                              @endif
                             </div>
+                           
                           </div>
                         </div>
                         <div class="col-md-6">
@@ -48,8 +53,10 @@
                             <label class="col-sm-3 col-form-label">State</label>
                             <div class="col-sm-9">
                               <select class="form-select" name="state" id="state">
-                                <option>Male</option>
-                                <option>Female</option>
+                                @foreach($states as $state)
+                                <option value={{$state->state_id}}>{{$state->state_name}}</option>
+                                @endforeach
+                                <!-- <option>Female</option> -->
                               </select>
                             </div>
                           </div>
@@ -58,10 +65,9 @@
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">City</label>
                             <div class="col-sm-9">
-                              <select class="form-select" name="city" id="city">
-                                <option>Male</option>
-                                <option>Female</option>
-                              </select>
+                            <select class="form-select" name="city" id="city">
+                                <option value="">Select City</option>
+                            </select>
                             </div>
                           </div>
                         </div>
@@ -108,7 +114,11 @@
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Mobile Number</label>
                             <div class="col-sm-9">
-                              <input type="text" name="mobile" id="mobile" class="form-control" />
+                              <input type="text" name="mobile" id="mobile"  value="{{ old('depname') }}" class="form-control" />
+                              @if ($errors->has('mobile'))
+                                <div class="error text-danger">{{ $errors->first('mobile') }}</div>
+                             @endif
+
                             </div>
                           </div>
                         </div>
@@ -415,6 +425,8 @@
 
                         </div>
 
+
+                        <button type="submit">SS</button>
                         
                     </form>
                   </div>
@@ -490,6 +502,55 @@
               </div>
             </div> -->
            
-          
+            @if (session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '{{ session("success") }}',
+        });
+    </script>
+@endif
+
+@if (session('error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: '{{ session("error") }}',
+        });
+    </script>
+@endif   
 </div>
+<script>
+  $(document).ready(function () {
+    $('#state').on('change', function () {
+        var stateId = $(this).val();
+        var cityDropdown = $('#city');
+
+        // Clear city dropdown
+        cityDropdown.empty();
+        cityDropdown.append('<option value="">Select City</option>');
+
+        if (stateId) {
+            $.ajax({
+                url: "{{ route('get-cities') }}", // Route to fetch cities
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}", // CSRF token for security
+                    state_id: stateId
+                },
+                success: function (cities) {
+                    $.each(cities, function (key, city) {
+                      console.log(city);
+                        cityDropdown.append('<option value="' + city.city_id + '">' + city.city_name + '</option>');
+                    });
+                }
+            });
+        }
+    });
+});
+</script>
+
+
 @endsection          
