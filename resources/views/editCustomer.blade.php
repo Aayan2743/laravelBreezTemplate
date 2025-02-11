@@ -1,18 +1,22 @@
 @extends('layouts.admin.master')
 
-@section('title', 'Gills Lab -2025 Add Customer Page')
+@section('title', 'Gills Lab -2025 Edit Customer Page')
 @section('content')
 <div class="content-wrapper">
             <div class="page-header">
               <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-primary text-white me-2">
                   <i class="mdi mdi-home"></i>
-                </span> Add Customer
+                </span> Update Customer
               </h3>
               <nav aria-label="breadcrumb">
                 <ul class="breadcrumb">
                   <li class="breadcrumb-item active" aria-current="page">
-                    <span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                    <span></span><a href="{{route('customer.viewClients')}}" >View Customer</a> 
+                  </li>
+
+                  <li class="breadcrumb-item active" aria-current="page">
+                    <span></span>Edit Customer 
                   </li>
                 </ul>
               </nav>
@@ -22,15 +26,16 @@
             <div class="col-12 grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Client Information Entry Form</h4>
-                    <form class="form-sample" method="POST" action="{{route('add_clientinformation')}}">
+                    <h4 class="card-title">Client Information Edit Form</h4>
+                    <form class="form-sample" method="POST" action="{{ route('client.update', $clientinformation->client_id ?? '') }}">
                      @csrf   
                     <div class="row">
                         <div class="col-md-6">
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Client Name <span class="text-danger">*</spna></label>
                             <div class="col-sm-9">
-                              <input type="text" name="depname" id="depname" value="{{ old('depname') }}"  placeholder="Enter Client Name" class="form-control" />
+                            <input type="hidden" name="client_id" value="{{ $clientinformation->client_id ?? '' }}">
+                              <input type="text" name="depname" id="depname" value="{{ $clientinformation->client_name}}"  placeholder="Enter Client Name" class="form-control" />
                               @if ($errors->has('depname'))
                                   <div class="error text-danger">{{ $errors->first('depname') }}</div>
                               @endif
@@ -42,7 +47,7 @@
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Client Address</label>
                             <div class="col-sm-9">
-                              <textarea rows="" cols="" name="depadd" id="depadd" class="form-control"></textarea>
+                              <textarea rows="" cols="" name="depadd" id="depadd" class="form-control">{{ $clientinformation->address}}</textarea>
                             </div>
                           </div>
                         </div>
@@ -53,20 +58,36 @@
                             <label class="col-sm-3 col-form-label">State</label>
                             <div class="col-sm-9">
                               <select class="form-select" name="state" id="state">
-                                @foreach($states as $state)
+                                <!-- @foreach($states as $state)
                                 <option value={{$state->state_id}}>{{$state->state_name}}</option>
                                 @endforeach
-                                <!-- <option>Female</option> -->
+                                -->
+                                <option value="">Select State</option>
+                                @foreach($states as $state)
+                                  <option value="{{ $state->state_id }}" 
+                                      {{ isset($clientinformation) && $clientinformation->state == $state->state_id ? 'selected' : '' }}>
+                                      {{ $state->state_name }}
+                                  </option>
+                                @endforeach
+                              
                               </select>
                             </div>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">City</label>
+                            <label class="col-sm-3 col-form-label">City </label>
                             <div class="col-sm-9">
                             <select class="form-select" name="city" id="city">
-                                <option value="">Select City</option>
+                            <option value="">Select City</option>
+
+                                    <!-- @foreach($cities as $cityy)
+                                        <option value="{{ $cityy->id }}" {{ $clientinformation->city == $cityy->id ? 'selected' : '' }}>
+                                            {{ $cityy->city_name }}
+                                        </option>
+                                    @endforeach   -->
+
+
                             </select>
                             </div>
                           </div>
@@ -77,7 +98,7 @@
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Other City</label>
                             <div class="col-sm-9">
-                              <input type="text" name="ancity" id="ancity" class="form-control" />
+                              <input type="text" name="ancity" id="ancity" value="{{ $clientinformation->other_city}}"   class="form-control" />
                             </div>
                           </div>
                         </div>
@@ -85,7 +106,7 @@
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Retailer</label>
                             <div class="col-sm-9">
-                              <input type="text" name="retailer" id="retailer" class="form-control" />
+                              <input type="text" name="retailer" id="retailer" value="{{ $clientinformation->retailer}}" class="form-control" />
                             </div>
                           </div>
                         </div>
@@ -96,7 +117,7 @@
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Supplier  </label>
                             <div class="col-sm-9">
-                              <input type="text" name="supplier" id="supplier" class="form-control" />
+                              <input type="text" name="supplier" id="supplier" value="{{ $clientinformation->supplier}}" class="form-control" />
                             </div>
                           </div>
                         </div>
@@ -104,7 +125,7 @@
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Depositor Name</label>
                             <div class="col-sm-9">
-                              <input type="text" name="depositor" id="depositor" class="form-control" />
+                              <input type="text" name="depositor" id="depositor" value="{{ $clientinformation->depositorname}}" class="form-control" />
                             </div>
                           </div>
                         </div>
@@ -114,7 +135,7 @@
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Mobile Number <span class="text-danger">*</spna></label>
                             <div class="col-sm-9">
-                              <input type="text" name="mobile" id="mobile"  value="{{ old('depname') }}" class="form-control" />
+                              <input type="text" name="mobile" id="mobile"   value="{{ $clientinformation->phonenumber}}"  class="form-control" />
                               @if ($errors->has('mobile'))
                                 <div class="error text-danger">{{ $errors->first('mobile') }}</div>
                              @endif
@@ -126,7 +147,7 @@
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Email ID</label>
                             <div class="col-sm-9">
-                              <input type="text" name="email" id="email" class="form-control" />
+                              <input type="text" name="email" id="email"  value="{{ $clientinformation->email}}"  class="form-control" />
                             </div>
                           </div>
                         </div>
@@ -137,7 +158,7 @@
                             <label class="col-sm-3 col-form-label">PAN Number :
                               </label>
                             <div class="col-sm-9">
-                              <input type="text" name="panno" id="panno" class="form-control" />
+                              <input type="text" name="panno" id="panno" value="{{ $clientinformation->panno}}"  class="form-control" />
                             </div>
                           </div>
                         </div>
@@ -147,7 +168,7 @@
                             <label class="col-sm-3 col-form-label">TAN Number :
                               </label>
                             <div class="col-sm-9">
-                              <input type="text" name="tanno" id="tanno" class="form-control" />
+                              <input type="text" name="tanno" id="tanno" value="{{ $clientinformation->tanno}}"  class="form-control" />
                             </div>
                           </div>
                         </div>
@@ -160,7 +181,7 @@
                             <label class="col-sm-3 col-form-label">GST Number :
                               </label>
                             <div class="col-sm-9">
-                              <input type="text" name="gstno" id="gstno" class="form-control" />
+                              <input type="text" name="gstno" id="gstno" value="{{ $clientinformation->gstno}}"  class="form-control" />
                             </div>
                           </div>
                         </div>
@@ -175,10 +196,10 @@
                           <div class="form-group row">
                            
                             <div class="col-sm-5">
-                              <input type="text" name="carat1" value="0.01-0.28" class="form-control" />
+                              <input type="text" name="carat1"  value="{{ $clientinformation->carat1}}"  class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                              <input type="text" name="rate1" value="100" class="form-control" />
+                              <input type="text" name="rate1" value="{{ $clientinformation->dj1}}" class="form-control" />
                             </div>
                             <div class="col-sm-3">
                             <label class="col-sm-12 col-form-label">p/pc</label>
@@ -189,10 +210,10 @@
                           <div class="form-group row">
                            
                             <div class="col-sm-5">
-                              <input type="text" name="carat2" value="0.29-Above" class="form-control" />
+                              <input type="text" name="carat2" value="{{ $clientinformation->carat2}}" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                              <input type="text" name="rate2" value="400" class="form-control" />
+                              <input type="text" name="rate2" value="{{ $clientinformation->dj2}}" class="form-control" />
                             </div>
                             <div class="col-sm-3">
                             <label class="col-sm-12 col-form-label">p/ct</label>
@@ -205,10 +226,10 @@
                         <div class="form-group row">
                            
                            <div class="col-sm-5">
-                             <input type="text" name="carat3" value="0.20-0.99" class="form-control" />
+                             <input type="text" name="carat3" value="{{ $clientinformation->carat3}}" class="form-control" />
                            </div>
                            <div class="col-sm-4">
-                             <input type="text" name="rate3" value="450" class="form-control" />
+                             <input type="text" name="rate3" value="{{ $clientinformation->sdj1}}" class="form-control" />
                            </div>
                            <div class="col-sm-3">
                            <label class="col-sm-12 col-form-label">p/pc</label>
@@ -218,10 +239,10 @@
                          <div class="form-group row">
                            
                            <div class="col-sm-5">
-                             <input type="text" name="carat4" value="1.00-Above" class="form-control" />
+                             <input type="text" name="carat4" value="{{ $clientinformation->carat4}}" class="form-control" />
                            </div>
                            <div class="col-sm-4">
-                             <input type="text" name="rate4" value="450" class="form-control" />
+                             <input type="text" name="rate4" value="{{ $clientinformation->sdj2}}" class="form-control" />
                            </div>
                            <div class="col-sm-3">
                            <label class="col-sm-12 col-form-label">p/ct</label>
@@ -237,10 +258,10 @@
                           <div class="form-group row">
                            
                             <div class="col-sm-5">
-                              <input type="text" name="carat5" value="0.01-1.00" class="form-control" />
+                              <input type="text" name="carat5" value="{{ $clientinformation->carat5}}" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                              <input type="text" name="rate5" value="500" class="form-control" />
+                              <input type="text" name="rate5" value="{{ $clientinformation->dg1}}" class="form-control" />
                             </div>
                             <div class="col-sm-3">
                             <label class="col-sm-12 col-form-label">p/ct</label>
@@ -251,10 +272,10 @@
                           <div class="form-group row">
                            
                             <div class="col-sm-5">
-                              <input type="text" name="carat6" value="1.01-Above" class="form-control" />
+                              <input type="text" name="carat6" value="{{ $clientinformation->carat6}}" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                              <input type="text" name="rate6" value="550" class="form-control" />
+                              <input type="text" name="rate6" value="{{ $clientinformation->dg2}}" class="form-control" />
                             </div>
                             <div class="col-sm-3">
                             <label class="col-sm-12 col-form-label">p/ct</label>
@@ -267,10 +288,10 @@
                         <div class="form-group row">
                            
                            <div class="col-sm-5">
-                             <input type="text" name="carat7" value="0.20-0.59" class="form-control" />
+                             <input type="text" name="carat7" value="{{ $clientinformation->carat7}}"  class="form-control" />
                            </div>
                            <div class="col-sm-4">
-                             <input type="text" name="rate7" value="550" class="form-control" />
+                             <input type="text" name="rate7" value="{{ $clientinformation->sdg1}}"  class="form-control" />
                            </div>
                            <div class="col-sm-3">
                            <label class="col-sm-12 col-form-label">p/pc</label>
@@ -280,10 +301,10 @@
                          <div class="form-group row">
                            
                            <div class="col-sm-5">
-                             <input type="text" name="carat8" value="0.60-Above" class="form-control" />
+                             <input type="text" name="carat8" value="{{ $clientinformation->carat8}}" class="form-control" />
                            </div>
                            <div class="col-sm-4">
-                             <input type="text" name="rate8" value="950"class="form-control" />
+                             <input type="text" name="rate8" value="{{ $clientinformation->sdg2}}" class="form-control" />
                            </div>
                            <div class="col-sm-3">
                            <label class="col-sm-12 col-form-label">p/ct</label>
@@ -299,10 +320,10 @@
                           <div class="form-group row">
                            
                             <div class="col-sm-5">
-                              <input type="text" name="carat9" value="0.01-1.99" class="form-control" />
+                              <input type="text" name="carat9" value="{{ $clientinformation->carat9}}" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                              <input type="text" name="rate9" value="225" class="form-control" />
+                              <input type="text" name="rate9" value="{{ $clientinformation->gls1}}"  class="form-control" />
                               
                             </div>
                             <div class="col-sm-3">
@@ -315,10 +336,10 @@
                           <div class="form-group row">
                            
                             <div class="col-sm-5">
-                              <input type="text" name="carat10" value="2.00-4.99" class="form-control" />
+                              <input type="text" name="carat10" value="{{ $clientinformation->carat10}}" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                              <input type="text" name="rate10" value="325" class="form-control" />
+                              <input type="text" name="rate10" value="{{ $clientinformation->gls2}}" class="form-control" />
                             </div>
                             <div class="col-sm-3">
                             <label class="col-sm-12 col-form-label">p/pc</label>
@@ -328,10 +349,10 @@
                           <div class="form-group row">
                            
                             <div class="col-sm-5">
-                              <input type="text" name="carat11" value="5.00-9.99" class="form-control" />
+                              <input type="text" name="carat11" value="{{ $clientinformation->carat11}}" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                              <input type="text" name="rate11" value="525" class="form-control" />
+                              <input type="text" name="rate11" value="{{ $clientinformation->gls3}}" class="form-control" />
                             </div>
                             <div class="col-sm-3">
                             <label class="col-sm-12 col-form-label">p/pc</label>
@@ -341,10 +362,10 @@
                           <div class="form-group row">
                            
                             <div class="col-sm-5">
-                              <input type="text"  name="carat12" value="10.00-Above" class="form-control" />
+                              <input type="text"  name="carat12" value="{{ $clientinformation->carat12}}" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                              <input type="text" name="rate12" value="100" class="form-control" />
+                              <input type="text" name="rate12" value="{{ $clientinformation->gls4}}" class="form-control" />
                             </div>
                             <div class="col-sm-3">
                             <label class="col-sm-12 col-form-label">p/ct</label>
@@ -358,10 +379,10 @@
                             <div class="form-group row">
                               
                                 <div class="col-sm-5">
-                                  <input type="text" name="carat14" value="0.03-0.07" class="form-control" />
+                                  <input type="text" name="carat14" value="{{ $clientinformation->carat14}}" class="form-control" />
                                 </div>
                                 <div class="col-sm-4">
-                                  <input type="text"  name="rate14" value="1500" class="form-control" />
+                                  <input type="text"  name="rate14" value="{{ $clientinformation->cvd2}}" class="form-control" />
                                 </div>
                                 <div class="col-sm-3">
                                 <label class="col-sm-12 col-form-label">p/ct</label>
@@ -371,10 +392,10 @@
                               <div class="form-group row">
                                 
                                 <div class="col-sm-5">
-                                  <input type="text" name="carat15" value="0.08-0.99" class="form-control" />
+                                  <input type="text" name="carat15" value="{{ $clientinformation->carat15}}" class="form-control" />
                                 </div>
                                 <div class="col-sm-4">
-                                  <input type="text" name="rate15" value="250" class="form-control" />
+                                  <input type="text" name="rate15" value="{{ $clientinformation->cvd3}}" class="form-control" />
                                 </div>
                                 <div class="col-sm-3">
                                  <label class="col-sm-12 col-form-label">p/pc</label>
@@ -385,10 +406,10 @@
                               <div class="form-group row">
                                 
                                 <div class="col-sm-5">
-                                  <input type="text" name="carat16" value="1.00-Above" class="form-control" />
+                                  <input type="text" name="carat16"  value="{{ $clientinformation->carat16}}"  class="form-control" />
                                 </div>
                                 <div class="col-sm-4">
-                                  <input type="text" name="rate16" value="500" class="form-control" />
+                                  <input type="text" name="rate16"  value="{{ $clientinformation->cvd4}}"  class="form-control" />
                                 </div>
                                 <div class="col-sm-3">
                                  <label class="col-sm-12 col-form-label">p/pc</label>
@@ -400,10 +421,10 @@
                             <div class="form-group row">
                               
                                 <div class="col-sm-5">
-                                  <input type="text" name="carat17" value="0.01-5.00" class="form-control" />
+                                  <input type="text" name="carat17"  value="{{ $clientinformation->carat17}}"  class="form-control" />
                                 </div>
                                 <div class="col-sm-4">
-                                  <input type="text" name="rate17" value="200" class="form-control" />
+                                  <input type="text" name="rate17" value="{{ $clientinformation->un1}}"  class="form-control" />
                                 </div>
                                 <div class="col-sm-3">
                                 <label class="col-sm-12 col-form-label">p/pc</label>
@@ -413,10 +434,10 @@
                               <div class="form-group row">
                                 
                                 <div class="col-sm-5">
-                                  <input type="text" name="carat18" value="5.00-Above" class="form-control" />
+                                  <input type="text" name="carat18"  value="{{ $clientinformation->carat18}}" class="form-control" />
                                 </div>
                                 <div class="col-sm-4">
-                                  <input type="text" name="rate18" value="25" class="form-control" />
+                                  <input type="text" name="rate18"  value="{{ $clientinformation->un2}}" class="form-control" />
                                 </div>
                                 <div class="col-sm-3">
                                 <label class="col-sm-12 col-form-label">p/pt</label>
@@ -426,7 +447,7 @@
                         </div>
 
 
-                        <button class="btn btn-primary" type="submit">Create</button>
+                        <button class="btn btn-primary" type="submit">Save Changes</button>
                         
                     </form>
                   </div>
@@ -523,33 +544,45 @@
 @endif   
 </div>
 <script>
-  $(document).ready(function () {
-    $('#state').on('change', function () {
-        var stateId = $(this).val();
-        var cityDropdown = $('#city');
+    $(document).ready(function () {
+        var selectedCity = "{{ $clientinformation->city ?? '' }}"; // Get selected city from Blade
 
-        // Clear city dropdown
-        cityDropdown.empty();
-        cityDropdown.append('<option value="">Select City</option>');
+        console.log("selected city",selectedCity);
 
-        if (stateId) {
-            $.ajax({
-                url: "{{ route('get-cities') }}", // Route to fetch cities
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}", // CSRF token for security
-                    state_id: stateId
-                },
-                success: function (cities) {
-                    $.each(cities, function (key, city) {
-                      console.log(city);
-                        cityDropdown.append('<option value="' + city.city_id + '">' + city.city_name + '</option>');
-                    });
-                }
-            });
+        // Function to fetch cities based on state
+        function fetchCities(stateId) {
+            if (stateId) {
+                $.ajax({
+                    url: "{{ url('get-cities') }}/" + stateId, // Your API endpoint
+                    type: "GET",
+                    success: function (data) {
+
+                      console.log(data);
+                        $('#city').html('<option value="">Select City</option>');
+                        $.each(data, function (key, value) {
+                          // console.log("value",value.city_id)
+                            var selected = (selectedCity == value.city_id) ? 'selected' : ''; 
+                            $('#city').append('<option value="' + value.city_id + '" ' + selected + '>' + value.city_name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#city').html('<option value="">Select City</option>');
+            }
+        }
+
+        // On state change
+        $('#state').change(function () {
+            var stateId = $(this).val();
+            fetchCities(stateId);
+        });
+
+        // Preload cities if editing
+        if ($('#state').val() !== '') {
+            fetchCities($('#state').val());
         }
     });
-});
+
 </script>
 
 

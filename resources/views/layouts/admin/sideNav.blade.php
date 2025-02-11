@@ -3,7 +3,7 @@
             <li class="nav-item nav-profile">
               <a href="#" class="nav-link">
                 <div class="nav-profile-image">
-                  <img src="assets/images/faces/face1.jpg" alt="profile" />
+                  <img src="{{asset('assets/images/faces/face1.jpg')}}" alt="profile" />
                   <span class="login-status online"></span>
                   <!--change to offline or busy as needed-->
                 </div>
@@ -27,6 +27,21 @@
                 <i class="mdi mdi-contacts menu-icon"></i>
               </a>
             </li>
+
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="{{route('customer.viewClients')}}">
+                <span class="menu-title">View Customers</span>
+                <i class="mdi mdi-contacts menu-icon"></i>
+              </a>
+            </li> -->
+
+            <li class="nav-item {{ request()->is('customer/viewClients') || request()->is('view-client-details/*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('customer.viewClients') }}">
+                  <span class="menu-title">View Customers</span>
+                  <i class="mdi mdi-contacts menu-icon"></i>
+                </a>
+              </li>
+
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">Basic UI Elements</span>
