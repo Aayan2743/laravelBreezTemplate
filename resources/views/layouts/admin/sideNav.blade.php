@@ -35,12 +35,14 @@
               </a>
             </li> -->
 
-            <li class="nav-item {{ request()->is('customer/viewClients') || request()->is('view-client-details/*') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->is('customer/viewClients') || request()->is('view-client-details/*') ||  request()->is('Co-branding/*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('customer.viewClients') }}">
                   <span class="menu-title">View Customers</span>
                   <i class="mdi mdi-contacts menu-icon"></i>
                 </a>
               </li>
+
+            
 
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">

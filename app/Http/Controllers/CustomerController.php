@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\state;
 use App\Models\citie;
+use App\Models\service;
 use App\Models\clientinformationDetails;
+use App\Models\clientcompanylogoData;
 // use validator;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerController extends Controller
 {
@@ -247,6 +250,17 @@ class CustomerController extends Controller
         // dd($clientinformation);
     }
 
+    public function cobrandingDelete($id){
+        $clientinformation=clientcompanylogoData::findOrfail($id);
+
+        $clientinformation->delete();
+
+        return redirect()->back()->with('success', 'Co-Branding  deleted successfully!');
+        // dd($clientinformation);
+    }
+
+
+    
 
 
 
@@ -310,4 +324,94 @@ class CustomerController extends Controller
             return response()->json($cities);
         }
 
-}
+
+     public function cobranding_index($id){
+
+        
+        // use 274
+        $clientdetails=clientinformationDetails::where('client_id',$id)->get();
+
+        $cobranding=clientcompanylogoData::where('client_id',$id)->get();
+
+        // dd($cobranding);
+
+        return view('clientCobranding',compact('cobranding','clientdetails'));
+     }   
+
+     public function cobrandingStore(Request $request){
+
+        $request->validate([
+            'coBrandingImage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'coBrandingText' => 'required|string|max:255',
+            'clinetID' => 'required',
+        ]);
+
+        // Handle file upload
+        if ($request->hasFile('coBrandingImage')) {
+            $imagePath = $request->file('coBrandingImage')->store('uploads', 'public'); // Save to storage/app/public/uploads
+        } else {
+            return back()->with('error', 'Image upload failed.');
+        }
+
+        // Save data to database
+        clientcompanylogoData::create([
+            'logoname' => $imagePath,
+            'logotext' => $request->coBrandingText,
+            'client_id' => $request->clinetID,
+            'status' => 0,
+        ]);
+
+        return back()->with('success', 'Co-branding added successfully!');
+
+     }
+
+     public function brandingupdate(Request $request){
+
+        $request->validate([
+            'clinetEditID' => 'required',
+            'coBrandingEditText' => 'required',
+            'coBrandingImageEdit' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+    
+        $client=clientcompanylogoData::find($request->clinetEditID);
+        // $client = clientcompanylogoData::where('id',$request->clinetEditID)->first();
+        //  dd($client);
+        if (!$client) {
+            return response()->json(['error' => 'Client not found'], 404);
+        }
+    
+        // Update text field
+        $client->logotext = $request->coBrandingEditText;
+    
+        // Handle image upload
+        if ($request->hasFile('coBrandingImageEdit')) {
+            // Delete old image if exists
+            if ($client->logoname) {
+                Storage::delete('public/' . $client->logoname);
+            }
+            
+            // Store new image
+            $path = $request->file('coBrandingImageEdit')->store('uploads', 'public');
+            $client->logoname = $path;
+        }
+    
+        $client->save();
+        return back()->with('success', 'Co-branding Updated successfully!');
+        // return response()->json(['success' => 'Updated successfully', 'image' => $client->logoname, 'text' => $client->logotext]);
+     }
+
+
+     public function confirmEntryIndex($id){
+
+        $customerDetails=clientinformationDetails::findOrFail($id);
+        
+        $companyLogo=clientcompanylogoData::where('client_id',$id)->get();
+        $services=service::get();
+
+        return view('confirmEntry',compact('customerDetails','companyLogo','services'));
+
+     }
+
+
+
+ }

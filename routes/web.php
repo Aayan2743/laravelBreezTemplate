@@ -30,7 +30,13 @@ Route::middleware('auth')->group(function () {
      Route::get('/view-client-details/{id}', [CustomerController::class, 'viewClientById'])->name('clients.viewClientById');
      Route::get('/delete-client-details/{id}', [CustomerController::class, 'deleteClientById'])->name('clients.deleteClientById');
      Route::post('/client/update', [CustomerController::class, 'add_clientinformation'])->name('client.update');
-
+    //  cobranding
+     Route::get('/Co-branding/{id}', [CustomerController::class, 'cobranding_index'])->name('cobranding_index');
+     Route::post('/Co-branding/store', [CustomerController::class, 'cobrandingStore'])->name('brandingStore');
+     Route::post('/Co-branding/brandingupdate', [CustomerController::class, 'brandingupdate'])->name('brandingupdate');
+     Route::get('/Co-branding-delete/{id}', [CustomerController::class, 'cobrandingDelete'])->name('cobrandingDelete');
+     // Confirm Entry Form
+     Route::get('/confirm-entry/{id}', [CustomerController::class, 'confirmEntryIndex'])->name('confirmEntryIndex');
 
      Route::post('/get-cities', [CustomerController::class, 'getCities'])->name('get-cities');
      Route::get('/get-cities/{state_id}', [CustomerController::class, 'getCitiesData']);
