@@ -23,7 +23,7 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Client Information Entry Form</h4>
-                    <form class="form-sample" method="POST" action="{{route('add_clientinformation')}}">
+                    <form class="form-sample" method="POST" action="{{route('confirmEntryStore')}}">
                      @csrf   
                     <div class="row">
                         <div class="col-md-6">
@@ -31,6 +31,13 @@
                             <label class="col-sm-3 col-form-label">Client Name <span class="text-danger">*</spna></label>
                             <div class="col-sm-9">
                               <input type="text" name="depname" id="depname" value="{{ $customerDetails->client_name }}"  placeholder="Enter Client Name" class="form-control" />
+                              <input type="hidden" name="client_id" id="client_id" value="{{ $customerDetails->client_id  }}"  placeholder="client_id" class="form-control" />
+                              <input type="hidden" name="client_address" id="client_address" value="{{ $customerDetails->address }}"  placeholder="client_address" class="form-control" />
+                              <input type="hidden" name="clinet_gst" id="clinet_gst" value="{{ $customerDetails->gstno }}"  placeholder="clinet_gst" class="form-control" />
+                              <input type="hidden" name="client_country" id="client_country" value="{{ $customerDetails->country }}"  placeholder="client_country" class="form-control" />
+                              <input type="hidden" name="client_city" id="client_city" value="{{ $customerDetails->city }}"  placeholder="client_city" class="form-control" />
+                              <input type="hidden" name="retailer" id="retailer" value="{{ $customerDetails->retailer }}"  placeholder="retailer" class="form-control" />
+                              <input type="hidden" name="supplier" id="supplier" value="{{ $customerDetails->supplier }}"  placeholder="supplier" class="form-control" />
                               @if ($errors->has('depname'))
                                   <div class="error text-danger">{{ $errors->first('depname') }}</div>
                               @endif
@@ -43,18 +50,24 @@
                      
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Select Logo</label>
+                            <label class="col-sm-3 col-form-label">Select Logo <span class="text-danger">*</spna></label>
                             <div class="col-sm-9">
-                              <select class="form-select" name="state" id="state">
-                                <option value="0">Select Logo</option>
+                              <select class="form-select" name="logo" id="logo">
+                                <option value="">Select Logo</option>
                                 @foreach($companyLogo as $logo)
                                 <option value="{{ $logo->id }}" data-image="{{ asset('storage/' . $logo->logoname) }}">
                                       {{ $logo->logotext }}
                                   </option>
 
                                 @endforeach
+
                                 <!-- <option>Female</option> -->
                               </select>
+
+                              
+                              @if ($errors->has('logo'))
+                                  <div class="error text-danger">{{ $errors->first('logo') }}</div>
+                                @endif
                               <div class="d-flex justify-content-between">
                               <img id="logoPreviewLogo" src="" class="img-fluid mt-2 rounded-circle" style="max-width: 70px; display: none;">
                               <a href="{{route('cobranding_index',$customerDetails->client_id)}}" class="mt-2" >Add Co Branding</a>
@@ -68,12 +81,15 @@
 
                         <div class="col-md-3">
                           <div class="form-group row">
-                            <label class="col-sm-6 col-form-label">Depositor Name</label>
+                            <label class="col-sm-6 col-form-label">Depositor Name <span class="text-danger">*</spna></label>
                             <div class="col-sm-6">
                               
-                            <input type="text" name="DepositorName" class="form-control" />
+                            <input type="text" name="DepositorName" class="form-control" value="{{ $customerDetails->depositorname }}" />
                               
                             </div>
+                            @if ($errors->has('DepositorName'))
+                                  <div class="error text-danger">{{ $errors->first('DepositorName') }}</div>
+                                @endif
                           
                           </div>
                           
@@ -82,12 +98,15 @@
 
                         <div class="col-md-3">
                           <div class="form-group row">
-                            <label class="col-sm-6 col-form-label">Receiver Name</label>
+                            <label class="col-sm-6 col-form-label">Receiver Name <span class="text-danger">*</spna></label>
                             <div class="col-sm-6">
                               
                             <input type="text" name="ReceiverName" value="{{Auth()->user()->name}}" class="form-control" />
                               
                             </div>
+                            @if ($errors->has('ReceiverName'))
+                                  <div class="error text-danger">{{ $errors->first('ReceiverName') }}</div>
+                                @endif
                           
                           </div>
                           
@@ -96,12 +115,16 @@
 
                         <div class="col-md-3">
                           <div class="form-group row">
-                            <label class="col-sm-6 col-form-label">Invoice Date</label>
+                            <label class="col-sm-6 col-form-label">Invoice Date <span class="text-danger">*</spna></label>
                             <div class="col-sm-6">
                               
-                            <input type="date" name="InvoiceDate" class="form-control" />
+                            <input type="date" name="InvoiceDate" value="{{ old('InvoiceDate')}}" class="form-control" />
                               
                             </div>
+
+                            @if ($errors->has('InvoiceDate'))
+                                  <div class="error text-danger">{{ $errors->first('InvoiceDate') }}</div>
+                                @endif
                           
                           </div>
                           
@@ -110,12 +133,16 @@
 
                         <div class="col-md-3">
                           <div class="form-group row">
-                            <label class="col-sm-6 col-form-label">Delivery Date</label>
+                            <label class="col-sm-6 col-form-label">Delivery Date <span class="text-danger">*</spna></label>
                             <div class="col-sm-6">
                               
-                            <input type="date" name="Deliverydate"  class="form-control" />
+                            <input type="date" name="Deliverydate" value="{{ old('Deliverydate')}}"  class="form-control" />
                               
                             </div>
+
+                            @if ($errors->has('Deliverydate'))
+                                  <div class="error text-danger">{{ $errors->first('Deliverydate') }}</div>
+                                @endif
                           
                           </div>
                           
@@ -125,8 +152,14 @@
                         <div class="col-md-12">
                         <h4 class="card-title">Confirm Entry for Service:</h4>
                           
+                        @foreach ($errors->get('item.*') as $messages)
+                          @foreach ($messages as $message)
+                              <small class="text-danger">{{ $message }}</small>
+                          @endforeach
+                      @endforeach
+
                         <div id="dynamicRows">
-                          <div class="form-group row">
+                          <!-- <div class="form-group row">
                               <div class="col-sm-3">
                                   <label class="col-sm-12 col-form-label">Item</label>
                                   <select class="form-select" name="item[]" id="item">
@@ -163,7 +196,60 @@
                                   <label class="col-sm-12 col-form-label">Add More</label>
                                   <button type="button" class="btn btn-primary" id="addMore">+</button>
                               </div>
-                          </div>
+                          </div> -->
+
+                          <div class="form-group row">
+                            <div class="col-sm-3">
+                                <label class="col-sm-12 col-form-label">Item</label>
+                                <select class="form-select" name="item[]" id="item">
+                                    <option value="0">Select Item</option>
+                                    <option value="Jewellery" {{ old('item.0') == 'Jewellery' ? 'selected' : '' }}>Jewellery</option>
+                                    <option value="Loose diamond" {{ old('item.0') == 'Loose diamond' ? 'selected' : '' }}>Loose diamond</option>
+                                    <option value="Gem Stone" {{ old('item.0') == 'Gem Stone' ? 'selected' : '' }}>Gem Stone</option>
+                                    <option value="CVD" {{ old('item.0') == 'CVD' ? 'selected' : '' }}>CVD</option>
+                                </select>
+                                @error('item.0')
+                                <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label class="col-sm-12 col-form-label">No. of Pieces</label>
+                                <input type="text" name="pieces[]" class="form-control" value="{{ old('pieces.0') }}" />
+                                @error('pieces.0')
+                                <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label class="col-sm-12 col-form-label">Weight</label>
+                                <input type="text" name="weight[]" class="form-control" value="{{ old('weight.0') }}" />
+                                @error('weight.0')
+                                <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label class="col-sm-12 col-form-label">Service</label>
+                                <select class="form-select" name="service[]" id="service">
+                                    <option value="0">Select Service</option>
+                                    @foreach($services as $service)
+                                    <option value="{{ $service->service_id }}" {{ old('service.0') == $service->service_id ? 'selected' : '' }}>
+                                        {{ $service->service_name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @error('service.0')
+                                <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label class="col-sm-12 col-form-label">Add More</label>
+                                <button type="button" class="btn btn-primary" id="addMore">+</button>
+                            </div>
+                        </div>
+
                       </div>
 
 
@@ -233,7 +319,7 @@
 });
 
 
-$('#state').on('change', function() {
+$('#logo').on('change', function() {
     var imageUrl = $(this).find(':selected').data('image');
   console.log("dkfjds", imageUrl)
     if (imageUrl) {

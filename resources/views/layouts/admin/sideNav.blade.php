@@ -42,6 +42,13 @@
                 </a>
               </li>
 
+              <li class="nav-item">
+              <a class="nav-link" href="{{route('confirmEntryShow')}}">
+                <span class="menu-title">View  Confirm Entry</span>
+                <i class="mdi mdi-contacts menu-icon"></i>
+              </a>
+            </li> 
+
             
 
             <li class="nav-item">

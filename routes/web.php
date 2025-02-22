@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
      Route::get('/create-customer', [CustomerController::class, 'create'])->name('customer.add');
      Route::get('/view-customer', [CustomerController::class, 'viewClients'])->name('customer.viewClients');
      Route::get('/clients', [CustomerController::class, 'viewClients'])->name('clients.index');
+    
      Route::get('/view-client-details/{id}', [CustomerController::class, 'viewClientById'])->name('clients.viewClientById');
      Route::get('/delete-client-details/{id}', [CustomerController::class, 'deleteClientById'])->name('clients.deleteClientById');
      Route::post('/client/update', [CustomerController::class, 'add_clientinformation'])->name('client.update');
@@ -37,6 +38,10 @@ Route::middleware('auth')->group(function () {
      Route::get('/Co-branding-delete/{id}', [CustomerController::class, 'cobrandingDelete'])->name('cobrandingDelete');
      // Confirm Entry Form
      Route::get('/confirm-entry/{id}', [CustomerController::class, 'confirmEntryIndex'])->name('confirmEntryIndex');
+     Route::post('/addConfirm-entry', [CustomerController::class, 'confirmEntryStore'])->name('confirmEntryStore');
+     Route::get('/view-confirm-entry', [CustomerController::class, 'confirmEntryShow'])->name('confirmEntryShow');
+     Route::get('/confirmEntrys', [CustomerController::class, 'confirmEntryShow'])->name('confirmEntrys.index');
+     Route::get('/edit-confirm-entry/{id}', [CustomerController::class, 'confirmEntryEdit'])->name('confirmEntryEdit');
 
      Route::post('/get-cities', [CustomerController::class, 'getCities'])->name('get-cities');
      Route::get('/get-cities/{state_id}', [CustomerController::class, 'getCitiesData']);
