@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class confirmentrys extends Model
 {
     use HasFactory;
+    // protected $primaryKey = 'conf_id';
 
     public $table="confirmentry";
 

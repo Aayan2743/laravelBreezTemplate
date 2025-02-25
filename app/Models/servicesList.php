@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class confirmitemstables extends Model
+class servicesList extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'conf_item';
 
-    public $table="confirmitemstable";
+    public $table="services";
 
     public $timestamps=false;
 
     protected $guarded=[];
+
 }

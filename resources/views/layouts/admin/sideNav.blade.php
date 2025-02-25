@@ -49,6 +49,20 @@
               </a>
             </li> 
 
+            <li class="nav-item">
+              <a class="nav-link" href="{{route('servicesList')}}">
+                <span class="menu-title">Services</span>
+                <i class="mdi mdi-contacts menu-icon"></i>
+              </a>
+            </li> 
+
+            <li class="nav-item">
+              <a class="nav-link" href="{{route('rateCardList')}}">
+                <span class="menu-title">Rate Cards</span>
+                <i class="mdi mdi-contacts menu-icon"></i>
+              </a>
+            </li> 
+
             
 
             <li class="nav-item">

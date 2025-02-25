@@ -193,15 +193,17 @@
                         <div class="col-md-6">
                         <h4 class="card-title">Diamond Jewellery:</h4>
                           <div class="form-group row">
+                           <!-- value="0.01-0.28" -->
+
                            
                             <div class="col-sm-5">
-                              <input type="text" name="carat1" value="0.01-0.28" class="form-control" />
+                              <input type="text" name="carat1"  value="{{$rates[0]->caratwt}}" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                              <input type="text" name="rate1" value="100" class="form-control" />
+                              <input type="text" name="rate1" value="{{$rates[0]->rate}}" class="form-control" />
                             </div>
                             <div class="col-sm-3">
-                            <label class="col-sm-12 col-form-label">p/pc</label>
+                            <label class="col-sm-12 col-form-label">{{$rates[0]->ext}}</label>
                             </div>
                           </div>
 
@@ -209,13 +211,13 @@
                           <div class="form-group row">
                            
                             <div class="col-sm-5">
-                              <input type="text" name="carat2" value="0.29-Above" class="form-control" />
+                              <input type="text" name="carat2" value="{{$rates[1]->caratwt}}" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                              <input type="text" name="rate2" value="400" class="form-control" />
+                              <input type="text" name="rate2" value="{{$rates[1]->rate}}" class="form-control" />
                             </div>
                             <div class="col-sm-3">
-                            <label class="col-sm-12 col-form-label">p/ct</label>
+                            <label class="col-sm-12 col-form-label">{{$rates[1]->ext}}</label>
                             </div>
                           </div>
                         </div>
@@ -225,26 +227,26 @@
                         <div class="form-group row">
                            
                            <div class="col-sm-5">
-                             <input type="text" name="carat3" value="0.20-0.99" class="form-control" />
+                             <input type="text" name="carat3" value="{{$rates[2]->caratwt}}" class="form-control" />
                            </div>
                            <div class="col-sm-4">
-                             <input type="text" name="rate3" value="450" class="form-control" />
+                             <input type="text" name="rate3"  value="{{$rates[2]->rate}}"  class="form-control" />
                            </div>
                            <div class="col-sm-3">
-                           <label class="col-sm-12 col-form-label">p/pc</label>
+                           <label class="col-sm-12 col-form-label">{{$rates[2]->ext}}</label>
                            </div>
                          </div>
                         
                          <div class="form-group row">
                            
                            <div class="col-sm-5">
-                             <input type="text" name="carat4" value="1.00-Above" class="form-control" />
+                             <input type="text" name="carat4" value="{{$rates[3]->caratwt}}" class="form-control" />
                            </div>
                            <div class="col-sm-4">
-                             <input type="text" name="rate4" value="450" class="form-control" />
+                             <input type="text" name="rate4" value="{{$rates[3]->rate}}" class="form-control" />
                            </div>
                            <div class="col-sm-3">
-                           <label class="col-sm-12 col-form-label">p/ct</label>
+                           <label class="col-sm-12 col-form-label">{{$rates[3]->ext}}</label>
                            </div>
                          </div>
 
@@ -257,13 +259,13 @@
                           <div class="form-group row">
                            
                             <div class="col-sm-5">
-                              <input type="text" name="carat5" value="0.01-1.00" class="form-control" />
+                              <input type="text" name="carat5" value="{{$rates[4]->caratwt}}" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                              <input type="text" name="rate5" value="500" class="form-control" />
+                              <input type="text" name="rate5" value="{{$rates[4]->rate}}" class="form-control" />
                             </div>
                             <div class="col-sm-3">
-                            <label class="col-sm-12 col-form-label">p/ct</label>
+                            <label class="col-sm-12 col-form-label">{{$rates[4]->ext}}</label>
                             </div>
                           </div>
 
@@ -271,13 +273,13 @@
                           <div class="form-group row">
                            
                             <div class="col-sm-5">
-                              <input type="text" name="carat6" value="1.01-Above" class="form-control" />
+                              <input type="text" name="carat6"  value="{{$rates[5]->caratwt}}" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                              <input type="text" name="rate6" value="550" class="form-control" />
+                              <input type="text" name="rate6"  value="{{$rates[5]->rate}}" class="form-control" />
                             </div>
                             <div class="col-sm-3">
-                            <label class="col-sm-12 col-form-label">p/ct</label>
+                            <label class="col-sm-12 col-form-label">{{$rates[5]->ext}}</label>
                             </div>
                           </div>
                         </div>
@@ -287,26 +289,26 @@
                         <div class="form-group row">
                            
                            <div class="col-sm-5">
-                             <input type="text" name="carat7" value="0.20-0.59" class="form-control" />
+                             <input type="text" name="carat7" value="{{$rates[6]->caratwt}}" class="form-control" />
                            </div>
                            <div class="col-sm-4">
-                             <input type="text" name="rate7" value="550" class="form-control" />
+                             <input type="text" name="rate7" value="{{$rates[6]->rate}}" class="form-control" />
                            </div>
                            <div class="col-sm-3">
-                           <label class="col-sm-12 col-form-label">p/pc</label>
+                           <label class="col-sm-12 col-form-label">{{$rates[6]->ext}}</label>
                            </div>
                          </div>
                         
                          <div class="form-group row">
                            
                            <div class="col-sm-5">
-                             <input type="text" name="carat8" value="0.60-Above" class="form-control" />
+                             <input type="text" name="carat8" value="{{$rates[7]->caratwt}}" class="form-control" />
                            </div>
                            <div class="col-sm-4">
-                             <input type="text" name="rate8" value="950"class="form-control" />
+                             <input type="text" name="rate8" value="{{$rates[7]->rate}}"class="form-control" />
                            </div>
                            <div class="col-sm-3">
-                           <label class="col-sm-12 col-form-label">p/ct</label>
+                           <label class="col-sm-12 col-form-label">{{$rates[7]->ext}}</label>
                            </div>
                          </div>
 
@@ -319,14 +321,14 @@
                           <div class="form-group row">
                            
                             <div class="col-sm-5">
-                              <input type="text" name="carat9" value="0.01-1.99" class="form-control" />
+                              <input type="text" name="carat9" value="{{$rates[8]->caratwt}}" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                              <input type="text" name="rate9" value="225" class="form-control" />
+                              <input type="text" name="rate9" value="{{$rates[8]->rate}}" class="form-control" />
                               
                             </div>
                             <div class="col-sm-3">
-                            <label class="col-sm-12 col-form-label">p/pc</label>
+                            <label class="col-sm-12 col-form-label">{{$rates[8]->ext}}</label>
                               <!-- <input type="text" value="p/pc" readonly class="form-control" /> -->
                             </div>
                           </div>
@@ -335,39 +337,39 @@
                           <div class="form-group row">
                            
                             <div class="col-sm-5">
-                              <input type="text" name="carat10" value="2.00-4.99" class="form-control" />
+                              <input type="text" name="carat10" value="{{$rates[9]->caratwt}}" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                              <input type="text" name="rate10" value="325" class="form-control" />
+                              <input type="text" name="rate10" value="{{$rates[9]->rate}}" class="form-control" />
                             </div>
                             <div class="col-sm-3">
-                            <label class="col-sm-12 col-form-label">p/pc</label>
+                            <label class="col-sm-12 col-form-label">{{$rates[9]->ext}}</label>
                             </div>
                           </div>
 
                           <div class="form-group row">
                            
                             <div class="col-sm-5">
-                              <input type="text" name="carat11" value="5.00-9.99" class="form-control" />
+                              <input type="text" name="carat11" value="{{$rates[10]->caratwt}}" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                              <input type="text" name="rate11" value="525" class="form-control" />
+                              <input type="text" name="rate11" value="{{$rates[10]->rate}}" class="form-control" />
                             </div>
                             <div class="col-sm-3">
-                            <label class="col-sm-12 col-form-label">p/pc</label>
+                            <label class="col-sm-12 col-form-label">{{$rates[10]->ext}}</label>
                             </div>
                           </div>
 
                           <div class="form-group row">
                            
                             <div class="col-sm-5">
-                              <input type="text"  name="carat12" value="10.00-Above" class="form-control" />
+                              <input type="text"  name="carat12" value="{{$rates[11]->caratwt}}" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                              <input type="text" name="rate12" value="100" class="form-control" />
+                              <input type="text" name="rate12" value="{{$rates[11]->rate}}" class="form-control" />
                             </div>
                             <div class="col-sm-3">
-                            <label class="col-sm-12 col-form-label">p/ct</label>
+                            <label class="col-sm-12 col-form-label">{{$rates[11]->ext}}</label>
                             </div>
                           </div>
 
@@ -378,26 +380,26 @@
                             <div class="form-group row">
                               
                                 <div class="col-sm-5">
-                                  <input type="text" name="carat14" value="0.03-0.07" class="form-control" />
+                                  <input type="text" name="carat14" value="{{$rates[12]->caratwt}}" class="form-control" />
                                 </div>
                                 <div class="col-sm-4">
-                                  <input type="text"  name="rate14" value="1500" class="form-control" />
+                                  <input type="text"  name="rate14" value="{{$rates[12]->rate}}" class="form-control" />
                                 </div>
                                 <div class="col-sm-3">
-                                <label class="col-sm-12 col-form-label">p/ct</label>
+                                <label class="col-sm-12 col-form-label">{{$rates[12]->ext}}</label>
                                 </div>
                             </div>
                         
                               <div class="form-group row">
                                 
                                 <div class="col-sm-5">
-                                  <input type="text" name="carat15" value="0.08-0.99" class="form-control" />
+                                  <input type="text" name="carat15" value="{{$rates[13]->caratwt}}" class="form-control" />
                                 </div>
                                 <div class="col-sm-4">
-                                  <input type="text" name="rate15" value="250" class="form-control" />
+                                  <input type="text" name="rate15" value="{{$rates[13]->rate}}" class="form-control" />
                                 </div>
                                 <div class="col-sm-3">
-                                 <label class="col-sm-12 col-form-label">p/pc</label>
+                                 <label class="col-sm-12 col-form-label">{{$rates[13]->ext}}</label>
                                 </div>
                               </div>
 
@@ -405,13 +407,13 @@
                               <div class="form-group row">
                                 
                                 <div class="col-sm-5">
-                                  <input type="text" name="carat16" value="1.00-Above" class="form-control" />
+                                  <input type="text" name="carat16" value="{{$rates[14]->caratwt}}" class="form-control" />
                                 </div>
                                 <div class="col-sm-4">
-                                  <input type="text" name="rate16" value="500" class="form-control" />
+                                  <input type="text" name="rate16" value="{{$rates[14]->rate}}" class="form-control" />
                                 </div>
                                 <div class="col-sm-3">
-                                 <label class="col-sm-12 col-form-label">p/pc</label>
+                                 <label class="col-sm-12 col-form-label">{{$rates[14]->ext}}</label>
                                 </div>
                               </div>
 
@@ -420,26 +422,26 @@
                             <div class="form-group row">
                               
                                 <div class="col-sm-5">
-                                  <input type="text" name="carat17" value="0.01-5.00" class="form-control" />
+                                  <input type="text" name="carat17" value="{{$rates[15]->caratwt}}" class="form-control" />
                                 </div>
                                 <div class="col-sm-4">
-                                  <input type="text" name="rate17" value="200" class="form-control" />
+                                  <input type="text" name="rate17" value="{{$rates[15]->rate}}" class="form-control" />
                                 </div>
                                 <div class="col-sm-3">
-                                <label class="col-sm-12 col-form-label">p/pc</label>
+                                <label class="col-sm-12 col-form-label">{{$rates[15]->ext}}</label>
                                 </div>
                             </div>
                         
                               <div class="form-group row">
                                 
                                 <div class="col-sm-5">
-                                  <input type="text" name="carat18" value="5.00-Above" class="form-control" />
+                                  <input type="text" name="carat18" value="{{$rates[16]->caratwt}}" class="form-control" />
                                 </div>
                                 <div class="col-sm-4">
-                                  <input type="text" name="rate18" value="25" class="form-control" />
+                                  <input type="text" name="rate18" value="{{$rates[16]->rate}}" class="form-control" />
                                 </div>
                                 <div class="col-sm-3">
-                                <label class="col-sm-12 col-form-label">p/pt</label>
+                                <label class="col-sm-12 col-form-label">{{$rates[16]->ext}}</label>
                                 </div>
                               </div>
 

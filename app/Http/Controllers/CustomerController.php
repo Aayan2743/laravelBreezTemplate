@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\state;
 use App\Models\citie;
 use App\Models\service;
+use App\Models\ratecards;
 use App\Models\clientinformationDetails;
 use App\Models\clientcompanylogoData;
 use App\Models\confirmitemstables;
@@ -202,6 +203,18 @@ class CustomerController extends Controller
         // dd($clientinformation);
     }
 
+    public function updateConfirmDelete($id){
+        $clientinformation=confirmentrys::where('confirmationid',$id)->delete();
+        $clientinformation=confirmitemstables::where('client_id',$id)->delete();
+
+        // $clientinformation->delete();
+
+        return redirect()->back()->with('success', 'Confirm Entry deleted successfully!');
+        // dd($clientinformation);
+    }
+
+    
+
     
     
 
@@ -211,8 +224,11 @@ class CustomerController extends Controller
 
         $states=state::where('country_id',100)->get();
         
+        $rates=ratecards::get();
 
-        return view('addCustomer',compact('states'));
+        //  dd($rates);
+
+        return view('addCustomer',compact('states','rates'));
     }
 
     public function viewClients(Request $request){
@@ -357,30 +373,307 @@ class CustomerController extends Controller
 
      public function confirmEntryEdit($id){
 
-      
+            
+        // dd($id);
+        $confirmentrys=confirmentrys::where('confirmationid',$id)->get();
 
-        $confirmentrys=confirmentrys::where('client_id',$id)->get();
 
+        //  dd($confirmentrys[0]->company_logo);
       
-        $customerDetails=clientinformationDetails::findOrFail($id);
-        // dd($confirmentrys,$customerDetails);
-        $companyLogo=clientcompanylogoData::where('client_id',$id)->get();
+        $customerDetails=clientinformationDetails::findOrFail($confirmentrys[0]->client_id); 
+        $confirmitemstables=confirmitemstables::where('client_id',$id)->get();
+        
+        // dd($confirmitemstables);
+        $companyLogo=clientcompanylogoData::where('client_id',$confirmentrys[0]->client_id)->get();
+       // dd($companyLogo);
         $services=service::get();
 
-        return view('confirmEntry',compact('customerDetails','companyLogo','services','confirmentrys'));
+        return view('confirmEntryEdit',compact('customerDetails','companyLogo','services','confirmentrys','confirmitemstables'));
 
      }
 
-     public function confirmEntryStore(Request $req){
-        //  dd($req->all());
+     public function confirmEntryUpdate(Request $req){
+        // dd($req->all());
+        // client_ids
+        // $validator = Validator::make($req->all(), [
+        //     // 'depname' => 'required|string',
+        //     'client_ids' => 'required',
+        //     'logo' => 'required',
+        //     'DepositorName' => 'required|string',
+        //     'ReceiverName' => 'required|string',
+        //     'InvoiceDate' => 'required|date',
+        //     'Deliverydate' => 'required|date',
+
+        //     'item' => 'required|array',
+        //     'item.*' => 'required|string|in:Jewellery,Loose diamond,Gem Stone,CVD', // Validating each item in the array
+        //     'pieces' => 'required|array',
+        //     'pieces.*' => 'required|numeric|min:1', // Ensure each piece is a number greater than 0
+        //     'weight' => 'required|array',
+        //     'weight.*' => 'required|numeric|min:0', // Ensure each weight is a number (can be 0)
+        //     'service' => 'required|array',
+        //     'service.*' => 'required|numeric|exists:services,service_id',
+        // ], [
+        //     'depname.required' => 'Client Name Required',
+          
+        // ]);
+
+        // if ($validator->fails()) {
+        //     // Redirect back with input and validation errors
+        //     \Log::error('Validation failed:', $validator->errors()->toArray());
+        //     return redirect()->back()
+        //         ->withErrors($validator)
+        //         ->with('error', 'Validation failed! Please check the inputs.')
+        //         ->withInput();
+        // }
+
+        // $currentDate = Carbon::now();
+        // $year = $currentDate->year;
+        // $month = $currentDate->month;
+        // $financialYearStart = ($month < 4) ? $year - 1 : $year;
+        // $financialYearCode = substr($financialYearStart, -2); // Get last two digits, e.g., 24 for 2024
+        // $lastEntry = Confirmentrys::orderBy('conf_id', 'desc')->first();
+        // $lastEntry1 = confirmitemstables::orderBy('conf_item', 'desc')->first();
+        // $lastId = $lastEntry ? $lastEntry->conf_id : 0;     
+        // $lastId1 = $lastEntry1 ? $lastEntry1->conf_item : 0;     
+
+        // $confirmId = 'GIL' . $financialYearCode . 'CNF' . $lastId+1;
+        // $confirmId1 = 'GIL' . $financialYearCode . 'CNF' . $lastId1+1;
+
+
+        // try {
+        //     // Start Transaction
+        //     DB::beginTransaction();
+        
+        //     // Update the first table
+        //     $updateConfirmEntry = confirmentrys::where('confirmationid', $req->client_ids)
+        //         ->update([
+        //             'depositer_name' => $req->DepositorName,
+        //             'depositor_add' => $req->client_address,
+        //             'reciever' => $req->ReceiverName,
+        //             'deliverydate' => $req->Deliverydate,
+        //             'invoicedate' => $req->InvoiceDate,
+        //             'company_logo' => $req->logo,
+        //             'active' => "1",
+        //         ]);
+        
+        //     // Fetch existing items for this confirmation
+        //     $existingItems = confirmitemstables::where('client_id', $req->client_ids)->get();
+        //     // dd($existingItems[0]->conf_item);
+        //     $existingItemIds = $existingItems->pluck('conf_item')->toArray();
+        //         // dd($existingItemIds);
+        //     // Track processed items
+        //     $processedItemIds = [];
+        
+        //     // Loop through the items array
+        //     foreach ($req->item as $key => $item) {
+        //         // Check if this item already exists
+        //             // dd($req->item);
+        //         // dd($req->conf_id[$key])
+        //         $confirmItem = $existingItems->where('item', $item)->first();
+
+        //         // dd($confirmItem);
+               
+        //         if ($confirmItem) {
+        //             // If item exists, update it
+        //             $confirmItem->update([
+        //                 'retailer' => $req->retailer,
+        //                 'supplier' => $req->supplier,
+        //                 'item' => $item,
+        //                 'nop' => $req->pieces[$key],
+        //                 'weight' => $req->weight[$key],
+        //                 'services' => $req->service[$key],
+        //                 'client_id' => $req->client_ids,
+        //             ]);
+        
+        //             // Add to processed items
+        //             $processedItemIds[] = $confirmItem->conf_item;
+        //         } else {
+        //             // If item does not exist, create a new one
+        //             $newItem = confirmitemstables::create([
+        //                 'confirmid' =>$confirmId1,
+        //                 'retailer' => $req->retailer,
+        //                 'supplier' => $req->supplier,
+        //                 'item' => $item,
+        //                 'nop' => $req->pieces[$key],
+        //                 'weight' => $req->weight[$key],
+        //                 'services' => $req->service[$key],
+        //                 'client_id' => $req->client_ids,
+        //             ]);
+        
+        //             // Add to processed items
+        //             $processedItemIds[] = $newItem->conf_item;
+        //         }
+        //     }
+        
+        //     // Delete any items that were not processed (i.e., removed by the user)
+        //     confirmitemstables::where('confirmid', $req->client_ids)
+        //         ->whereNotIn('conf_item', $processedItemIds)
+        //         ->delete();
+        
+        //     // If everything is fine, commit the transaction
+        //     DB::commit();
+        
+        //     // Return success message or redirect
+        //     return back()->with('success', 'Data saved successfully!');
+        // } catch (\Exception $e) {
+        //     // If there's an error, rollback the transaction
+        //     DB::rollBack();
+        
+        //     // Log the error (optional)
+        //     \Log::error($e->getMessage());
+        
+        //     // Return error message or redirect
+        //     return back()->with('error', 'Failed to save data. Please try again.');
+        // }
+        
+
+      $validator = Validator::make($req->all(), [
+            // 'depname' => 'required|string',
+            'client_ids' => 'required',
+            'logo' => 'required',
+            'DepositorName' => 'required|string',
+            'ReceiverName' => 'required|string',
+            'InvoiceDate' => 'required|date',
+            'Deliverydate' => 'required|date',
+
+            // 'item' => 'required|array',
+            // 'item.*' => 'required|string|in:Jewellery,Loose diamond,Gem Stone,CVD', // Validating each item in the array
+            // 'pieces' => 'required|array',
+            // 'pieces.*' => 'required|numeric|min:1', // Ensure each piece is a number greater than 0
+            // 'weight' => 'required|array',
+            // 'weight.*' => 'required|numeric|min:0', // Ensure each weight is a number (can be 0)
+            // 'service' => 'required|array',
+            // 'service.*' => 'required|numeric|exists:services,service_id',
+        ], [
+            'depname.required' => 'Client Name Required',
+          
+        ]);
+
+        if ($validator->fails()) {
+            // Redirect back with input and validation errors
+            \Log::error('Validation failed:', $validator->errors()->toArray());
+            return redirect()->back()
+                ->withErrors($validator)
+                ->with('error', 'Validation failed! Please check the inputs.')
+                ->withInput();
+        }
+
+
+
+        try {
+            DB::beginTransaction();
+
+            $confirmationsupdates=confirmentrys::where('confirmationid',$req->client_ids)->update([
+                'depositer_name'=>$req->DepositorName,
+                'reciever'=>$req->ReceiverName,
+                'invoicedate'=>$req->InvoiceDate,
+                'deliverydate'=>$req->Deliverydate,
+                'company_logo' => $req->logo,
+            ]);
+           
+
+
+
+    
+            // Fetch existing items
+            $existingItems = confirmitemstables::where('client_id', $req->client_ids)->get();
+            $processedItemIds = [];
+    
+            // Loop through the items array
+            foreach ($req->item as $key => $item) {
+
+              
+
+
+
+                $confItemId = $req->conf_item[$key] ?? null;
+                
+                if ($confItemId) {
+                    // If conf_item exists, update the item
+                    $confirmItem = confirmitemstables::where('conf_item', $confItemId)->first();
+                    if ($confirmItem) {
+                        $confirmItem->update([
+                            'item' => $item,
+                            'nop' => $req->pieces[$key],
+                            'weight' => $req->weight[$key],
+                            'services' => $req->service[$key],
+                            'client_id' => $req->client_ids,
+                        ]);
+                        $processedItemIds[] = $confirmItem->conf_item;
+                    }
+                } else {
+
+                    $currentDate = Carbon::now();
+                    $year = $currentDate->year;
+                    $month = $currentDate->month;
+                    $financialYearStart = ($month < 4) ? $year - 1 : $year;
+                    $financialYearCode = substr($financialYearStart, -2); // Get last two digits, e.g., 24 for 2024
+                    $lastEntry = Confirmentrys::orderBy('conf_id', 'desc')->first();
+                    $lastEntry1 = confirmitemstables::orderBy('conf_item', 'desc')->first();
+                    $lastId = $lastEntry ? $lastEntry->conf_id : 0;     
+                    $lastId1 = $lastEntry1 ? $lastEntry1->conf_item : 0;     
+            
+                    $confirmId = 'GIL' . $financialYearCode . 'CNF' . $lastId+1;
+                    $confirmId1 = 'GIL' . $financialYearCode . 'CNF' . $lastId1+1;
+
+
+                    // Otherwise, create a new item
+                    $newItem = confirmitemstables::create([
+                        'confirmid'=>$confirmId1,
+                        'retailer'=>$req->retailer,
+                        'supplier'=>$req->supplier,
+                        'item' => $item,
+                        'nop' => $req->pieces[$key],
+                        'weight' => $req->weight[$key],
+                        'services' => $req->service[$key],
+                        'client_id' => $req->client_ids,
+                    ]);
+                    $processedItemIds[] = $newItem->conf_item;
+                }
+            }
+    
+            // Delete unprocessed items
+            confirmitemstables::where('client_id', $req->client_ids)
+                ->whereNotIn('conf_item', $processedItemIds)
+                ->delete();
+    
+            DB::commit();
+            return back()->with('success', 'Data saved successfully!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error($e->getMessage());
+            return back()->with('error', 'Failed to save data. Please try again.');
+        }
+        
+        
+        
+             
+        
+         }
+        
+            
+       
+         public function deleteItem($id)
+         {
+             try {
+                 $item = confirmitemstables::where('conf_item', $id)->first();
          
-      
+                 if ($item) {
+                     $item->delete();
+                     return response()->json(['message' => 'Item deleted successfully.']);
+                 } else {
+                     return response()->json(['message' => 'Item not found.'], 404);
+                 }
+             } catch (\Exception $e) {
+                 return response()->json(['message' => 'Failed to delete item.'], 500);
+             }
+         }
 
-        // dd($confirmId );
+
      
+
+     public function confirmEntryStore(Request $req){
       
-
-
         $validator = Validator::make($req->all(), [
             'depname' => 'required|string',
             'logo' => 'required',
@@ -429,7 +722,7 @@ class CustomerController extends Controller
 
         DB::beginTransaction();
 
-try {
+        try {
     // Insert into first table
             $confirmentrys = confirmentrys::create([
                 'confirmationid' => $confirmId,

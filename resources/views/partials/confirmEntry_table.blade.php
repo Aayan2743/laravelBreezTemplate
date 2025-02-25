@@ -30,8 +30,8 @@
                 <td>{{ $client->depositer_name }}</td>
                 <td>{{ $client->reciever }}</td>
                
-                <td><label class="badge badge-gradient-danger"><a href="javascript:void(0);" onclick="confirmDelete('{{ route('confirmEntryEdit', $client->client_id) }}')"  style="text-decoration: none;">Delete</a></label></td>
-                <td><label class="badge badge-gradient-warning"><a href="{{route('confirmEntryEdit',$client->client_id)}}" style="text-decoration: none;">Edit {{$client->client_id}}</a></label></td>
+                <td><label class="badge badge-gradient-danger"><a href="javascript:void(0);" onclick="confirmDelete('{{ route('updateConfirmDelete', $client->confirmationid) }}')"  style="text-decoration: none;">Delete</a></label></td>
+                <td><label class="badge badge-gradient-warning"><a href="{{route('confirmEntryEdit',$client->confirmationid)}}" style="text-decoration: none;">Edit {{$client->confirmEntryEdit}}</a></label></td>
                 
             </tr>
             @endforeach

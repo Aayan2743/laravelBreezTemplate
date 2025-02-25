@@ -7,7 +7,7 @@
               <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-primary text-white me-2">
                   <i class="mdi mdi-home"></i>
-                </span> Confirm Entry Customer 
+                </span> Confirm Entry Customer Edit Form 
               </h3>
               <nav aria-label="breadcrumb">
                 <ul class="breadcrumb">
@@ -22,16 +22,17 @@
             <div class="col-12 grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Client Information Entry Form</h4>
-                    <form class="form-sample" method="POST" action="{{route('confirmEntryStore')}}">
+                    <h4 class="card-title">Client Information Entry Form Edit</h4>
+                    <form class="form-sample" method="POST" action="{{route('confirmEntryUpdate')}}">
                      @csrf   
                     <div class="row">
                         <div class="col-md-6">
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Client Name <span class="text-danger">*</spna></label>
-                            <div class="col-sm-9">
-                              <input type="text" name="depname" id="depname" value="{{ $customerDetails->client_name }}"  placeholder="Enter Client Name" class="form-control" />
+                            <div class="col-sm-9"> 
+                              <input type="text" name="depname" id="depname" value="{{ $customerDetails->client_name }}"   placeholder="Enter Client Name"  class="form-control bg-light text-muted" />
                               <input type="hidden" name="client_id" id="client_id" value="{{ $customerDetails->client_id  }}"  placeholder="client_id" class="form-control" />
+                              <input type="hidden" name="client_ids" id="client_ids" value="{{ $confirmentrys[0]->confirmationid  }}"  placeholder="client_id" class="form-control" />
                               <input type="hidden" name="client_address" id="client_address" value="{{ $customerDetails->address }}"  placeholder="client_address" class="form-control" />
                               <input type="hidden" name="clinet_gst" id="clinet_gst" value="{{ $customerDetails->gstno }}"  placeholder="clinet_gst" class="form-control" />
                               <input type="hidden" name="client_country" id="client_country" value="{{ $customerDetails->country }}"  placeholder="client_country" class="form-control" />
@@ -50,14 +51,20 @@
                      
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Select Logo <span class="text-danger">*</spna></label>
+                            <label class="col-sm-3 col-form-label">Select Logo  sdfsdf {{$confirmentrys[0]->company_logo}}<span class="text-danger">*</spna></label>
                             <div class="col-sm-9">
                               <select class="form-select" name="logo" id="logo">
                                 <option value="">Select Logo</option>
                                 @foreach($companyLogo as $logo)
-                                <option value="{{ $logo->id }}" data-image="{{ asset('storage/' . $logo->logoname) }}">
+                                <!-- <option value="{{ $logo->id }}" data-image="{{ asset('storage/' . $logo->logoname) }}">
                                       {{ $logo->logotext }}
-                                  </option>
+                                  </option> -->
+
+                                  <option value="{{ $logo->id }}" 
+                                    data-image="{{ asset('storage/' . $logo->logoname) }}"
+                                    @if($logo->id == $confirmentrys[0]->company_logo) selected @endif>
+                                    {{ $logo->logotext }}
+                                </option>
 
                                 @endforeach
 
@@ -68,12 +75,17 @@
                               @if ($errors->has('logo'))
                                   <div class="error text-danger">{{ $errors->first('logo') }}</div>
                                 @endif
-                              <div class="d-flex justify-content-between">
+                              <!-- <div class="d-flex justify-content-between">
                               <img id="logoPreviewLogo" src="" class="img-fluid mt-2 rounded-circle" style="max-width: 70px; display: none;">
                               <a href="{{route('cobranding_index',$customerDetails->client_id)}}" class="mt-2" >Add Co Branding</a>
                               </div>
-                              
-                            </div>
+                               -->
+                               <img id="logoPreviewLogo" 
+                                    src="{{ $companyLogo->firstWhere('id', $confirmentrys[0]->company_logo)?->logoname ? asset('storage/' . $companyLogo->firstWhere('id', $confirmentrys[0]->company_logo)->logoname) : '' }}" 
+                                    alt="Logo Preview" 
+                                    style="max-width: 100px; margin-top: 10px; @if(!$confirmentrys[0]->company_logo) display:none; @endif">
+                                                          
+                              </div>
                           
                           </div>
                           
@@ -84,7 +96,7 @@
                             <label class="col-sm-6 col-form-label">Depositor Name <span class="text-danger">*</spna></label>
                             <div class="col-sm-6">
                               
-                            <input type="text" name="DepositorName" class="form-control" value="{{ $customerDetails->depositorname }}" />
+                            <input type="text" name="DepositorName" class="form-control" value="{{ $confirmentrys[0]->depositer_name }}" />
                               
                             </div>
                             @if ($errors->has('DepositorName'))
@@ -100,8 +112,8 @@
                           <div class="form-group row">
                             <label class="col-sm-6 col-form-label">Receiver Name <span class="text-danger">*</spna></label>
                             <div class="col-sm-6">
-                              
-                            <input type="text" name="ReceiverName" value="{{Auth()->user()->name}}" class="form-control" />
+                              <!-- reciever -->
+                            <input type="text" name="ReceiverName" value="{{ $confirmentrys[0]->reciever }}"  class="form-control" />
                               
                             </div>
                             @if ($errors->has('ReceiverName'))
@@ -117,8 +129,8 @@
                           <div class="form-group row">
                             <label class="col-sm-6 col-form-label">Invoice Date <span class="text-danger">*</spna></label>
                             <div class="col-sm-6">
-                              
-                            <input type="date" name="InvoiceDate" value="{{ old('InvoiceDate')}}" class="form-control" />
+                              <!-- invoicedate -->
+                            <input type="date" name="InvoiceDate"  value="{{ $confirmentrys[0]->invoicedate }}" class="form-control" />
                               
                             </div>
 
@@ -135,8 +147,8 @@
                           <div class="form-group row">
                             <label class="col-sm-6 col-form-label">Delivery Date <span class="text-danger">*</spna></label>
                             <div class="col-sm-6">
-                              
-                            <input type="date" name="Deliverydate" value="{{ old('Deliverydate')}}"  class="form-control" />
+                              <!-- deliverydate -->
+                            <input type="date" name="Deliverydate"  value="{{ $confirmentrys[0]->deliverydate }}"  class="form-control" />
                               
                             </div>
 
@@ -158,45 +170,8 @@
                           @endforeach
                       @endforeach
 
-                        <div id="dynamicRows">
-                          <!-- <div class="form-congroup row">
-                              <div class="col-sm-3">
-                                  <label class="col-sm-12 col-form-label">Item</label>
-                                  <select class="form-select" name="item[]" id="item">
-                                  <option value="0">Select Item</option>
-                                    <option value="Jewellery">Jewellery</option>
-                                    <option value="Loose diamond">Loose diamond</option>
-                                    <option value="Gem Stone">Gem Stone</option>
-                                    <option value="CVD">CVD</option>
-                 
-                                  </select>
-                              </div>
-
-                              <div class="col-sm-2">
-                                  <label class="col-sm-12 col-form-label">No. of Pieces</label>
-                                  <input type="text" name="pieces[]" class="form-control" />
-                              </div>
-
-                              <div class="col-sm-2">
-                                  <label class="col-sm-12 col-form-label">Weight</label>
-                                  <input type="text" name="weight[]" class="form-control" />
-                              </div>
-
-                              <div class="col-sm-3">
-                                  <label class="col-sm-12 col-form-label">Service</label>
-                                  <select class="form-select" name="service[]" id="service">
-                                      <option value="0">Select Service</option>
-                                      @foreach($services as $service)
-                                      <option value="{{$service->service_id}}">{{$service->service_name}}</option>
-                                      @endforeach
-                                  </select>
-                              </div>
-
-                              <div class="col-sm-2">
-                                  <label class="col-sm-12 col-form-label">Add More</label>
-                                  <button type="button" class="btn btn-primary" id="addMore">+</button>
-                              </div>
-                          </div> -->
+                        <!-- <div id="dynamicRows">
+                         
 
                           <div class="form-group row">
                             <div class="col-sm-3">
@@ -248,7 +223,73 @@
                                 <label class="col-sm-12 col-form-label">Add More</label>
                                 <button type="button" class="btn btn-primary" id="addMore">+</button>
                             </div>
+                        </div> -->
+
+                        <div id="dynamicRows">
+    @foreach($confirmitemstables as $index => $item)
+    <div class="item-row" data-id="{{ $item->conf_item }}">
+        <div class="form-group row">
+            <div class="col-sm-3">
+                <input type="hidden" name="conf_item[]" value="{{ $item->conf_item }}">
+                <label class="col-sm-12 col-form-label">Item</label>
+                <select class="form-select" name="item[]" id="item_{{ $index }}">
+                    <option value="0">Select Item</option>
+                    <option value="Jewellery" {{ (old('item.' . $index, $item->item) == 'Jewellery') ? 'selected' : '' }}>Jewellery</option>
+                    <option value="Loose diamond" {{ (old('item.' . $index, $item->item) == 'Loose diamond') ? 'selected' : '' }}>Loose diamond</option>
+                    <option value="Gem Stone" {{ (old('item.' . $index, $item->item) == 'Gem Stone') ? 'selected' : '' }}>Gem Stone</option>
+                    <option value="CVD" {{ (old('item.' . $index, $item->item) == 'CVD') ? 'selected' : '' }}>CVD</option>
+                </select>
+                @error('item.' . $index)
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div class="col-sm-2">
+                <label class="col-sm-12 col-form-label">No. of Pieces</label>
+                <input type="text" name="pieces[]" class="form-control" value="{{ old('pieces.' . $index, $item->nop) }}" />
+                @error('pieces.' . $index)
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div class="col-sm-2">
+                <label class="col-sm-12 col-form-label">Weight</label>
+                <input type="text" name="weight[]" class="form-control" value="{{ old('weight.' . $index, $item->weight) }}" />
+                @error('weight.' . $index)
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div class="col-sm-3">
+                <label class="col-sm-12 col-form-label">Service</label>
+                <select class="form-select" name="service[]" id="service_{{ $index }}">
+                    <option value="0">Select Service</option>
+                    @foreach($services as $service)
+                    <option value="{{ $service->service_id }}" {{ (old('service.' . $index, $item->services) == $service->service_id) ? 'selected' : '' }}>
+                        {{ $service->service_name }}
+                    </option>
+                    @endforeach
+                </select>
+                @error('service.' . $index)
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div class="col-sm-2">
+                <label class="col-sm-12 col-form-label">Remove</label>
+                <button type="button" class="btn btn-danger removeRow">-</button>
+            </div>
+        </div>
+    </div>
+    @endforeach
+</div>
+
+
+                        <!-- Button to Add More Rows -->
+                        <div class="col-sm-12 mt-3">
+                            <button type="button" class="btn btn-primary" id="addMore">+ Add More</button>
                         </div>
+
 
                       </div>
 
@@ -260,12 +301,12 @@
                        
 
 
-                        <button class="btn btn-primary" type="submit">Create</button>
+                        <button class="btn btn-primary" type="submit">Update</button>
                         
                     </form>
                   </div>
                 </div>
-              </div>
+            </div>
 
         
            
@@ -329,6 +370,18 @@ $('#logo').on('change', function() {
     }
 }); 
 
+    // Display the image on change
+    // $('#logo').on('change', function() {
+    //     var imageUrl = $(this).find(':selected').data('image');
+    //     if (imageUrl) {
+    //         $('#logoPreviewLogo').attr('src', imageUrl).show();
+    //     } else {
+    //         $('#logoPreviewLogo').hide();
+    //     }
+    // });
+
+
+
 
 $(document).ready(function() {
     $('#addMore').click(function() {
@@ -372,9 +425,41 @@ $(document).ready(function() {
     });
 
     // Remove row when clicking the remove button
+    // $(document).on('click', '.removeRow', function() {
+    //     $(this).closest('.form-group.row').remove();
+    // });
+
     $(document).on('click', '.removeRow', function() {
-        $(this).closest('.form-group.row').remove();
+        // var itemId = $(this).data('id');
+        var itemId = $(this).closest('.item-row').data('id');
+        console.log("djfhdhf",itemId);
+        var row = $(this).closest('.item-row');
+
+        if (itemId) {
+            if (confirm('Are you sure you want to delete this item?')) {
+                $.ajax({
+                    url: '/delete-item/' + itemId,
+                    type: 'DELETE',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        alert(response.message);
+                        row.remove();
+                    },
+                    error: function(xhr) {
+                        alert('Failed to delete item. Please try again.');
+                    }
+                });
+            }
+        } else {
+            // Just remove the newly added row without AJAX call
+            row.remove();
+        }
     });
+
+
+
 });
 
 

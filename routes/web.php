@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\servicesController;
+use App\Http\Controllers\ratecardsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,9 +41,21 @@ Route::middleware('auth')->group(function () {
      // Confirm Entry Form
      Route::get('/confirm-entry/{id}', [CustomerController::class, 'confirmEntryIndex'])->name('confirmEntryIndex');
      Route::post('/addConfirm-entry', [CustomerController::class, 'confirmEntryStore'])->name('confirmEntryStore');
+     Route::post('/updateConfirm-entry', [CustomerController::class, 'confirmEntryUpdate'])->name('confirmEntryUpdate');
      Route::get('/view-confirm-entry', [CustomerController::class, 'confirmEntryShow'])->name('confirmEntryShow');
      Route::get('/confirmEntrys', [CustomerController::class, 'confirmEntryShow'])->name('confirmEntrys.index');
      Route::get('/edit-confirm-entry/{id}', [CustomerController::class, 'confirmEntryEdit'])->name('confirmEntryEdit');
+     Route::delete('/delete-item/{id}', [CustomerController::class, 'deleteItem']);
+     Route::get('/updateConfirm-delete/{id}', [CustomerController::class, 'updateConfirmDelete'])->name('updateConfirmDelete');
+
+    // services section
+    Route::get('/list-services', [servicesController::class, 'list'])->name('servicesList');
+    Route::post('/list-services/update', [servicesController::class, 'listserviceUpdate'])->name('listserviceUpdate');
+    Route::post('/list-services/add', [servicesController::class, 'listserviceStore'])->name('listserviceStore');
+
+    //ratecards
+    Route::get('/list-rate-cards', [ratecardsController::class, 'list'])->name('rateCardList');
+    Route::post('/list-rate-update', [ratecardsController::class, 'updateratecard'])->name('rateCardUpdate');
 
      Route::post('/get-cities', [CustomerController::class, 'getCities'])->name('get-cities');
      Route::get('/get-cities/{state_id}', [CustomerController::class, 'getCitiesData']);
