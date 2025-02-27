@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\servicesController;
 use App\Http\Controllers\ratecardsController;
+use App\Http\Controllers\uploadsControllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,22 @@ Route::middleware('auth')->group(function () {
     //ratecards
     Route::get('/list-rate-cards', [ratecardsController::class, 'list'])->name('rateCardList');
     Route::post('/list-rate-update', [ratecardsController::class, 'updateratecard'])->name('rateCardUpdate');
+
+    // uploads
+    Route::get('/uploads', [uploadsControllers::class, 'index'])->name('uploadIndex');
+  
+    Route::post('/import', [uploadsControllers::class, 'import'])->name('import');
+    Route::get('/download-file/{filename}', function ($filename) {
+        $path = storage_path('app/public/uploads/' . $filename);
+        //    dd($path );
+        if (file_exists($path)) {
+            return response()->download($path);
+        } else {
+            abort(404, 'File not found.');
+        }
+    })->name('download.file');
+    Route::get('/dimond-job-card', [uploadsControllers::class, 'index'])->name('viewdiamondjob');
+
 
      Route::post('/get-cities', [CustomerController::class, 'getCities'])->name('get-cities');
      Route::get('/get-cities/{state_id}', [CustomerController::class, 'getCitiesData']);

@@ -233,10 +233,7 @@ class CustomerController extends Controller
 
     public function viewClients(Request $request){
         
-        // $clientinformation=clientinformationDetails::paginate(8);
-        // return view('viewClients',compact('clientinformation'));
-
-        // $query = clientinformationDetails::query();
+    
         $query = clientinformationDetails::orderBy('client_id', 'desc');
 
         if ($request->has('search')) {
