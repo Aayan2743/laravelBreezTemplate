@@ -72,6 +72,13 @@ Route::middleware('auth')->group(function () {
         }
     })->name('download.file');
     Route::get('/dimond-job-card', [uploadsControllers::class, 'index'])->name('viewdiamondjob');
+    Route::post('/dimond-job-card-update', [uploadsControllers::class, 'update_job_card'])->name('update_job_card');
+
+    Route::get('/dimond-job-card-delete/{id}', [uploadsControllers::class, 'delete_job_card'])->name('delete_job_card');    
+    Route::get('/print-certificates', [uploadsControllers::class, 'printCertificates'])->name('print_certificates');
+
+    Route::get('/certificates/small', [uploadsControllers::class, 'generateSmallCertificates'])->name('certificates.small');
+    Route::get('/certificates/large', [uploadsControllers::class, 'generateLargeCertificates'])->name('certificates.large');
 
 
      Route::post('/get-cities', [CustomerController::class, 'getCities'])->name('get-cities');
