@@ -7,7 +7,7 @@
               <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-primary text-white me-2">
                   <i class="mdi mdi-home"></i>
-                </span> Diamond Jewellery Job Upload:
+                </span> Gem Stone Job Card
               </h3>
               <nav aria-label="breadcrumb">
                 <ul class="breadcrumb">
@@ -38,10 +38,9 @@
                                 <p style="color: green">{{ session('success') }}</p>
                             @endif
                            <div class="mb-3">
-                           <h4 for="formFile" class="card-title">Diamond Jewellery Job Upload:</h4>
-                            <!-- <label for="formFile" class="form-label">Default file input example</label> -->
-                            <!-- <input class="form-control" type="file" id="formFile"> -->
-                            <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+                           <h4 for="formFile" class="card-title"> Gem Stone Job Card Upload:</h4>
+                      
+                            <form action="{{ route('importGemsCard') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                    <div class="d-flex">
                                         <input type="file" class="form-control" name="file" required>
@@ -50,7 +49,7 @@
 
                                   
                                 </form>
-                              <a href="{{route('download.file',['filename' => 'sample.xlsx'])}}">Download sample file</a>
+                              <a href="{{route('gemsdownload.file',['filename' => 'gems.xlsx'])}}">Download sample file</a>
 
                           </div>
                         
@@ -94,7 +93,7 @@
                     </div>
 
                     <div id="clientTable">
-                      @include('partials.client_table_jobcard')
+                      @include('partials.client_table_gemsCard')
                   </div>
 
 
@@ -138,7 +137,7 @@ $(document).ready(function() {
         let search = $(this).val();
 
         $.ajax({
-            url: "{{ route('viewdiamondjob') }}",
+            url: "{{ route('uploadGemCardIndex') }}",
             type: "GET",
             data: { search: search },
             success: function(data) {

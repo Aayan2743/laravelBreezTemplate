@@ -22,12 +22,7 @@ class uploadsControllers extends Controller
     {
         $jobcardIds = explode(',', $request->query('ids'));
 
-        // Fetch the selected job cards
-        // $jobCards = jobcardtables::whereIn('jobcard_id', $jobcardIds)->get();
-
-    //     $jobCards = jobcardtables::whereIn('jobcard_id', $jobcardIds)
-    // ->select('jobcard_id', 'metal', 'calrity', 'color', 'cut')
-    // ->get();
+      
 
     $jobCards = jobcardtables::whereIn('jobcard_id', $jobcardIds)
     ->with(['metalss', 'clarityss', 'colorss', 'cutss']) // Load related data
@@ -39,19 +34,7 @@ class uploadsControllers extends Controller
 
     $qrCode = QrCode::size(200)->generate($url);
 
-    // $qrCode = 'data:image/png;base64,' . base64_encode(file_get_contents('https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=' . urlencode($url)));
-
-
-// // Generate the QR Code using GD (instead of Imagick)
-// $qrCode = base64_encode(
-//     QrCode::format('png')->size(200)->errorCorrection('H')->generate($url)
-// );
-
-
-
-    // dd($jobCards[0]->metalss);
-       
-        // Load the PDF view with the selected job cards
+   
         $pdf = PDF::loadView('certificate_template', compact('jobCards','qrCode'));
 
         // Return PDF as download or open in browser

@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\servicesController;
 use App\Http\Controllers\ratecardsController;
 use App\Http\Controllers\uploadsControllers;
+use App\Http\Controllers\GemCardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,7 +59,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/list-rate-cards', [ratecardsController::class, 'list'])->name('rateCardList');
     Route::post('/list-rate-update', [ratecardsController::class, 'updateratecard'])->name('rateCardUpdate');
 
-    // uploads
+    // uploads for dimond jewellerys
     Route::get('/uploads', [uploadsControllers::class, 'index'])->name('uploadIndex');
   
     Route::post('/import', [uploadsControllers::class, 'import'])->name('import');
@@ -73,14 +74,30 @@ Route::middleware('auth')->group(function () {
     })->name('download.file');
     Route::get('/dimond-job-card', [uploadsControllers::class, 'index'])->name('viewdiamondjob');
     Route::post('/dimond-job-card-update', [uploadsControllers::class, 'update_job_card'])->name('update_job_card');
-
     Route::get('/dimond-job-card-delete/{id}', [uploadsControllers::class, 'delete_job_card'])->name('delete_job_card');    
     Route::get('/print-certificates', [uploadsControllers::class, 'printCertificates'])->name('print_certificates');
-
     Route::get('/certificates/small', [uploadsControllers::class, 'generateSmallCertificates'])->name('certificates.small');
     Route::get('/certificates/large', [uploadsControllers::class, 'generateLargeCertificates'])->name('certificates.large');
 
+     // uploads for GemCard Job
+     Route::get('/uploadGemCard', [GemCardController::class, 'index'])->name('uploadGemCardIndex');
+     Route::get('/gemCard-job-card-delete/{id}', [GemCardController::class, 'gemcard_job_card_delete'])->name('gemcard_job_card_delete'); 
+     Route::post('/importGemsCard', [GemCardController::class, 'import'])->name('importGemsCard');
+     Route::post('/gems-job-card-update', [GemCardController::class, 'update_gems_card'])->name('update_gems_card');
+     Route::get('/print-gems-card-certificates', [GemCardController::class, 'printCertificates'])->name('print_gems_certificates');
+        Route::get('/download-file-gems/{filename}', function ($filename) {
+            $path = storage_path('app/public/uploads/' . $filename);
+            //    dd($path );
+            if (file_exists($path)) {
+                return response()->download($path);
+            } else {
+                abort(404, 'File not found.');
+            }
+        })->name('gemsdownload.file');
 
+
+
+     // Customer Required details
      Route::post('/get-cities', [CustomerController::class, 'getCities'])->name('get-cities');
      Route::get('/get-cities/{state_id}', [CustomerController::class, 'getCitiesData']);
      Route::post('/add_clientinformation', [CustomerController::class, 'add_clientinformation'])->name('add_clientinformation');

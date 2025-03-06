@@ -87,12 +87,15 @@
             </div>
                
             <p><span class="bold">SUMMARY NO:</span> <span class="highlight">{{ $jobCard->summary_no }}</span></p>
-            <p><span class="bold">DESCRIPTION:</span> {{ $jobCard->description }}</p>
+            <p><span class="bold">Species:</span> {{ $jobCard->description }}</p>
+            <p><span class="bold">Variety:</span> {{ $jobCard->description }}</p>
             <p><span class="bold">SHAPE/CUT:</span> {{ $jobCard->shape_cut }}</p>
-            <p><span class="bold">TOTAL EST.WT:</span> <span class="highlight">± {{ $jobCard->estwt }} Carat</span></p>
-            <p><span class="bold">MIN. COLOUR:</span> {{ $jobCard->min_colour }}</p>
-            <p><span class="bold">MIN. CLARITY:</span> <span class="highlight">{{ $jobCard->min_clarity }}</span></p>
-            <p><span class="bold">COMMENTS:</span> {{ $jobCard->comments }}</p>
+            <p><span class="bold">Carat Weight:</span> {{ $jobCard->shape_cut }}</p>
+            <p><span class="bold">Measurements:</span> {{ $jobCard->shape_cut }}</p>
+            <p><span class="bold">Transparency:</span> {{ $jobCard->shape_cut }}</p>
+            <p><span class="bold">Refractive Index:</span> {{ $jobCard->shape_cut }}</p>
+            <p><span class="bold">Comments:</span> {{ $jobCard->shape_cut }}</p>
+          
 
             <div class="image-box">
                 @if($jobCard->image)
@@ -109,6 +112,8 @@
 @foreach($jobCards->where('type', 0)->chunk(2) as $page)
     <div class="page">
         @foreach($page as $jobCard)
+
+       
             <div class="certificate-small">
                 <div class="header">
               
@@ -137,13 +142,16 @@
 
                        
                 @endphp
-                <p><span class="bold">SUMMARY NO:</span> <span class="highlight">{{ $jobCard->jobcardid }}  </span>  {!! $qrCode !!}</p>
-                <p><span class="bold">DESCRIPTION:</span> {{ $final }}</p>
-                <p><span class="bold">SHAPE/CUT:</span> {{ $jobCard->cutss->cutname }}</p>
-                <p><span class="bold">TOTAL EST.WT:</span> <span class="highlight">± {{ $jobCard->estwt }} Carat</span></p>
-                <p><span class="bold">MIN. COLOUR:</span> {{ $jobCard->colorss->color_code }}</p>
-                <p><span class="bold">MIN. CLARITY:</span> <span class="highlight">{{ $jobCard->clarityss->Clarity }}</span></p>
-                <p><span class="bold">COMMENTS:</span> Grading and Analysis as mounting permits</p>
+                <p><span class="bold">SUMMARY NO:</span> <span class="highlight">{{ $jobCard->gjobcardid }}</span></p>
+                    <p><span class="bold">Species:</span> {{ $jobCard->species }}</p>
+                    <p><span class="bold">Variety:</span> {{ $jobCard->variety }}</p>
+                    <p><span class="bold">SHAPE/CUT:</span> {{ $jobCard->cutss->cutname }}</p>
+                    <p><span class="bold">Carat Weight:</span> {{ $jobCard->carat }}</p>
+                    <p><span class="bold">Measurements:</span> {{ $jobCard->measure }}</p>
+                    <p><span class="bold">Transparency:</span> {{ $jobCard->transperancy }}</p>
+                    <p><span class="bold">Refractive Index:</span> {{ $jobCard->refindex }}</p>
+                    <p><span class="bold">Comments:</span> {{ $jobCard->comments }}</p>
+
 
                 <div class="image-box">
                     @if($jobCard->image)
