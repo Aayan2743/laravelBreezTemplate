@@ -7,6 +7,7 @@ use App\Http\Controllers\servicesController;
 use App\Http\Controllers\ratecardsController;
 use App\Http\Controllers\uploadsControllers;
 use App\Http\Controllers\GemCardController;
+use App\Http\Controllers\dimondCardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +95,40 @@ Route::middleware('auth')->group(function () {
                 abort(404, 'File not found.');
             }
         })->name('gemsdownload.file');
+     // upload Diamond Card Job
+     Route::get('/upload-diamond-job-Card', [dimondCardController::class, 'index'])->name('diamondCardJobIndex');
+     Route::post('/importDiamondCard', [dimondCardController::class, 'import'])->name('importDiamondCard');
+     Route::get('/diamond-job-card-delete/{id}', [dimondCardController::class, 'diamond_job_card_delete'])->name('diamond_job_card_delete'); 
+     Route::get('/print-gems-card-certificates', [dimondCardController::class, 'printCertificates'])->name('print_gems_certificates');
+     Route::post('/diamond-job-card-update', [dimondCardController::class, 'update_diamond_card'])->name('update_diamond_card');
+     Route::get('/print-diamond-card-certificates', [dimondCardController::class, 'printCertificates'])->name('print_diamond_certificates');
+        Route::get('/download-file-diamond/{filename}', function ($filename) {
+            $path = storage_path('app/public/uploads/' . $filename);
+            //    dd($path );
+            if (file_exists($path)) {
+                return response()->download($path);
+            } else {
+                abort(404, 'File not found.');
+            }
+        })->name('dimonddownload.file');   
+        
+    // Gem Jewelery Card Upload
+    Route::get('/upload-gem-jewelery-job-Card', [GemsJeweleryCardController::class, 'index'])->name('gemJeweleryCardJobIndex');
+    Route::post('/importGemJeweleryCard', [GemsJeweleryCardController::class, 'import'])->name('importgemJeweleryCard');
+    Route::get('/gem-jewelery-job-card-delete/{id}', [GemsJeweleryCardController::class, 'gem_jewelery_job_card_delete'])->name('gem_jewelery_job_card_delete'); 
+    Route::get('/print-gem-jewelery-card-certificates', [GemsJeweleryCardController::class, 'printCertificates'])->name('print_gems_certificates');
+    Route::post('/gem-jewelery-job-card-update', [GemsJeweleryCardController::class, 'update_gem_jewelery_card'])->name('update_gems_jewelery_card');
+    Route::get('/print-gem-jewelery-card-certificates', [GemsJeweleryCardController::class, 'printCertificates'])->name('print_gems_jewelery_certificates');
+       Route::get('/download-file-diamond/{filename}', function ($filename) {
+           $path = storage_path('app/public/uploads/' . $filename);
+           //    dd($path );
+           if (file_exists($path)) {
+               return response()->download($path);
+           } else {
+               abort(404, 'File not found.');
+           }
+       })->name('gemjewelery.download.file');      
+    
 
 
 

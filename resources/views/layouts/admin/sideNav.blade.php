@@ -63,31 +63,31 @@
               </a>
             </li> 
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" href="{{route('uploadIndex')}}">
                 <span class="menu-title">Diamond Jewellery </span>
                 <i class="mdi mdi-contacts menu-icon"></i>
               </a>
-            </li> 
+            </li>  -->
 
             
 
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                <span class="menu-title">Basic UI Elements</span>
+                <span class="menu-title">Job Cards</span>
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-crosshairs-gps menu-icon"></i>
               </a>
               <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
-                    <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a>
+                    <a class="nav-link" href="{{route('uploadIndex')}}">Diamond Jewellery</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a>
+                    <a class="nav-link" href="{{route('uploadGemCardIndex')}}">Gem Stones</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
+                    <a class="nav-link" href="{{route('diamondCardJobIndex')}}">Diamond Card Job</a>
                   </li>
                 </ul>
               </div>
