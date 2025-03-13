@@ -8,6 +8,10 @@ use App\Http\Controllers\ratecardsController;
 use App\Http\Controllers\uploadsControllers;
 use App\Http\Controllers\GemCardController;
 use App\Http\Controllers\dimondCardController;
+use App\Http\Controllers\GemsJeweleryCardController;
+use App\Http\Controllers\UncutJewelleryJobCardController;
+use App\Http\Controllers\settings;
+use App\Http\Controllers\ItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,9 +60,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/list-services/update', [servicesController::class, 'listserviceUpdate'])->name('listserviceUpdate');
     Route::post('/list-services/add', [servicesController::class, 'listserviceStore'])->name('listserviceStore');
 
+    //settings
     //ratecards
     Route::get('/list-rate-cards', [ratecardsController::class, 'list'])->name('rateCardList');
     Route::post('/list-rate-update', [ratecardsController::class, 'updateratecard'])->name('rateCardUpdate');
+    // clarity
+    Route::get('/clarity', [settings::class, 'clarityindex'])->name('clarity.index');
+    Route::post('/clarity/update', [settings::class, 'clarity_update'])->name('clarity.update');
+    Route::post('/clarity/store', [settings::class, 'store_clarity'])->name('store_clarity');
+    Route::get('/clarity/delete/{id}', [settings::class, 'clarity_delete'])->name('clarity_delete'); 
+      // Items
+      Route::get('/Items', [ItemController::class, 'itemIndex'])->name('item.index');
+      Route::post('/item/update', [ItemController::class, 'item_update'])->name('items.update');
+      Route::post('/item/store', [ItemController::class, 'store_item'])->name('store_item');
+      Route::get('/item/delete/{id}', [ItemController::class, 'item_delete'])->name('item_delete'); 
+
 
     // uploads for dimond jewellerys
     Route::get('/uploads', [uploadsControllers::class, 'index'])->name('uploadIndex');
@@ -99,10 +115,11 @@ Route::middleware('auth')->group(function () {
      Route::get('/upload-diamond-job-Card', [dimondCardController::class, 'index'])->name('diamondCardJobIndex');
      Route::post('/importDiamondCard', [dimondCardController::class, 'import'])->name('importDiamondCard');
      Route::get('/diamond-job-card-delete/{id}', [dimondCardController::class, 'diamond_job_card_delete'])->name('diamond_job_card_delete'); 
-     Route::get('/print-gems-card-certificates', [dimondCardController::class, 'printCertificates'])->name('print_gems_certificates');
+    //  Route::get('/print-diamond-card-certificates', [dimondCardController::class, 'printCertificates'])->name('print_diamond_certificates');
      Route::post('/diamond-job-card-update', [dimondCardController::class, 'update_diamond_card'])->name('update_diamond_card');
      Route::get('/print-diamond-card-certificates', [dimondCardController::class, 'printCertificates'])->name('print_diamond_certificates');
-        Route::get('/download-file-diamond/{filename}', function ($filename) {
+       
+     Route::get('/download-file-diamond/{filename}', function ($filename) {
             $path = storage_path('app/public/uploads/' . $filename);
             //    dd($path );
             if (file_exists($path)) {
@@ -110,16 +127,16 @@ Route::middleware('auth')->group(function () {
             } else {
                 abort(404, 'File not found.');
             }
-        })->name('dimonddownload.file');   
+        })->name('dimonddownloads.download.file');   
         
     // Gem Jewelery Card Upload
     Route::get('/upload-gem-jewelery-job-Card', [GemsJeweleryCardController::class, 'index'])->name('gemJeweleryCardJobIndex');
     Route::post('/importGemJeweleryCard', [GemsJeweleryCardController::class, 'import'])->name('importgemJeweleryCard');
     Route::get('/gem-jewelery-job-card-delete/{id}', [GemsJeweleryCardController::class, 'gem_jewelery_job_card_delete'])->name('gem_jewelery_job_card_delete'); 
-    Route::get('/print-gem-jewelery-card-certificates', [GemsJeweleryCardController::class, 'printCertificates'])->name('print_gems_certificates');
+    // Route::get('/print-gem-jewelery-card-certificates', [GemsJeweleryCardController::class, 'printCertificates'])->name('print_gems_certificates');
     Route::post('/gem-jewelery-job-card-update', [GemsJeweleryCardController::class, 'update_gem_jewelery_card'])->name('update_gems_jewelery_card');
     Route::get('/print-gem-jewelery-card-certificates', [GemsJeweleryCardController::class, 'printCertificates'])->name('print_gems_jewelery_certificates');
-       Route::get('/download-file-diamond/{filename}', function ($filename) {
+       Route::get('/download-file-diamonds/{filename}', function ($filename) {
            $path = storage_path('app/public/uploads/' . $filename);
            //    dd($path );
            if (file_exists($path)) {
@@ -129,6 +146,24 @@ Route::middleware('auth')->group(function () {
            }
        })->name('gemjewelery.download.file');      
     
+        // Uncut Jewellery Job Card
+       Route::get('/upload-uncut-jewelery-job-Card', [UncutJewelleryJobCardController::class, 'index'])->name('uncutjewelleryIndex');
+       Route::post('/importUncutJeweleryCard', [UncutJewelleryJobCardController::class, 'import'])->name('importUnCutJeweleryCard');
+       Route::get('/uncut-jewelery-job-card-delete/{id}', [UncutJewelleryJobCardController::class, 'uncut_jewelery_job_card_delete'])->name('uncut_jewelery_job_card_delete'); 
+       Route::post('/uncut-jewelery-job-card-update', [UncutJewelleryJobCardController::class, 'update_uncut_jewelery_card'])->name('update_uncut_jewelery_card');
+       Route::get('/print-uncut-jewelery-card-certificates', [UncutJewelleryJobCardController::class, 'printCertificates'])->name('print_uncut_jewelery_certificates');
+          Route::get('/download-file-diamonds/{filename}', function ($filename) {
+              $path = storage_path('app/public/uploads/' . $filename);
+              //    dd($path );
+              if (file_exists($path)) {
+                  return response()->download($path);
+              } else {
+                  abort(404, 'File not found.');
+              }
+          })->name('uncutjewellery.download.file');      
+          
+
+
 
 
 

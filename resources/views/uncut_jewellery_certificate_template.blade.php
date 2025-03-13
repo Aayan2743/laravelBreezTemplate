@@ -85,14 +85,16 @@
                 <img src="{{ public_path('uploads/logo.png') }}" alt="Company Logo">
                 <!-- <div class="title">GEMTECH INTERNATIONAL LABORATORIES</div> -->
             </div>
-               
+               <h3>Gem Stone Jewellery Job Card</h3>
             <p><span class="bold">SUMMARY NO:</span> <span class="highlight">{{ $jobCard->summary_no }}</span></p>
-            <p><span class="bold">Diamond Pcs:</span> {{ $jobCard->description }}</p>
-            <p><span class="bold">Clarity:</span> {{ $jobCard->description }}</p>
+            <p><span class="bold">Species:</span> {{ $jobCard->description }}</p>
+            <p><span class="bold">Variety:</span> {{ $jobCard->description }}</p>
             <p><span class="bold">SHAPE/CUT:</span> {{ $jobCard->shape_cut }}</p>
             <p><span class="bold">Carat Weight:</span> {{ $jobCard->shape_cut }}</p>
-            <p><span class="bold">Colour:</span> {{ $jobCard->shape_cut }}</p>
-          
+            <p><span class="bold">Measurements:</span> {{ $jobCard->shape_cut }}</p>
+            <p><span class="bold">Transparency:</span> {{ $jobCard->shape_cut }}</p>
+            <p><span class="bold">Refractive Index:</span> {{ $jobCard->shape_cut }}</p>
+            <p><span class="bold">Comments:</span> {{ $jobCard->shape_cut }}</p>
           
 
             <div class="image-box">
@@ -124,8 +126,21 @@
                 </div>
                 @php
                        
-                $desc = optional($jobCard->metal)->metal_name; // Avoids error if metal is null
-                    $one = explode(',', $desc);
+               $desc = $jobCard->metalss->metal_name; // Avoids error if metal is null
+              
+               
+                $item=$jobCard->item;
+                $nol=$jobCard->nol;
+              // dd($item);
+               
+                //$conc=$jobCard->conc1;
+
+
+               $finals = $desc . ' ' . $item . ', Weighing in total ' . $jobCard->grwt . ' g. Studded With '. $nol .  ' Natural Uncut Diamond(s).' ;
+               
+              
+
+                $one = explode(',', $desc);
                     $item = $jobCard->item;
                     $diamonds = $jobCard->nol;
 
@@ -140,14 +155,16 @@
 
                        
                 @endphp
-                 <h3>DIAMOND REPORT</h3>
-            <p><span class="bold">SUMMARY NO:</span> <span class="highlight">{{ $jobCard->djobcardid }}</span></p>
-            <p><span class="bold">Diamond Pcs:</span> {{ $jobCard->nop }}</p>
-            <p><span class="bold">Clarity:</span> {{ $jobCard->clarityss->Clarity }}</p>
-            <p><span class="bold">SHAPE/CUT:</span> {{ $jobCard->cutss->cutname }}</p>
-            <p><span class="bold">Carat :</span> {{ $jobCard->carat }}</p>
-            <p><span class="bold">Colour:</span> {{ $jobCard->colorss->color_code }}</p>
-             
+
+              
+              
+                        <h2 class="text-center">Un Cut Jewellery Job Card</h2>
+                <p><span class="bold">SUMMARY NO:</span> <span class="highlight">{{ $jobCard->jobcardid }}</span></p>
+                    <p><span class="bold">DESCRIPTION:</span> {{ $finals }}</p>
+                    <p><span class="bold">SHAPE/CUT:</span> {{ $jobCard->cutss->cutname }}</p>
+                    <p><span class="bold">Total EST. WT:</span> {{ $jobCard->estwt }}</p>
+                    <p><span class="bold">MIN. PURITY:</span> {{ $jobCard->dia }}</p>
+                    <p><span class="bold">Comments:</span>Graded as mounting permits</p>
 
 
                 <div class="image-box">

@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class cjobcardtables extends Model
+class uncutcardtables extends Model
 {
     use HasFactory;
 
     protected $primaryKey = 'jobcard_id';
 
-    public $table="cjobcardtable";
+    public $table="uncutcardtable";
 
     public $timestamps=false;
 
@@ -41,4 +41,7 @@ class cjobcardtables extends Model
     {
     return $this->belongsTo(itemtables::class, 'item','item_id'); // Assuming cut_id is the foreign key
     }
+
+
+
 }

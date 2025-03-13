@@ -142,6 +142,8 @@
 
                        
                 @endphp
+
+                        <h2 class="text-center">Gemstone Report</h2>
                 <p><span class="bold">SUMMARY NO:</span> <span class="highlight">{{ $jobCard->gjobcardid }}</span></p>
                     <p><span class="bold">Species:</span> {{ $jobCard->species }}</p>
                     <p><span class="bold">Variety:</span> {{ $jobCard->variety }}</p>

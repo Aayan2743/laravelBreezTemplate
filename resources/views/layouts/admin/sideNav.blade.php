@@ -28,6 +28,7 @@
               </a>
             </li>
 
+
             <!-- <li class="nav-item">
               <a class="nav-link" href="{{route('customer.viewClients')}}">
                 <span class="menu-title">View Customers</span>
@@ -56,12 +57,39 @@
               </a>
             </li> 
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" href="{{route('rateCardList')}}">
                 <span class="menu-title">Rate Cards</span>
                 <i class="mdi mdi-contacts menu-icon"></i>
               </a>
-            </li> 
+            </li>  -->
+
+
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic1" aria-expanded="false" aria-controls="ui-basic1">
+                <span class="menu-title">Settings</span>
+                <i class="menu-arrow"></i>
+                <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+              </a>
+              <div class="collapse" id="ui-basic1">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{route('rateCardList')}}">Rate Cards</a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{route('clarity.index')}}"> Clarity</a>
+                  </li>
+                 
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{route('item.index')}}"> Items</a>
+                  </li>
+                 
+                  
+                </ul>
+              </div>
+            </li>
+
 
             <!-- <li class="nav-item">
               <a class="nav-link" href="{{route('uploadIndex')}}">
@@ -89,9 +117,20 @@
                   <li class="nav-item">
                     <a class="nav-link" href="{{route('diamondCardJobIndex')}}">Diamond Card Job</a>
                   </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{route('gemJeweleryCardJobIndex')}}">Gems Jewelery Card Job</a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{route('uncutjewelleryIndex')}}">Un Cut Jewelery Card Job</a>
+                  </li>
                 </ul>
               </div>
             </li>
+
+
+
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
                 <span class="menu-title">Icons</span>

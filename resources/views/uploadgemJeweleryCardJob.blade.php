@@ -7,7 +7,7 @@
               <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-primary text-white me-2">
                   <i class="mdi mdi-home"></i>
-                </span> Diamon Card  Job Card
+                </span> Gems Jewelery Job Card
               </h3>
               <nav aria-label="breadcrumb">
                 <ul class="breadcrumb">
@@ -38,9 +38,9 @@
                                 <p style="color: green">{{ session('success') }}</p>
                             @endif
                            <div class="mb-3">
-                           <h4 for="formFile" class="card-title"> Diamond Card Job  Upload:</h4>
+                           <h4 for="formFile" class="card-title">  Gems Jewelery Job Card  Upload:</h4>
                       
-                            <form action="{{ route('importDiamondCard') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('importgemJeweleryCard') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                    <div class="d-flex">
                                         <input type="file" class="form-control" name="file" required>
@@ -49,7 +49,7 @@
 
                                   
                                 </form>
-                              <a href="{{route('dimonddownloads.download.file',['filename' => 'DiamondCardJobexcel.xlsx'])}}">Download sample file </a>
+                              <a href="{{route('gemjewelery.download.file',['filename' => 'GemstoneJewelleryUpload.xlsx'])}}">Download sample file  Gems Jewelery Job Card </a>
 
                           </div>
                         
@@ -93,7 +93,7 @@
                     </div>
 
                     <div id="clientTable">
-                      @include('partials.client_table_diamondCard')
+                      @include('partials.client_table_gems_jewelery_card')
                   </div>
 
 
@@ -137,7 +137,7 @@ $(document).ready(function() {
         let search = $(this).val();
 
         $.ajax({
-            url: "{{ route('diamondCardJobIndex') }}",
+            url: "{{ route('gemJeweleryCardJobIndex') }}",
             type: "GET",
             data: { search: search },
             success: function(data) {

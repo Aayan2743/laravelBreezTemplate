@@ -28,43 +28,39 @@
             <tr>
                 <td>{{ $key+1}}</td>
                 <td>{{ $client->confirmid }}</td>
-                <td>{{ $client->djobcardid }}</td>
+                <td>{{ $client->jobcardid }}</td>
                 <td>{{ $client->image }}</td>
 
                 <td><label class="badge badge-gradient-warning">
                     
              
-                <a href="javascript:void(0);" data-bs-toggle="modal" data-id={{$client->djobcard_id }}
+                <a href="javascript:void(0);" data-bs-toggle="modal" data-id={{$client->jobcard_id}}
                     
-                    data-djobcard_id={{$client->djobcard_id}}    
-                    data-djobcardid={{$client->djobcardid}}    
+                    data-jobcard_id={{$client->jobcard_id}}    
+                    data-nol="{{$client->nol}}"    
+                    data-dia="{{$client->dia}}"    
+                    data-jobcardid={{$client->jobcardid}}    
                     data-confirmid={{$client->confirmid}}    
-                    data-service= "{{ htmlentities($client->service) }}"   
-                    data-nop={{$client->nop}}   
-                    data-cut={{$client->cut}}   
-                    data-carat={{$client->carat}}   
-                    data-measure={{$client->measure}}   
-                    data-clarity={{$client->clarity}}   
+                    data-service= "{{ $client->service }}"   
+                    data-dia= "{{ $client->dia }}"   
+                    data-item="{{ html_entity_decode($client->item)}}"   
+                    data-grwt={{$client->grwt}}   
+                    data-estwt={{$client->estwt}}   
+                    data-metal={{$client->metal}}   
+                    data-calrity={{$client->calrity}}   
                     data-color={{$client->color}}   
-                    data-florosense={{$client->florosense}}   
-                    data-finish={{$client->finish}}   
-                    data-tble={{$client->tble}}   
-                    data-crown={{$client->crown}}   
-                    data-pavilion={{$client->pavilion}}   
-                    data-culet={{$client->culet}}   
-                    data-girdle={{$client->girdle}}   
-                    data-big_d={{$client->big_d}}   
-                    
-                    
-
+                    data-cut={{$client->cut}}   
+                    data-nol={{$client->nol}}   
+                   
+                  
                     data-image="{{ $client->image ?? '' }}"
                 
-                data-bs-target="#coBrandingModal1" style="text-decoration: none;">Edit</a></label></td>
+                data-bs-target="#coBrandingModal2" style="text-decoration: none;">Edit</a></label></td>
                
                 <td>
                     <label class="badge badge-gradient-danger">
                         <a href="javascript:void(0);" 
-                        onclick="confirmDelete('{{ route('diamond_job_card_delete', $client->djobcard_id) }}')" 
+                        onclick="confirmDelete('{{ route('uncut_jewelery_job_card_delete', $client->jobcard_id ) }}')" 
                         style="text-decoration: none;">Delete</a>
                     </label>
                 </td>
@@ -72,7 +68,7 @@
                
                 <td>
                     <label class="badge badge-gradient-info">
-                        <input type="checkbox" class="select-checkbox" name="jobcard_ids[]"  value="{{ $client->djobcard_id }}" />
+                        <input type="checkbox" class="select-checkbox" name="jobcard_ids[]"  value="{{ $client->jobcard_id  }}" />
                     </label>
                 </td>
 
@@ -95,15 +91,15 @@
 
 <!-- model come here -->
 <!-- Bootstrap Modal -->
-<div class="modal fade" id="coBrandingModal1" tabindex="-1" aria-labelledby="coBrandingModalLabel" aria-hidden="true">
+<div class="modal fade" id="coBrandingModal2" tabindex="-1" aria-labelledby="coBrandingModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="coBrandingModalLabel">Edit </h5>
+                <h5 class="modal-title" id="coBrandingModalLabel">Edit  Un Cut Jewelery Job Card</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="updatejobcard_dimond" method="POST" action="{{route('update_diamond_card')}}" enctype="multipart/form-data">
+                <form id="updatejobcard_dimond" method="POST" action="{{route('update_uncut_jewelery_card')}}" enctype="multipart/form-data">
                     @csrf
 
                     @php
@@ -115,12 +111,13 @@
                         $claritys=\App\Models\claritys::get();
                         $colors=\App\Models\colourtables::get();
                         $cuttables=\App\Models\cuttables::get();
+                       
                       // dd($Metal);
                     @endphp
                     <div class="mb-3">
                         <label for="jbno" class="form-label">Diamond Job card number : :</label>
-                        <input type="hidden" read class="form-control text-muted" id="djobcard_id1" name="djobcard_id1" readOnly  required placeholder="Enter Job Card Number">
-                        <input type="text" read class="form-control" id="djobcardid" name="djobcardid" required placeholder="Enter Job Card Number">
+                        <input type="hidden" read class="form-control text-muted" id="jobcard_id" name="jobcard_id" readOnly  required placeholder="Enter Job Card Number">
+                        <input type="text" read class="form-control" id="jobcardid" name="jobcardid" required placeholder="Enter Job Card Number">
                     </div>
 
                     <div class="mb-3">
@@ -129,26 +126,49 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="coBrandingText" class="form-label">Service Name :</label>
-                        <select class="form-select" id="service"   name="service" required aria-label="Default select example">
+                        <label for="confno" class="form-label">Service Name:</label>
+                        <input type="text" class="form-control text-muted" id="service" readOnly name="service" required placeholder="Enter Service">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confno" class="form-label">Min Purity:</label>
+                        <input type="text" class="form-control text-muted" id="dia" readOnly name="dia" required placeholder="Enter Service">
+                    </div>
+
+                    
+                    
+                    <div class="mb-3">
+                        <label for="coBrandingText" class="form-label">Item Name :</label>
+                        <select class="form-select" id="item"   name="item" required aria-label="Default select example">
                                 <option selected>Open this select menu</option>
-                                @foreach($servicetype1 as $item)
+                                @foreach($items as $item)
                              
-                             <option value="{{ $item->servicetypes_names  }}">{{ $item->servicetypes_names }}</option>
+                             <option value="{{ $item->item_name}}">{{ $item->item_name }}</option>
                              </option>
  
                                @endforeach
                                
                                 </select>
                     </div> 
+                      
+                    <div class="mb-3">
+                        <label for="confno" class="form-label">Gram Wt:</label>
+                        <input type="text" class="form-control text-muted" id="grwt"  name="grwt" required placeholder="Enter grwt">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confno" class="form-label">Estwt Wt:</label>
+                        <input type="text" class="form-control text-muted" id="estwt"  name="estwt" required placeholder="Enter estwt">
+                    </div>
+
                     
                     <div class="mb-3">
-                        <label for="coBrandingText" class="form-label">Cut Name :</label>
-                        <select class="form-select" id="cut"   name="cut" required aria-label="Default select example">
+                        <label for="coBrandingText" class="form-label">Metal Name :</label>
+                        <select class="form-select" id="metal"   name="metal" required aria-label="Default select example">
                                 <option selected>Open this select menu</option>
-                                @foreach($cuttables as $item)
+                                @foreach($metals as $item)
                              
-                             <option value="{{ $item->cut_id  }}">{{ $item->cutname }}</option>
+                             <option value="{{ $item->metal_id}}">{{ $item->code }}</option>
                              </option>
  
                                @endforeach
@@ -156,19 +176,21 @@
                                 </select>
                     </div> 
 
+
                     <div class="mb-3">
                         <label for="coBrandingText" class="form-label">Clarity Name :</label>
-                        <select class="form-select" id="clarity"   name="clarity" required aria-label="Default select example">
+                        <select class="form-select" id="calrity"   name="calrity" required aria-label="Default select example">
                                 <option selected>Open this select menu</option>
                                 @foreach($claritys as $item)
                              
-                             <option value="{{ $item->calrity_id  }}">{{ $item->Clarity }}</option>
+                             <option value="{{$item->calrity_id}}">{{ $item->Clarity }}</option>
                              </option>
  
                                @endforeach
                                
                                 </select>
                     </div> 
+
 
                     <div class="mb-3">
                         <label for="coBrandingText" class="form-label">Color Name :</label>
@@ -176,7 +198,7 @@
                                 <option selected>Open this select menu</option>
                                 @foreach($colors as $item)
                              
-                             <option value="{{ $item->color_id  }}">{{ $item->color_code }}</option>
+                             <option value="{{ $item->color_id }}">{{ $item->color_code }}</option>
                              </option>
  
                                @endforeach
@@ -186,61 +208,34 @@
 
 
 
-                    <div class="mb-3">
-                        <label for="confno" class="form-label">Carat  :</label>
-                        <input type="text" class="form-control text-muted" id="carat" name="carat"  required placeholder="Enter Service Name">
-                    </div>
+                  
 
                     <div class="mb-3">
-                        <label for="gwt" class="form-label">Nop  :</label>
-                        <input type="text" class="form-control" id="nop" name="nop" required placeholder="Enter Species">
-                    </div>
+                        <label for="coBrandingText" class="form-label">Cut Name :</label>
+                        <select class="form-select" id="cut"   name="cut" required aria-label="Default select example">
+                                <option selected>Open this select menu</option>
+                                @foreach($cuttables as $item)
+                             
+                             <option value="{{ $item->cut_id   }}">{{ $item->code }}</option>
+                             </option>
+ 
+                               @endforeach
+                               
+                                </select>
+                    </div> 
+
+
+
+                   
+
+                   
 
                     <div class="mb-3">
-                        <label for="gwt" class="form-label">measure  :</label>
-                        <input type="text" class="form-control" id="measure" name="measure" required placeholder="Enter Variety">
+                        <label for="gwt" class="form-label">Nol  :</label>
+                        <input type="text" class="form-control" id="nol" name="nol"  placeholder="Enter Species">
                     </div>
 
-                    <div class="mb-3">
-                        <label for="gwt" class="form-label">florosence  :</label>
-                        <input type="text" class="form-control" id="florosense" name="florosense" required placeholder="Enter carat">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="gwt" class="form-label">finish  :</label>
-                        <input type="text" class="form-control" id="finish" name="finish" required placeholder="Enter measure">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="gwt" class="form-label">table  :</label>
-                        <input type="text" class="form-control" id="tble" name="tble" required placeholder="Enter transperancy">
-                    </div>
-
-
-                    <div class="mb-3">
-                        <label for="gwt" class="form-label">crown   :</label>
-                        <input type="text" class="form-control" id="crown" name="crown" required placeholder="Enter transperancy">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="gwt" class="form-label">pavilion   :</label>
-                        <input type="text" class="form-control" id="pavilion" name="pavilion" required placeholder="Enter transperancy">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="gwt" class="form-label">culet    :</label>
-                        <input type="text" class="form-control" id="culet" name="culet" required placeholder="Enter transperancy">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="gwt" class="form-label">girdle    :</label>
-                        <input type="text" class="form-control" id="girdle" name="girdle" required placeholder="Enter transperancy">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="gwt" class="form-label">Certificate Type    :</label>
-                        <input type="text" class="form-control" id="big_d" name="big_d" required placeholder="Enter transperancy">
-                    </div>
+                   
 
 <!-- transperancy -->
                   
@@ -316,7 +311,7 @@
         }
 
         // Redirect to certificate print route with selected IDs
-        let url = "{{ route('print_diamond_certificates') }}?ids=" + selectedIds.join(',');
+        let url = "{{ route('print_uncut_jewelery_certificates') }}?ids=" + selectedIds.join(',');
         window.open(url, '_blank'); // Open in a new tab
     });
 
@@ -350,9 +345,9 @@
 
 
 
-        $('#coBrandingModal1').on('show.bs.modal', function (event) {
+        $('#coBrandingModal2').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
-            var djobcard_id = button.data('djobcard_id'); // Button that triggered the modal
+            var jobcard_id = button.data('jobcard_id'); // Button that triggered the modal
            // Button that triggered the modal
             var imageUrl = button.data('image'); 
             if (imageUrl) {
@@ -362,74 +357,51 @@
                 }
 
                     
+                    var jobcardid = button.data('jobcardid'); 
                     var confirmid = button.data('confirmid'); 
-                    var djobcardid = button.data('djobcardid'); 
                     var service = button.data('service'); 
-                     var nop = button.data('nop');    
-                     var cut = button.data('cut');    
-                     var carat = button.data('carat');    
-                     var measure = button.data('measure');    
-                     var clarity = button.data('clarity');    
+                     var item = button.data('item');    
+                     var grwt = button.data('grwt');    
+                     var estwt = button.data('estwt');    
+                     var metal = button.data('metal');    
+                     var calrity = button.data('calrity');    
                      var color = button.data('color');    
-                     var florosense = button.data('florosense');    
-                     var finish = button.data('finish');    
-                     var tble = button.data('tble');    
-                     var crown = button.data('crown');    
-                     var pavilion = button.data('pavilion');    
-                     var culet = button.data('culet');    
-                     var girdle = button.data('girdle');    
-                    var big_d = button.data('big_d');  
+                     var cut = button.data('cut');    
+                     var conc = button.data('conc');    
+                     var conc1 = button.data('conc1');    
+                     var nol = button.data('nol');    
+                     var dia = button.data('dia');    
+
+
+                     console.log(item);
                     
 
                 // textbox all
+                $('#jobcard_id').val(jobcard_id); 
+                $('#jobcardid').val(jobcardid); 
                 $('#confirmid').val(confirmid); 
-                $('#carat').val(carat); 
-                $('#nop').val(nop); 
-                $('#measure').val(measure); 
-                $('#florosense').val(florosense); 
-                $('#finish').val(finish); 
-                $('#tble').val(tble); 
-                $('#crown').val(crown); 
-                $('#pavilion').val(pavilion); 
-                $('#culet').val(culet); 
-                $('#girdle').val(girdle); 
-                $('#big_d').val(big_d); 
-                $('#djobcard_id1').val(djobcard_id); 
-                $('#djobcardid').val(djobcardid); 
-                
+                $('#service').val(service); 
+                $('#dia').val(dia); 
 
-                console.log("dfkjsdfj",djobcardid);
+                $('#grwt').val(grwt); 
+                $('#estwt').val(estwt); 
+                // $('#metal').val(metal); 
+                // $('#cut').val(cut); 
+                $('#conc').val(conc); 
+                $('#conc1').val(conc1); 
+                $('#nol').val(nol); 
+                
+                
+                console.log("metal",metal);
+                console.log("calrity",calrity);
+                
                 // select options
-                $('#service').val(service).trigger('change');
+                $('#item').val(item).trigger('change');
                 $('#cut').val(cut).trigger('change');
-                $('#clarity').val(clarity).trigger('change');
+                $('#metal').val(metal).trigger('change');
+                $('#calrity').val(calrity).trigger('change');
                 $('#color').val(color).trigger('change');
-            // Set the value inside the modal's input field or text
-            // $('#coBrandingModalLabel').text('Edit Confirmation - ' +id); // If it's an input field
-            // $('#clientNameDisplay').text(id); // If displaying in a <span>
-            // $('#jbno').val(Jobcardid); 
-            // $('#confno').val(id); 
-            // // $('#serviceName').val(service); 
-            // $('#species').val(species); 
-            // $('#variety').val(variety); 
-            // $('#carat').val(carat); 
-            // $('#measure').val(measure); 
-            // $('#transperancy').val(transperancy); 
-            // // $('#gwt').val(gwt); 
-            // // $('#estet').val(estwt); 
-            // // $('#nol').val(nol); 
-            // $('#uid').val(uid); 
-            // // console.log("Available Options:", $("#metalSelect option").map(function() { return $(this).val(); }).get()); 
-                        
-            // $('#shape').val(shape).trigger('change');
-            // $('#serviceid').val(service).trigger('change');
-            // $('#itemSelect').val(item).trigger('change');
-           
-            // $('#metalSelect').val(metal).trigger('change'); 
-            // $('#claritySelect').val(calrity).trigger('change'); 
-            // $('#colorSelect').val(color).trigger('change'); 
-            // $('#cutSelect').val(cut).trigger('change'); 
-            // $('#bigSelect').val(big_j).trigger('change'); 
+                
 
         });
     });
