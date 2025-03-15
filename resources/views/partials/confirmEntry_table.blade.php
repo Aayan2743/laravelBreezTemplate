@@ -26,10 +26,10 @@
                 <td>{{  $key+1}}</td>
                 <td>{{ $client->recievedate}}</td>
                 <td>{{ $client->confirmationid }}</td>
-                <td>{{ $client->client_name }}</td>
+                <td><label class="badge badge-gradient-warning"><a href="{{route('confirmEntryEdit',$client->confirmationid)}}" style="text-decoration: none;">Print {{$client->confirmEntryEdit}}</a></label></td>
                 <td>{{ $client->depositer_name }}</td>
                 <td>{{ $client->reciever }}</td>
-               
+                
                 <td><label class="badge badge-gradient-danger"><a href="javascript:void(0);" onclick="confirmDelete('{{ route('updateConfirmDelete', $client->confirmationid) }}')"  style="text-decoration: none;">Delete</a></label></td>
                 <td><label class="badge badge-gradient-warning"><a href="{{route('confirmEntryEdit',$client->confirmationid)}}" style="text-decoration: none;">Edit {{$client->confirmEntryEdit}}</a></label></td>
                 

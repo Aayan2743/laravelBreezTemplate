@@ -32,7 +32,7 @@
             </label></td>
                 <td><label class="badge badge-gradient-danger"><a href="javascript:void(0);" onclick="confirmDelete('{{ route('clients.deleteClientById', $client->client_id) }}')"  style="text-decoration: none;">Delete</a></label></td>
                 <td><label class="badge badge-gradient-warning"><a href="{{route('clients.viewClientById',$client->client_id)}}" style="text-decoration: none;">Edit</a></label></td>
-                <td><label class="badge badge-gradient-info"><a href="{{route('confirmEntryIndex',$client->client_id)}}" style="text-decoration: none;">Confirm Order {{$client->client_id}}</a></label></td>
+                <td><label class="badge badge-gradient-info"><a href="{{route('confirmEntryIndex',$client->client_id)}}" style="text-decoration: none;">Confirm Order </a></label></td>
             </tr>
             @endforeach
         @endif    

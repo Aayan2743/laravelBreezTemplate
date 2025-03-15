@@ -12,6 +12,11 @@ use App\Http\Controllers\GemsJeweleryCardController;
 use App\Http\Controllers\UncutJewelleryJobCardController;
 use App\Http\Controllers\settings;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ColorController;
+use App\Http\Controllers\Cuttable;
+use App\Http\Controllers\MetalController;
+use App\Http\Controllers\BillingController;
+use App\Http\Controllers\userprofileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +35,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
+    // Route::get('/create-customer', [CustomerController::class, 'create'])->name('customer.add');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -55,6 +61,11 @@ Route::middleware('auth')->group(function () {
      Route::delete('/delete-item/{id}', [CustomerController::class, 'deleteItem']);
      Route::get('/updateConfirm-delete/{id}', [CustomerController::class, 'updateConfirmDelete'])->name('updateConfirmDelete');
 
+
+    // Billing Section
+    // Route::get('/invoices', [BillingController::class, 'confirmEntryShow'])->name('confirmEntryShow');
+    Route::resource('invoices', BillingController::class); 
+
     // services section
     Route::get('/list-services', [servicesController::class, 'list'])->name('servicesList');
     Route::post('/list-services/update', [servicesController::class, 'listserviceUpdate'])->name('listserviceUpdate');
@@ -74,7 +85,19 @@ Route::middleware('auth')->group(function () {
       Route::post('/item/update', [ItemController::class, 'item_update'])->name('items.update');
       Route::post('/item/store', [ItemController::class, 'store_item'])->name('store_item');
       Route::get('/item/delete/{id}', [ItemController::class, 'item_delete'])->name('item_delete'); 
+       // for color 
+      Route::resource('color', ColorController::class); 
+      Route::post('/color/update', [ColorController::class, 'updateDetails'])->name('color.updateDetails');
+         // for cuttable 
+         Route::resource('cut', Cuttable::class); 
+         Route::post('/cut/update', [Cuttable::class, 'updateDetails'])->name('cut.updateDetails');  
 
+        // for metals 
+        Route::resource('metals', MetalController::class); 
+        Route::post('/metals/update', [MetalController::class, 'updateDetails'])->name('metals.updateDetails');    
+
+        Route::resource('/user-profile', userprofileController::class);
+        Route::put('/profile/update/{user}', [userprofileController::class, 'updateUpdate'])->name('updateUpdate');
 
     // uploads for dimond jewellerys
     Route::get('/uploads', [uploadsControllers::class, 'index'])->name('uploadIndex');
