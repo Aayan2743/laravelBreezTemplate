@@ -21,7 +21,13 @@
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="nav-profile-img">
-                  <img src="{{asset('assets/images/faces/face1.jpg')}}" alt="image">
+              
+                @if(!empty($user->profileImage))
+                        <img src="{{ asset('storage/' . $user->profileImage) }}" alt="image">
+                    @else
+                    <img src="{{asset('assets/images/faces/face1.jpg')}}" alt="image">
+                    @endif
+             
                   <span class="availability-status online"></span>
                 </div>
                 <div class="nav-profile-text">
@@ -29,7 +35,7 @@
                 </div>
               </a>
               <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{route('user-profile.index')}}">
                   <i class="mdi mdi-cached me-2 text-success"></i> Profile </a>
                 <div class="dropdown-divider"></div>
                 

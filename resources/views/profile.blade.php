@@ -36,6 +36,9 @@
                     <div class="form-group">
                         <label for="exampleInputName1">Name</label>
                         <input type="text" class="form-control" value="{{$user->name}}" id="uname" name="uname" placeholder="Name">
+                        @error('name')
+                          <span class="text-danger">{{ $message }}</span>
+                      @enderror
                       </div>
                       <div class="form-group">
                         <label for="exampleInputEmail3">Email address</label>
@@ -48,13 +51,18 @@
                       
                       <div class="form-group">
                           <label>File upload</label>
-                          <input type="file" name="profile_image" class="file-upload-default">
+                          <div class="mb-3">
+                             
+                              <input class="form-control" type="file" name="profile_image" id="formFile">
+                            </div>
+                          
+                          <!-- <input type="file" name="profile_image" class="file-upload-default">
                           <div class="input-group col-xs-12">
                               <input type="text" class="form-control file-upload-info" placeholder="Upload Image">
                               <span class="input-group-append">
                                   <button class="file-upload-browse btn btn-gradient-primary py-3" type="button">Upload</button>
                               </span>
-                          </div>
+                          </div> -->
                       </div>
                                         
                       <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>

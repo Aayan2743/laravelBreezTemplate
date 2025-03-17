@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 class userprofileController extends Controller
 {
     /**
@@ -73,16 +74,20 @@ class userprofileController extends Controller
 
       
         
-        $request->validate([
-            'name' => 'required|string|max:255',
+        $validator = Validator::make($request->all(), [
+            'uname' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|min:6',
-            'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
-    
+        
+        if ($validator->fails()) {
+           
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
        
         // Update user fields
-        $user->name = $request->name;
+        $user->name = $request->uname;
         $user->email = $request->email;
     
         if ($request->filled('password')) {
@@ -92,7 +97,7 @@ class userprofileController extends Controller
         // Handle image upload
         if ($request->hasFile('profile_image')) {
             $imagePath = $request->file('profile_image')->store('profiles', 'public');
-            $user->profile_image = $imagePath;
+            $user->profileImage = $imagePath;
         }
     
         $user->save();
