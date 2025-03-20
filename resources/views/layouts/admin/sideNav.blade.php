@@ -46,7 +46,7 @@
               <a class="nav-link" href="{{route('customer.viewClients')}}">
                 <span class="menu-title">View Customers</span>
                 <i class="mdi mdi-contacts menu-icon"></i>
-              </a>
+              </a>dfgdfgnfdjn 
             </li> -->
 
           

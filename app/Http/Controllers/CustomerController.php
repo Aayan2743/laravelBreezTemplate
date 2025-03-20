@@ -374,11 +374,11 @@ class CustomerController extends Controller
         // dd($id);
         $confirmentrys=confirmentrys::where('confirmationid',$id)->get();
 
-
+        //dd($confirmentrys);
         //  dd($confirmentrys[0]->company_logo);
       
         $customerDetails=clientinformationDetails::findOrFail($confirmentrys[0]->client_id); 
-        $confirmitemstables=confirmitemstables::where('client_id',$id)->get();
+        $confirmitemstables=confirmitemstables::where('confirmid',$id)->get();
         
         // dd($confirmitemstables);
         $companyLogo=clientcompanylogoData::where('client_id',$confirmentrys[0]->client_id)->get();
@@ -741,14 +741,14 @@ class CustomerController extends Controller
     // Loop through the items array and insert into second table
             foreach ($req->item as $key => $item) {
                 confirmitemstables::create([
-                    'confirmid' => $confirmId1,
+                    'confirmid' => $confirmentrys->confirmationid,
                     'retailer' => $req->retailer,
                     'supplier' => $req->supplier,
                     'item' => $item, // Get item value by index
                     'nop' => $req->pieces[$key], // Corresponding no. of pieces
                     'weight' => $req->weight[$key], // Corresponding weight
                     'services' => $req->service[$key], // Corresponding service
-                    'client_id' => $confirmentrys->confirmationid, // Corresponding service
+                    'client_id' =>$req->client_id, // Corresponding service
                 ]);
             }
 

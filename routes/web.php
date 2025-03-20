@@ -17,6 +17,7 @@ use App\Http\Controllers\Cuttable;
 use App\Http\Controllers\MetalController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\userprofileController;
+use App\Http\Controllers\ConfirmPrint;
 
 /*
 |--------------------------------------------------------------------------
@@ -125,6 +126,8 @@ Route::middleware('auth')->group(function () {
      Route::post('/importGemsCard', [GemCardController::class, 'import'])->name('importGemsCard');
      Route::post('/gems-job-card-update', [GemCardController::class, 'update_gems_card'])->name('update_gems_card');
      Route::get('/print-gems-card-certificates', [GemCardController::class, 'printCertificates'])->name('print_gems_certificates');
+
+
         Route::get('/download-file-gems/{filename}', function ($filename) {
             $path = storage_path('app/public/uploads/' . $filename);
             //    dd($path );
@@ -185,7 +188,9 @@ Route::middleware('auth')->group(function () {
               }
           })->name('uncutjewellery.download.file');      
           
-
+    
+    // confirmation Entry Print
+    Route::get('/print-confirm/{conid}',[ConfirmPrint::class,'printCertificates'])->name('print.confirmation');      
 
 
 
