@@ -41,6 +41,12 @@ class UploadsBulk implements ToCollection
             $uniqueNumber = time() . rand(1000, 9999);
             $brand = "GILHJ" . $uniqueNumber;
 
+
+            // fetch service id from service name given from excel
+
+            
+
+
             // Insert data into the database
             jobcardtables::create([
                 'jobcardid' => $brand,

@@ -103,7 +103,7 @@ $(document).ready(function() {
         let perPage = $('#per_page').val() || 8; // Default to 8 if not set
 
         $.ajax({
-            url: "{{ route('confirmEntrys.index') }}",
+            url: "{{ route('invoices.index') }}",
             type: "GET",
             data: { 
                 search: search,

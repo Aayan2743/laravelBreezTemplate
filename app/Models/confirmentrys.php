@@ -24,4 +24,10 @@ class confirmentrys extends Model
     {
         return $this->belongsTo(clientinformationDetails::class, 'client_id','client_id'); // Assuming metal_id is the foreign key
     }
+
+
+    public function diamond_jobs()
+    {
+        return $this->belongsTo(jobcardtables::class, 'confirmationid','confirmid'); // Assuming metal_id is the foreign key
+    }
 }

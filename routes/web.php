@@ -66,6 +66,7 @@ Route::middleware('auth')->group(function () {
     // Billing Section
     // Route::get('/invoices', [BillingController::class, 'confirmEntryShow'])->name('confirmEntryShow');
     Route::resource('invoices', BillingController::class); 
+    Route::get('getReport/{id}', [BillingController::class,'getReport'])->name('getReport.id'); 
 
     // services section
     Route::get('/list-services', [servicesController::class, 'list'])->name('servicesList');

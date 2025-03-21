@@ -8,7 +8,8 @@
                 <th> Date </th>
                 <th> Confirmation ID </th>
                 <th> Clientname</th>
-                <th> Invoice </th>
+                <th> Received Name</th>
+                <th> Invoice</th>
                 <th> Invoice With Logo </th>
                 <th> Extra Charges </th>
                 <th> Get Memo </th>
@@ -28,11 +29,14 @@
                 <td>{{ $client->recievedate}}</td>
                 <td>{{ $client->confirmationid }}</td>
                 <td>{{ $client->client_name }}</td>
-                <td>{{ $client->depositer_name }}</td>
+             
                 <td>{{ $client->reciever }}</td>
+                <td><label class="badge badge-gradient-danger"><a href="{{route('getReport.id',$client->confirmationid)}}"   style="text-decoration: none;">Invoice {{$client->confirmationid}}</a></label></td>
+                <td><label class="badge badge-gradient-danger"><a href="javascript:void(0);"   style="text-decoration: none;">Invoice With Logo</a></label></td>
+                <td><label class="badge badge-gradient-danger"><a href="javascript:void(0);"   style="text-decoration: none;">Add Extra Charges</a></label></td>
+                <td><label class="badge badge-gradient-danger"><a href="javascript:void(0);"   style="text-decoration: none;">Cash Memo</a></label></td>
+                <td><label class="badge badge-gradient-danger"><a href="javascript:void(0);"   style="text-decoration: none;">Download</a></label></td>
                
-                <td><label class="badge badge-gradient-danger"><a href="javascript:void(0);" onclick="confirmDelete('{{ route('updateConfirmDelete', $client->confirmationid) }}')"  style="text-decoration: none;">Delete</a></label></td>
-                <td><label class="badge badge-gradient-warning"><a href="{{route('confirmEntryEdit',$client->confirmationid)}}" style="text-decoration: none;">Edit {{$client->confirmEntryEdit}}</a></label></td>
                 
             </tr>
             @endforeach
