@@ -31,9 +31,10 @@
                 <td>{{ $client->client_name }}</td>
              
                 <td>{{ $client->reciever }}</td>
+                <!-- extrainvoiceCharges -->
                 <td><label class="badge badge-gradient-danger"><a href="{{route('getReport.id',$client->confirmationid)}}"   style="text-decoration: none;">Invoice {{$client->confirmationid}}</a></label></td>
-                <td><label class="badge badge-gradient-danger"><a href="javascript:void(0);"   style="text-decoration: none;">Invoice With Logo</a></label></td>
-                <td><label class="badge badge-gradient-danger"><a href="javascript:void(0);"   style="text-decoration: none;">Add Extra Charges</a></label></td>
+                <td><label class="badge badge-gradient-danger"><a href="{{route('getReport.id.logo',$client->confirmationid)}}"   style="text-decoration: none;">Invoice With Logo</a></label></td>
+                <td><label class="badge badge-gradient-danger"><a href="{{route('extrainvoiceCharges',$client->confirmationid)}}"   style="text-decoration: none;">Add Extra Charges</a></label></td>
                 <td><label class="badge badge-gradient-danger"><a href="javascript:void(0);"   style="text-decoration: none;">Cash Memo</a></label></td>
                 <td><label class="badge badge-gradient-danger"><a href="javascript:void(0);"   style="text-decoration: none;">Download</a></label></td>
                

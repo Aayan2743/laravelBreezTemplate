@@ -51,7 +51,7 @@
     <div class="invoice-header">
     <h2>INVOICE</h2>
     
-   
+    <img src="{{ storage_path('app/public/uploads/GIL_LOGO.png')}}" alt="Company Logo">
 
     
     

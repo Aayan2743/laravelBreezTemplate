@@ -18,6 +18,7 @@ use App\Http\Controllers\MetalController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\userprofileController;
 use App\Http\Controllers\ConfirmPrint;
+use App\Http\Controllers\extrainvoiceChargesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,11 +68,19 @@ Route::middleware('auth')->group(function () {
     // Route::get('/invoices', [BillingController::class, 'confirmEntryShow'])->name('confirmEntryShow');
     Route::resource('invoices', BillingController::class); 
     Route::get('getReport/{id}', [BillingController::class,'getReport'])->name('getReport.id'); 
+    Route::get('getReportWithLogo/{id}', [BillingController::class,'getReportWithLogo'])->name('getReport.id.logo'); 
 
     // services section
     Route::get('/list-services', [servicesController::class, 'list'])->name('servicesList');
     Route::post('/list-services/update', [servicesController::class, 'listserviceUpdate'])->name('listserviceUpdate');
     Route::post('/list-services/add', [servicesController::class, 'listserviceStore'])->name('listserviceStore');
+
+
+    // extra invoice charges
+    Route::get('/list-invoice-charges/{id}', [extrainvoiceChargesController::class, 'index'])->name('extrainvoiceCharges');
+    Route::post('/add-invoice-charges', [extrainvoiceChargesController::class, 'store'])->name('addExtraAmount');
+    Route::post('/update-invoice-charges', [extrainvoiceChargesController::class, 'update'])->name('updateExtraAmount');
+    Route::get('/delete-invoice-charges/{id}', [extrainvoiceChargesController::class, 'delete'])->name('deleteExtraAmount'); 
 
     //settings
     //ratecards
@@ -163,7 +172,8 @@ Route::middleware('auth')->group(function () {
     // Route::get('/print-gem-jewelery-card-certificates', [GemsJeweleryCardController::class, 'printCertificates'])->name('print_gems_certificates');
     Route::post('/gem-jewelery-job-card-update', [GemsJeweleryCardController::class, 'update_gem_jewelery_card'])->name('update_gems_jewelery_card');
     Route::get('/print-gem-jewelery-card-certificates', [GemsJeweleryCardController::class, 'printCertificates'])->name('print_gems_jewelery_certificates');
-       Route::get('/download-file-diamonds/{filename}', function ($filename) {
+     
+    Route::get('/download-file-diamondss/{filename}', function ($filename) {
            $path = storage_path('app/public/uploads/' . $filename);
            //    dd($path );
            if (file_exists($path)) {
@@ -171,7 +181,7 @@ Route::middleware('auth')->group(function () {
            } else {
                abort(404, 'File not found.');
            }
-       })->name('gemjewelery.download.file');      
+       })->name('gemjewelery.download.files');      
     
         // Uncut Jewellery Job Card
        Route::get('/upload-uncut-jewelery-job-Card', [UncutJewelleryJobCardController::class, 'index'])->name('uncutjewelleryIndex');

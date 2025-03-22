@@ -49,7 +49,7 @@
 
                                   
                                 </form>
-                              <a href="{{route('gemjewelery.download.file',['filename' => 'GemstoneJewelleryUpload.xlsx'])}}">Download sample file  Gems Jewelery Job Card </a>
+                              <a href="{{route('gemjewelery.download.files',['filename' => 'GemstoneJewelleryUpload.xlsx'])}}">Download sample file  Gems Jewelery Job Card </a>
 
                           </div>
                         
