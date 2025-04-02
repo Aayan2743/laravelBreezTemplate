@@ -141,12 +141,16 @@
                        
                 @endphp
                  <h3>DIAMOND REPORT</h3>
-            <p><span class="bold">SUMMARY NO:</span> <span class="highlight">{{ $jobCard->djobcardid }}</span></p>
-            <p><span class="bold">Diamond Pcs:</span> {{ $jobCard->nop }}</p>
-            <p><span class="bold">Clarity:</span> {{ $jobCard->clarityss->Clarity }}</p>
-            <p><span class="bold">SHAPE/CUT:</span> {{ $jobCard->cutss->cutname }}</p>
-            <p><span class="bold">Carat :</span> {{ $jobCard->carat }}</p>
-            <p><span class="bold">Colour:</span> {{ $jobCard->colorss->color_code }}</p>
+
+
+            <p><span class="bold">SUMMARY NO:</span> <span class="highlight">{{ $jobCard->djobcardid  ?? 'N/A'}}</span></p>
+            <p><span class="bold">Diamond Pcs:</span> {{ $jobCard->nop  ?? 'N/A'}}</p>
+            <p><span class="bold">Clarity:</span> {{ $jobCard->clarityss->Clarity ?? 'N/A' }}</p>
+
+          
+            <p><span class="bold">SHAPE/CUT:</span> {{ $jobCard->cutss->cutname ?? 'N/A' }}</p>
+            <p><span class="bold">Carat :</span> {{ $jobCard->carat  ?? 'N/A'}}</p>
+            <p><span class="bold">Colour:</span> {{ $jobCard->colorss->color_code ?? 'N/A' }}</p>
              
 
 

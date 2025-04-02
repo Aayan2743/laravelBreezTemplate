@@ -27,7 +27,9 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Client Information Edit Form</h4>
-                    <form class="form-sample" method="POST" action="{{ route('client.update', $clientinformation->client_id ?? '') }}">
+                    <form class="form-sample" method="POST" action="{{ route('client.update', $clientinformation->client_id ?? '') }}" enctype="multipart/form-data">
+
+
                      @csrf   
                     <div class="row">
                         <div class="col-md-6">
@@ -176,7 +178,7 @@
                       </div>
 
                       <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">GST Number :
                               </label>
@@ -185,6 +187,27 @@
                             </div>
                           </div>
                         </div>
+
+                     
+                        <div class="col-md-6">
+                      <div class="form-group row">
+                          <label for="formFile" class="col-sm-3 col-form-label">Upload Brand Logo:</label>
+                          <div class="col-sm-9">
+                              <div class="mb-3">
+                                  <input class="form-control" type="file" id="formFile" name="formFile" accept="image/*" onchange="previewImage(event)">
+                                  
+                                  <!-- Display existing logo if available -->
+                                  <img id="preview" 
+                                      src="{{ asset('storage/' . $clientinformation->cobranding_logo ?? '') }}" 
+                                      alt="Image Preview" 
+                                      style="margin-top: 10px; max-width: 100px; height: auto; border: 1px solid #ddd; padding: 5px; {{ isset($clientinformation->cobranding_logo) ? '' : 'display: none;' }}">
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                       
+
+
 
                       </div>
 
@@ -584,6 +607,26 @@
     });
 
 </script>
+
+<script>
+                                function previewImage(event) {
+                                    const input = event.target;
+                                    const preview = document.getElementById("preview");
+
+                                    if (input.files && input.files[0]) {
+                                        const reader = new FileReader();
+
+                                        reader.onload = function(e) {
+                                            preview.src = e.target.result;
+                                            preview.style.display = "block";
+                                        };
+
+                                        reader.readAsDataURL(input.files[0]);
+                                    } else {
+                                        preview.style.display = "none";
+                                    }
+                                }
+                          </script>
 
 
 @endsection          

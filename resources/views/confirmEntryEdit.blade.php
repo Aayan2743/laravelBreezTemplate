@@ -11,8 +11,13 @@
               </h3>
               <nav aria-label="breadcrumb">
                 <ul class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">
+                    <span></span><a href="{{route('confirmEntryShow')}}" >View Confirm Entry</a> 
+                  </li>
+
+
                   <li class="breadcrumb-item active" aria-current="page">
-                    <span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                    <span></span>Edit Confirm Entry
                   </li>
                 </ul>
               </nav>
@@ -287,7 +292,7 @@
 
                         <!-- Button to Add More Rows -->
                         <div class="col-sm-12 mt-3">
-                            <button type="button" class="btn btn-primary" id="addMore">+ Add More</button>
+                            <button type="button" class="btn btn-primary mb-3" id="addMore">+ Add More</button>
                         </div>
 
 

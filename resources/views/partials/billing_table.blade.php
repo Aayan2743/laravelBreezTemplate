@@ -13,7 +13,7 @@
                 <th> Invoice With Logo </th>
                 <th> Extra Charges </th>
                 <th> Get Memo </th>
-                <th> Download File </th>
+              
             </tr>
         </thead>
         <tbody>
@@ -32,11 +32,11 @@
              
                 <td>{{ $client->reciever }}</td>
                 <!-- extrainvoiceCharges -->
-                <td><label class="badge badge-gradient-danger"><a href="{{route('getReport.id',$client->confirmationid)}}"   style="text-decoration: none;">Invoice {{$client->confirmationid}}</a></label></td>
+                <td><label class="badge badge-gradient-danger"><a href="{{route('getReport.id',$client->confirmationid)}}"   style="text-decoration: none;">Invoice </a></label></td>
                 <td><label class="badge badge-gradient-danger"><a href="{{route('getReport.id.logo',$client->confirmationid)}}"   style="text-decoration: none;">Invoice With Logo</a></label></td>
                 <td><label class="badge badge-gradient-danger"><a href="{{route('extrainvoiceCharges',$client->confirmationid)}}"   style="text-decoration: none;">Add Extra Charges</a></label></td>
-                <td><label class="badge badge-gradient-danger"><a href="javascript:void(0);"   style="text-decoration: none;">Cash Memo</a></label></td>
-                <td><label class="badge badge-gradient-danger"><a href="javascript:void(0);"   style="text-decoration: none;">Download</a></label></td>
+                <td><label class="badge badge-gradient-danger"><a href="{{route('getReport.cashmemo',$client->confirmationid)}}"   style="text-decoration: none;">Cash Memo</a></label></td>
+                <!-- <td><label class="badge badge-gradient-danger"><a href="javascript:void(0);"   style="text-decoration: none;">Download</a></label></td> -->
                
                 
             </tr>

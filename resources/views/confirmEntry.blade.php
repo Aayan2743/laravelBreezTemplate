@@ -9,13 +9,21 @@
                   <i class="mdi mdi-home"></i>
                 </span> Confirm Entry Customer 
               </h3>
+              
               <nav aria-label="breadcrumb">
                 <ul class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">
+                    <span></span><a href="{{route('customer.viewClients')}}" >View Customer</a> 
+                  </li>
+
+
                   <li class="breadcrumb-item active" aria-current="page">
-                    <span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                    <span></span>Confirm Entry
                   </li>
                 </ul>
               </nav>
+
+
             </div>
            
 
@@ -23,7 +31,7 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Client Information Entry Form</h4>
-                    <form class="form-sample" method="POST" action="{{route('confirmEntryStore')}}">
+                    <form class="form-sample" method="POST" action="{{route('confirmEntryStore')}}" >
                      @csrf   
                     <div class="row">
                         <div class="col-md-6">
@@ -38,6 +46,7 @@
                               <input type="hidden" name="client_city" id="client_city" value="{{ $customerDetails->city }}"  placeholder="client_city" class="form-control" />
                               <input type="hidden" name="retailer" id="retailer" value="{{ $customerDetails->retailer }}"  placeholder="retailer" class="form-control" />
                               <input type="hidden" name="supplier" id="supplier" value="{{ $customerDetails->supplier }}"  placeholder="supplier" class="form-control" />
+                              <input type="hidden" name="logo" id="logo" value="{{$customerDetails->cobranding_logo ?? ''}}"  placeholder="logo" class="form-control" />
                               @if ($errors->has('depname'))
                                   <div class="error text-danger">{{ $errors->first('depname') }}</div>
                               @endif
@@ -47,31 +56,19 @@
                         </div>
                         
 
-                     
+                    
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Select Logo <span class="text-danger">*</spna></label>
+                            <label class="col-sm-3 col-form-label"> Logo <span class="text-danger">*</spna></label>
                             <div class="col-sm-9">
-                              <select class="form-select" name="logo" id="logo">
-                                <option value="">Select Logo</option>
-                                @foreach($companyLogo as $logo)
-                                <option value="{{ $logo->id }}" data-image="{{ asset('storage/' . $logo->logoname) }}">
-                                      {{ $logo->logotext }}
-                                  </option>
+                            
+                            <img id="previe"  name="logos"
+                                      src="{{ asset('storage/' . $customerDetails->cobranding_logo ?? '') }}" 
+                                      alt="Image Preview" 
+                                      style="margin-top: 10px; max-width: 100px; height: auto; border: 1px solid #ddd; padding: 5px; {{ isset($customerDetails->cobranding_logo) ? '' : 'display: non;' }}"> 
 
-                                @endforeach
-
-                                <!-- <option>Female</option> -->
-                              </select>
-
-                              
-                              @if ($errors->has('logo'))
-                                  <div class="error text-danger">{{ $errors->first('logo') }}</div>
-                                @endif
-                              <div class="d-flex justify-content-between">
-                              <img id="logoPreviewLogo" src="" class="img-fluid mt-2 rounded-circle" style="max-width: 70px; display: none;">
-                              <a href="{{route('cobranding_index',$customerDetails->client_id)}}" class="mt-2" >Add Co Branding</a>
-                              </div>
+                             
+                             
                               
                             </div>
                           

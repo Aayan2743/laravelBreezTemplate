@@ -22,7 +22,7 @@
             <tr>
                 <td>{{ $client->client_id}}</td>
                 <td>{{ $client->client_name }}</td>
-                <td>{{ $client->supplier }}</td>
+                <td>{{ $client->client_name }}</td>
                 <td><label class="badge badge-gradient-success">
                     
                 <a href="{{route('cobranding_index',$client->client_id)}}"  style="text-decoration: none;">Add Co-branding</a>

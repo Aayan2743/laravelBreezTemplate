@@ -89,22 +89,23 @@ class CustomerController extends Controller
         $validator = Validator::make($req->all(), [
             'depname' => 'required|string',
             'mobile' => 'required|digits:10',
-            'depadd' => 'required|string',
-            'state' => 'required|string',
-            'city' => 'required|string',
-            'retailer' => 'required|string',
-            'supplier' => 'required|string',
-            'depositor' => 'required|string',
+            // 'formFile' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            // 'depadd' => 'required|string',
+            // 'state' => 'required|string',
+            // 'city' => 'required|string',
+            // 'retailer' => 'required|string',
+            // 'supplier' => 'required|string',
+            // 'depositor' => 'required|string',
         ], [
             'depname.required' => 'Client Name Required',
             'mobile.required' => 'Mobile No Required',
             'mobile.digits' => 'Mobile No Allowed Only digits',
-            'depadd.required' => 'Client Address Required',
-            'state.required' => 'Client State Required',
-            'city.required' => 'Client City Required',
-            'retailer.required' => 'Retailer  Required',
-            'supplier.required' => 'Supplier  Required',
-            'depositor.required' => 'Depositor  Required',
+            // 'depadd.required' => 'Client Address Required',
+            // 'state.required' => 'Client State Required',
+            // 'city.required' => 'Client City Required',
+            // 'retailer.required' => 'Retailer  Required',
+            // 'supplier.required' => 'Supplier  Required',
+            // 'depositor.required' => 'Depositor  Required',
         ]);
     
         if ($validator->fails()) {
@@ -182,6 +183,121 @@ class CustomerController extends Controller
         
         
        
+
+    }
+
+    public function update_client_information(Request $req, $id){
+
+
+        // dd($req->all());
+        $validator = Validator::make($req->all(), [
+            'depname' => 'required|string',
+            'mobile' => 'required|digits:10',
+            'formFile' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ], [
+            'depname.required' => 'Client Name Required',
+            'mobile.required' => 'Mobile No Required',
+            'mobile.digits' => 'Mobile No Allowed Only digits',
+            'formFile.image' => 'The file must be an image.',
+            'formFile.mimes' => 'Allowed formats: jpeg, png, jpg, gif, svg.',
+            'formFile.max' => 'Max file size allowed is 2MB.',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->with('error', 'Validation failed! Please check the inputs.')
+                ->withInput();
+        }
+
+        try {
+            // Fetch client record
+            $client = clientinformationDetails::find($id);
+
+            if (!$client) {
+                return redirect()->back()->with('error', 'Client not found!');
+            }
+
+            $imagePath = $client->logo; // Keep existing logo if no new file is uploaded
+
+            // Check if a new image is uploaded
+            if ($req->hasFile('formFile')) {
+                $file = $req->file('formFile');
+
+                // Delete old image if exists
+                if ($client->logo) {
+                    Storage::delete('public/' . $client->logo);
+                }
+
+                // Store new file
+                $imagePath = $file->store('uploads/client_logos', 'public');
+            }
+
+            // Update client information
+            $client->update([
+               
+                'cobranding_logo' => $imagePath,
+
+                'client_name' => $req->depname,
+                'address' => $req->depadd,
+                'retailer' => $req->retailer,
+                'supplier' => $req->supplier,
+                'depositorname' => $req->depositor,
+                'phonenumber' => $req->mobile,
+                'email' => $req->email,
+                'panno' => $req->panno,
+                'tanno' => $req->tanno,
+                'gstno' => $req->gstno,
+                'state' => $req->state,
+                'city' => $req->city,
+                'country' => 'India',
+                'other_city' => $req->ancity,
+                'dj1' => $req->rate1,
+                'dj2' => $req->rate2,
+                'sdj1' => $req->rate3,
+                'sdj2' => $req->rate4,
+                'dg1' => $req->rate5,
+                'dg2' => $req->rate6,
+                'sdg1' => $req->rate7,
+                'sdg2' => $req->rate8,
+                'gls1' => $req->rate9,
+                'gls2' => $req->rate10,
+                'gls3' => $req->rate11,
+                'gls4' => $req->rate12,
+                'cvd2' => $req->rate14,
+                'cvd3' => $req->rate15,
+                'cvd4' => $req->rate16,
+                'un1' => $req->rate17,
+                'un2' => $req->rate18,
+                'carat1' => $req->carat1,
+                'carat2' => $req->carat2,
+                'carat3' => $req->carat3,
+                'carat4' => $req->carat4,
+                'carat5' => $req->carat5,
+                'carat6' => $req->carat6,
+                'carat7' => $req->carat7,
+                'carat8' => $req->carat8,
+                'carat9' => $req->carat9,
+                'carat10' => $req->carat10,
+                'carat11' => $req->carat11,
+                'carat12' => $req->carat12,
+                'carat13' => $req->depname,
+                'carat14' => $req->carat14,
+                'carat15' => $req->carat15,
+                'carat16' => $req->carat16,
+                'carat17' => $req->carat17,
+                'carat18' => $req->carat18,
+
+
+
+            ]);
+
+            return redirect()->back()->with('success', 'Client information updated successfully!');
+        } catch (\Exception $e) {
+            
+            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update client. Please try again.');
+        }
 
     }
 
@@ -538,6 +654,8 @@ class CustomerController extends Controller
 
      public function confirmEntryStore(Request $req){
       
+        // dd($req->all());
+
         $validator = Validator::make($req->all(), [
             'depname' => 'required|string',
             'logo' => 'required',
@@ -609,8 +727,8 @@ class CustomerController extends Controller
             foreach ($req->item as $key => $item) {
                 confirmitemstables::create([
                     'confirmid' => $confirmentrys->confirmationid,
-                    'retailer' => $req->retailer,
-                    'supplier' => $req->supplier,
+                    'retailer' => $req->depname,
+                    'supplier' => $req->depname,
                     'item' => $item, // Get item value by index
                     'nop' => $req->pieces[$key], // Corresponding no. of pieces
                     'weight' => $req->weight[$key], // Corresponding weight

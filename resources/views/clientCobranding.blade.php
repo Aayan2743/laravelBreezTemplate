@@ -30,7 +30,7 @@
                 <div class="card">
                   <div class="card-body">
                       <div class="d-flex justify-content-between"> 
-                            <h4 class="card-title">Client Co Branding Details - <a href="{{route('clients.viewClientById',$clientdetails[0]->client_id )}}" > {{$clientdetails[0]->client_name}} </a></h4>
+                            <h4 class="card-title">Client Co Branding Details - <a href="{{route('clients.viewClientById',$clientdetails[0]->client_id )}}" > {{$clientdetails[0]->client_name}}  <i class="fa fa-edit"></i></a> </h4>
                             <button class="btn btn-primary" data-bs-toggle="modal" data-ds-name="{{$clientdetails[0]->client_name}}" data-ds-cid="{{$clientdetails[0]->client_id}}"  data-bs-target="#coBrandingModal"> Add</button>
                       </div>
                   

@@ -47,7 +47,8 @@ Route::middleware('auth')->group(function () {
     
      Route::get('/view-client-details/{id}', [CustomerController::class, 'viewClientById'])->name('clients.viewClientById');
      Route::get('/delete-client-details/{id}', [CustomerController::class, 'deleteClientById'])->name('clients.deleteClientById');
-     Route::post('/client/update', [CustomerController::class, 'add_clientinformation'])->name('client.update');
+    //  Route::post('/client/update', [CustomerController::class, 'add_clientinformation'])->name('client.update');
+     Route::post('/client/update/{id}', [CustomerController::class, 'update_client_information'])->name('client.update');
     //  cobranding
      Route::get('/Co-branding/{id}', [CustomerController::class, 'cobranding_index'])->name('cobranding_index');
      Route::post('/Co-branding/store', [CustomerController::class, 'cobrandingStore'])->name('brandingStore');
@@ -69,6 +70,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('invoices', BillingController::class); 
     Route::get('getReport/{id}', [BillingController::class,'getReport'])->name('getReport.id'); 
     Route::get('getReportWithLogo/{id}', [BillingController::class,'getReportWithLogo'])->name('getReport.id.logo'); 
+    Route::get('cashMemo/{id}', [BillingController::class,'CashMemo'])->name('getReport.cashmemo'); 
 
     // services section
     Route::get('/list-services', [servicesController::class, 'list'])->name('servicesList');

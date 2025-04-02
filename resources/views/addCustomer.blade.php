@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Client Address <span class="text-danger">*</spna></label>
+                            <label class="col-sm-3 col-form-label">Client Address </label>
                             <div class="col-sm-9">
                               <textarea rows="" cols=""  name="depadd" id="depadd"  class="form-control">{{ old('depadd') }}</textarea>
                               @if ($errors->has('depadd'))
@@ -53,7 +53,7 @@
                       <div class="row">
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">State <span class="text-danger">*</spna></label>
+                            <label class="col-sm-3 col-form-label">State</label>
                             <div class="col-sm-9">
                               <select class="form-select" name="state" id="state">
                               <option value="">Select State</option>
@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">City <span class="text-danger">*</spna></label>
+                            <label class="col-sm-3 col-form-label">City </label>
                             <div class="col-sm-9">
                             <select class="form-select" name="city" id="city">
                                 <option value="" >Select City</option>
@@ -92,21 +92,23 @@
                             </div>
                           </div>
                         </div>
+
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Retailer <span class="text-danger">*</spna></label>
+                            <label class="col-sm-3 col-form-label">Depositor Name </label>
                             <div class="col-sm-9">
-                              <input type="text" name="retailer" id="retailer" value="{{ old('retailer') }}"  class="form-control" />
-                              @if ($errors->has('retailer'))
-                                  <div class="error text-danger">{{ $errors->first('retailer') }}</div>
+                              <input type="text" name="depositor" id="depositor" value="{{ old('depositor') }}"  class="form-control" />
+                              @if ($errors->has('depositor'))
+                                  <div class="error text-danger">{{ $errors->first('depositor') }}</div>
                               @endif
                             </div>
                           </div>
                         </div>
+                      
                       </div>
                      
                       <div class="row">
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Supplier  <span class="text-danger">*</spna></label>
                             <div class="col-sm-9">
@@ -116,18 +118,8 @@
                               @endif
                             </div>
                           </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Depositor Name <span class="text-danger">*</spna></label>
-                            <div class="col-sm-9">
-                              <input type="text" name="depositor" id="depositor" value="{{ old('depositor') }}"  class="form-control" />
-                              @if ($errors->has('depositor'))
-                                  <div class="error text-danger">{{ $errors->first('depositor') }}</div>
-                              @endif
-                            </div>
-                          </div>
-                        </div>
+                        </div> -->
+                       
                       </div>
                       <div class="row">
                         <div class="col-md-6">

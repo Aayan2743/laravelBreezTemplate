@@ -45,7 +45,7 @@ class UploadsBulk implements ToCollection
             // fetch service id from service name given from excel
 
             
-
+          
 
             // Insert data into the database
             jobcardtables::create([
