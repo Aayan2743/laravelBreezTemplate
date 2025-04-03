@@ -17,10 +17,16 @@ class GemCardController extends Controller
 
         $query = gemstonejobcardtabs::orderBy('gjobcard_id', 'desc');
 
+      
+
         if ($request->has('search')) {
-            $query->where('confirmid', 'like', '%' . $request->search . '%');
-                
+            $query->where(function ($q) use ($request) {
+                $q->where('confirmid', 'like', '%' . $request->search . '%')
+                  ->orWhere('gjobcardid', 'like', '%' . $request->search . '%');
+            });
         }
+
+        //gjobcardid
     
         $clientinformation = $query->paginate(8);
 
@@ -33,6 +39,30 @@ class GemCardController extends Controller
         return view('uploadsgemCards', compact('clientinformation'));
         // return view('uploads');
     }
+
+
+    public function uploadImages(Request $request)
+    {
+        $uploadedImages = [];
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $jobcard_id => $file) {
+                // Generate unique name
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $filePath = $file->storeAs('uploads', $filename, 'public');
+
+                // Update database
+                gemstonejobcardtabs::where('gjobcard_id', $jobcard_id)->update([
+                    'image' => $filename
+                ]);
+
+                $uploadedImages[] = $filename;
+            }
+        }
+
+        return back()->with('success', 'Images uploaded successfully!');
+    }
+
 
 
     public function import(Request $request){

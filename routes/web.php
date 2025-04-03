@@ -32,7 +32,7 @@ use App\Http\Controllers\extrainvoiceChargesController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('certificate_user');
 });
 
 Route::get('/dashboard', function () {
@@ -114,6 +114,7 @@ Route::middleware('auth')->group(function () {
 
     // uploads for dimond jewellerys
     Route::get('/uploads', [uploadsControllers::class, 'index'])->name('uploadIndex');
+    Route::post('/upload-images', [uploadsControllers::class, 'uploadImages'])->name('upload_images');
   
     Route::post('/import', [uploadsControllers::class, 'import'])->name('import');
     Route::get('/download-file/{filename}', function ($filename) {
@@ -134,6 +135,7 @@ Route::middleware('auth')->group(function () {
 
      // uploads for GemCard Job
      Route::get('/uploadGemCard', [GemCardController::class, 'index'])->name('uploadGemCardIndex');
+     Route::post('/upload-images-gems', [GemCardController::class, 'uploadImages'])->name('upload_gem_images');
      Route::get('/gemCard-job-card-delete/{id}', [GemCardController::class, 'gemcard_job_card_delete'])->name('gemcard_job_card_delete'); 
      Route::post('/importGemsCard', [GemCardController::class, 'import'])->name('importGemsCard');
      Route::post('/gems-job-card-update', [GemCardController::class, 'update_gems_card'])->name('update_gems_card');
@@ -151,6 +153,7 @@ Route::middleware('auth')->group(function () {
         })->name('gemsdownload.file');
      // upload Diamond Card Job
      Route::get('/upload-diamond-job-Card', [dimondCardController::class, 'index'])->name('diamondCardJobIndex');
+     Route::post('/upload-images-diamond', [dimondCardController::class, 'uploadImages'])->name('upload_diamond_images');
      Route::post('/importDiamondCard', [dimondCardController::class, 'import'])->name('importDiamondCard');
      Route::get('/diamond-job-card-delete/{id}', [dimondCardController::class, 'diamond_job_card_delete'])->name('diamond_job_card_delete'); 
     //  Route::get('/print-diamond-card-certificates', [dimondCardController::class, 'printCertificates'])->name('print_diamond_certificates');
@@ -169,6 +172,7 @@ Route::middleware('auth')->group(function () {
         
     // Gem Jewelery Card Upload
     Route::get('/upload-gem-jewelery-job-Card', [GemsJeweleryCardController::class, 'index'])->name('gemJeweleryCardJobIndex');
+    Route::post('/upload-images-gem_jewellery', [GemsJeweleryCardController::class, 'uploadImages'])->name('upload_gem_jewelery_images');
     Route::post('/importGemJeweleryCard', [GemsJeweleryCardController::class, 'import'])->name('importgemJeweleryCard');
     Route::get('/gem-jewelery-job-card-delete/{id}', [GemsJeweleryCardController::class, 'gem_jewelery_job_card_delete'])->name('gem_jewelery_job_card_delete'); 
     // Route::get('/print-gem-jewelery-card-certificates', [GemsJeweleryCardController::class, 'printCertificates'])->name('print_gems_certificates');
@@ -187,6 +191,7 @@ Route::middleware('auth')->group(function () {
     
         // Uncut Jewellery Job Card
        Route::get('/upload-uncut-jewelery-job-Card', [UncutJewelleryJobCardController::class, 'index'])->name('uncutjewelleryIndex');
+       Route::post('/upload-images-uncut-jewellery', [UncutJewelleryJobCardController::class, 'uploadImages'])->name('upload_uncut_jewelery_images');
        Route::post('/importUncutJeweleryCard', [UncutJewelleryJobCardController::class, 'import'])->name('importUnCutJeweleryCard');
        Route::get('/uncut-jewelery-job-card-delete/{id}', [UncutJewelleryJobCardController::class, 'uncut_jewelery_job_card_delete'])->name('uncut_jewelery_job_card_delete'); 
        Route::post('/uncut-jewelery-job-card-update', [UncutJewelleryJobCardController::class, 'update_uncut_jewelery_card'])->name('update_uncut_jewelery_card');

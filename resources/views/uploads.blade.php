@@ -89,7 +89,7 @@
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <input type="text" id="search" class="form-control" placeholder="Search Confirmation Id...">
+                            <input type="text" id="search" class="form-control" placeholder="Search Confirmation Id or Job Card id..">
                         </div>
                     </div>
 

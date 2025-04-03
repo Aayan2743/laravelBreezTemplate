@@ -326,7 +326,7 @@
                           </div>
 
 
-                          <div class="form-group row">
+                          <div class="form-group row d-none">
                            
                             <div class="col-sm-5">
                               <input type="text" name="carat10" value="{{$rates[9]->caratwt}}" class="form-control" />
@@ -339,7 +339,7 @@
                             </div>
                           </div>
 
-                          <div class="form-group row">
+                          <div class="form-group row d-none">
                            
                             <div class="col-sm-5">
                               <input type="text" name="carat11" value="{{$rates[10]->caratwt}}" class="form-control" />

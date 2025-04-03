@@ -20,9 +20,16 @@ class GemsJeweleryCardController extends Controller
 
         $query = cjobcardtables::orderBy('jobcard_id', 'desc');
 
-        if ($request->has('search')) {
-            $query->where('confirmid', 'like', '%' . $request->search . '%');
+        // if ($request->has('search')) {
+        //     $query->where('confirmid', 'like', '%' . $request->search . '%');
                 
+        // }
+
+        if ($request->has('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('confirmid', 'like', '%' . $request->search . '%')
+                  ->orWhere('jobcardid', 'like', '%' . $request->search . '%');
+            });
         }
     
         $clientinformation = $query->paginate(8);
@@ -122,6 +129,28 @@ class GemsJeweleryCardController extends Controller
         }
       
 
+    }
+
+    public function uploadImages(Request $request)
+    {
+        $uploadedImages = [];
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $jobcard_id => $file) {
+                // Generate unique name
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $filePath = $file->storeAs('uploads', $filename, 'public');
+
+                // Update database
+                cjobcardtables::where('jobcard_id', $jobcard_id)->update([
+                    'image' => $filename
+                ]);
+
+                $uploadedImages[] = $filename;
+            }
+        }
+
+        return back()->with('success', 'Images uploaded successfully!');
     }
 
     public function printCertificates(Request $request)

@@ -1,82 +1,100 @@
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th> S No </th>
-                <th> Confiramation No</th>
-                <th> Jobcard id </th>
-                <th> Edit </th>
-                <th> Delete </th>
-           
-                <th> Action -1 </th>
-                <th>
-                <label class="badge badge-gradient-info">
-                        <input type="checkbox" class="select-checkbox" id="selectAll"  />
-                    </label>    
-                
-               </th>
-            </tr>
-        </thead>
-        <tbody>
-        @if ($clientinformation->isEmpty())
+
+@if (session()->has('totalRecords'))
+    <div class="alert alert-success">
+        <strong>Total Records:</strong> {{ session('totalRecords') }}<br>
+        <strong>Inserted Records:</strong> {{ session('totalInserted') }}<br>
+        <strong>Skipped Records:</strong> {{ session('totalSkipped') }}
+    </div>
+@endif
+
+<form action="{{ route('upload_images') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td colspan="5" class="text-center text-muted">No clients found.</td>
+                    <th>S No</th>
+                    <th>Confirmation No</th>
+                    <th>Jobcard ID</th>
+                    <th>Upload Image</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                 
+                    <th>
+                        <label class="badge badge-gradient-info">
+                            <input type="checkbox" class="select-checkbox" id="selectAll" />
+                        </label>
+                    </th>
                 </tr>
-        @else   
+            </thead>
+            <tbody>
+                @if ($clientinformation->isEmpty())
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">No clients found.</td>
+                    </tr>
+                @else
+                    @foreach($clientinformation as $key => $client)
+                        <tr>
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $client->confirmid }}</td>
+                            <td>{{ $client->jobcardid }}</td>
 
-            @foreach($clientinformation as $key=> $client)
-            <tr>
-                <td>{{ $key+1}}</td>
-                <td>{{ $client->confirmid }}</td>
-                <td>{{ $client->jobcardid }}</td>
-                <td>{{ $client->image }}</td>
+                            <!-- Image Upload Input -->
+                            <td>
+                                <input type="file" class="form-control w-50" name="images[{{ $client->jobcard_id }}]" accept="image/*" />
+                                @if($client->image)
+                                    <br>
+                                    <img src="{{ asset('storage/uploads/' . $client->image) }}" width="100" height="80">
+                                @endif
+                            </td>
 
-                <td><label class="badge badge-gradient-warning">
-                    
-             
-                <a href="javascript:void(0);" data-bs-toggle="modal" data-id={{$client->confirmid}}
-                    
-                    data-uid={{$client->jobcard_id}}    
-                    data-Jobcardid={{$client->jobcardid}}    
-                    data-service= "{{ htmlentities($client->service) }}"   
+                            <td>
+                                <label class="badge badge-gradient-warning">
+                                    <a href="javascript:void(0);" data-bs-toggle="modal" 
+                                       data-id="{{ $client->confirmid }}" data-uid="{{ $client->jobcard_id }}"    
+                                       data-jobcardid="{{ $client->jobcardid }}"    
+                                       data-service="{{ htmlentities($client->service) }}"   
+                                       data-item="{{ htmlentities($client->item) }}"   
+                                       data-gwt="{{ $client->grwt }}"    
+                                       data-estwt="{{ $client->estwt }}"    
+                                       data-metal="{{ $client->metal }}"    
+                                       data-calrity="{{ $client->calrity }}"    
+                                       data-color="{{ $client->color }}"    
+                                       data-cut="{{ $client->cut }}"    
+                                       data-big_j="{{ $client->big_j }}"    
+                                       data-nol="{{ $client->nol }}"    
+                                       data-image="{{ $client->image ?? '' }}"
+                                       data-bs-target="#coBrandingModal" style="text-decoration: none;">Edit</a>
+                                </label>
+                            </td>
 
-                    data-item= "{{ htmlentities($client->item) }}"   
-                    data-gwt={{$client->grwt}}    
-                    data-estwt={{$client->estwt}}    
-                    data-metal={{$client->metal}}    
-                    data-calrity={{$client->calrity}}    
-                    data-color={{$client->color}}    
-                    data-cut={{$client->cut}}    
-                    data-big_j={{$client->big_j}}    
-                    data-nol={{$client->nol}}    
+                            <td>
+                                <label class="badge badge-gradient-danger">
+                                    <a href="javascript:void(0);" 
+                                       onclick="confirmDelete('{{ route('delete_job_card', $client->jobcard_id) }}')" 
+                                       style="text-decoration: none;">Delete</a>
+                                </label>
+                            </td>
 
-                    data-image="{{ $client->image ?? '' }}"
-                
-                data-bs-target="#coBrandingModal" style="text-decoration: none;">Edit</a></label></td>
-               
-                <td>
-                    <label class="badge badge-gradient-danger">
-                        <a href="javascript:void(0);" 
-                        onclick="confirmDelete('{{ route('delete_job_card', $client->jobcard_id) }}')" 
-                        style="text-decoration: none;">Delete</a>
-                    </label>
-                </td>
+                            <td>
+                                <label class="badge badge-gradient-info">
+                                    <input type="checkbox" class="select-checkbox" name="jobcard_ids[]" value="{{ $client->jobcard_id }}" />
+                                </label>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif    
+            </tbody>
+        </table>
+        
+        <!-- Final Submit Button -->
+        <button type="submit" class="btn btn-primary mt-3">Upload Images</button>
+    </div>
+</form>
 
-               
-                <td>
-                    <label class="badge badge-gradient-info">
-                        <input type="checkbox" class="select-checkbox" name="jobcard_ids[]"  value="{{ $client->jobcard_id }}" />
-                    </label>
-                </td>
 
-            </tr>
-            @endforeach
-        @endif    
-        </tbody>
-    </table>
 
-   
-</div>
+
 <div class="d-flex flex-wrap justify-content-end mt-3">
 <button id="printSelected" class="btn btn-primary">Print Certificates</button>
 </div>

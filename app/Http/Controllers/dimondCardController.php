@@ -22,9 +22,16 @@ class dimondCardController extends Controller
 
         $query = djobcardtables::orderBy('djobcard_id', 'desc');
 
-        if ($request->has('search')) {
-            $query->where('confirmid', 'like', '%' . $request->search . '%');
+        // if ($request->has('search')) {
+        //     $query->where('confirmid', 'like', '%' . $request->search . '%');
                 
+        // }
+
+        if ($request->has('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('confirmid', 'like', '%' . $request->search . '%')
+                  ->orWhere('djobcardid', 'like', '%' . $request->search . '%');
+            });
         }
     
         $clientinformation = $query->paginate(8);
@@ -91,6 +98,28 @@ class dimondCardController extends Controller
         Excel::import(new dimondCardJob, $request->file('file'));
 
         return back()->with('success', 'Excel file imported successfully!');
+    }
+
+    public function uploadImages(Request $request)
+    {
+        $uploadedImages = [];
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $jobcard_id => $file) {
+                // Generate unique name
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $filePath = $file->storeAs('uploads', $filename, 'public');
+
+                // Update database
+                djobcardtables::where('djobcard_id', $jobcard_id)->update([
+                    'image' => $filename
+                ]);
+
+                $uploadedImages[] = $filename;
+            }
+        }
+
+        return back()->with('success', 'Images uploaded successfully!');
     }
 
 

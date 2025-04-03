@@ -1,3 +1,13 @@
+@if (session()->has('totalRecords'))
+    <div class="alert alert-success">
+        <strong>Total Records:</strong> {{ session('totalRecords') }}<br>
+        <strong>Inserted Records:</strong> {{ session('totalInserted') }}<br>
+        <strong>Skipped Records:</strong> {{ session('totalSkipped') }}
+    </div>
+@endif
+
+<form action="{{ route('upload_gem_jewelery_images') }}" method="POST" enctype="multipart/form-data">
+@csrf
 <div class="table-responsive">
     <table class="table">
         <thead>
@@ -5,7 +15,7 @@
                 <th> S No </th>
                 <th> Confiramation No</th>
                 <th> Jobcard id </th>
-                <th> Edit </th>
+                <th> Upload Image </th>
                 <th> Delete </th>
            
                 <th> Action -1 </th>
@@ -29,7 +39,14 @@
                 <td>{{ $key+1}}</td>
                 <td>{{ $client->confirmid }}</td>
                 <td>{{ $client->jobcardid }}</td>
-                <td>{{ $client->image }}</td>
+                <td>
+                                <input type="file" class="form-control w-50" name="images[{{ $client->jobcard_id}}]" accept="image/*" />
+                                @if($client->image)
+                                    <br>
+                                    <img src="{{ asset('storage/uploads/' . $client->image) }}" width="100" height="80">
+                                @endif
+                            </td>
+
 
                 <td><label class="badge badge-gradient-warning">
                     
@@ -74,8 +91,9 @@
         </tbody>
     </table>
 
-   
+    <button type="submit" class="btn btn-primary mt-3">Upload Images</button>
 </div>
+</form>
 <div class="d-flex flex-wrap justify-content-end mt-3">
 <button id="printSelected" class="btn btn-primary">Print Certificates</button>
 </div>

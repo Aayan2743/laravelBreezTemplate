@@ -19,7 +19,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\HeadingRow\HeadingRowFormatter;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-
+use App\Models\confirmentrys;
 
 
 
@@ -29,9 +29,14 @@ class uploadBulkUncutJewelleryImport implements ToCollection
     /**
     * @param Collection $collection
     */
+
+    private $totalRecords = 0;
+    private $totalInserted = 0;
+    private $totalSkipped = 0;
     public function collection(Collection $rows)
     {
         //
+        $this->totalRecords = $rows->count() - 1;
 
         foreach ($rows as $index => $row) {
             if ($index === 0) {
@@ -47,29 +52,45 @@ class uploadBulkUncutJewelleryImport implements ToCollection
                 continue; // Skip empty or invalid rows
             }
 
+            if (uncutcardtables::where('jobcardid', $row[1])->exists()) {
+                $this->totalSkipped++;
+                continue;
+            }
+
+            // Check if confirmation entry exists
+            if (!confirmentrys::where('confirmationid', $row[0])->exists()) {
+                $this->totalSkipped++;
+                continue;
+            }
+
             $die = rand(1000, 9999);
             $uniqueNumber = time() . rand(1000, 9999);
             $brand = "GILHJ" . $uniqueNumber;
            // dd($brand);
             // Insert data into the database
             $sss=uncutcardtables::create([
-                'jobcardid' => $brand,
+                'jobcardid' => $row[1],
                 'confirmid' => $row[0],
                 'service' => 'Uncut Jewellery',
-                'dia' =>$row[8],
-                'item' => $row[1],
-                'grwt' => $row[2] ?? null,
-                'estwt' => $row[3] ?? null,
-                'metal' => metals::where('code', $row[6])->value('metal_id') ?? null,
+                'dia' =>$row[9],
+                'item' => $row[2],
+                'grwt' => $row[3] ?? null,
+                'estwt' => $row[4] ?? null,
+                'metal' => metals::where('code', $row[7])->value('metal_id') ?? null,
                 // 'calrity' => claritys::where('Clarity', $row[7])->value('calrity_id') ?? null,
                 // 'color' => colourtables::where('color_code', $row[8])->value('color_id') ?? null,
-                'cut' => cuttables::where('code', $row[7])->value('cut_id') ?? null,
-                'nol' => $row[4] ?? null,
+                'cut' => cuttables::where('code', $row[8])->value('cut_id') ?? null,
+                'nol' => $row[5] ?? null,
                
             ]);
 
+            $this->totalInserted++;
             // dd($sss);
-        }   
+        }  
+        
+        session()->flash('totalRecords', max(0, $this->totalInserted+$this->totalSkipped));
+        session()->flash('totalInserted', $this->totalInserted);
+        session()->flash('totalSkipped', $this->totalSkipped);
 
 
 

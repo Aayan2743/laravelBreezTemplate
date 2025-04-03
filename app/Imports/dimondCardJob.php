@@ -11,6 +11,7 @@ use App\Models\colourtables;
 use App\Models\cuttables;
 use App\Models\djobcardtables;
 use Maatwebsite\Excel\Concerns\ToModel;
+use App\Models\confirmentrys;
 
 
 
@@ -25,9 +26,16 @@ class dimondCardJob implements ToCollection
     /**
     * @param Collection $collection
     */
+    private $totalRecords = 0;
+    private $totalInserted = 0;
+    private $totalSkipped = 0;    
+
+
+
     public function collection(Collection $rows)
     {
         //
+        $this->totalRecords = $rows->count() - 1;
         foreach ($rows as $index => $row) {
 
          
@@ -38,18 +46,23 @@ class dimondCardJob implements ToCollection
             if (!isset($row[0]) || trim($row[0]) === '') {
                 continue; // Skip completely empty rows
             }
-            // Check if the row is not empty
-            // if (empty($row[0]) || empty($row[1]) || empty($row[2])|| empty($row[3]) || empty($row[4]) || 
-            //     empty($row[5])|| empty($row[6]) || empty($row[7]) || empty($row[8])|| empty($row[9]) ||
-            //      empty($row[10]) || empty($row[11])|| empty($row[12]) || empty($row[13]) || empty($row[14])|| empty($row[15]) ) {
-            //     continue; // Skip empty or invalid rows
-               
-            // }
+
+            if (djobcardtables::where('djobcardid', $row[1])->exists()) {
+                $this->totalSkipped++;
+                continue;
+            }
+
+            // Check if confirmation entry exists
+            if (!confirmentrys::where('confirmationid', $row[0])->exists()) {
+                $this->totalSkipped++;
+                continue;
+            }
+          
           
 
-            $cutCode=cuttables::where('code',$row[2])->value('cut_id');
-            $clarity=claritys::where('Clarity',$row[6])->value('calrity_id');
-            $color_code=colourtables::where('color_code',$row[7])->value('color_id');
+            $cutCode=cuttables::where('code',$row[3])->value('cut_id');
+            $clarity=claritys::where('Clarity',$row[7])->value('calrity_id');
+            $color_code=colourtables::where('color_code',$row[8])->value('color_id');
             
             $die = rand(1000, 9999);
             $uniqueNumber = time() . rand(100, 999);
@@ -60,30 +73,36 @@ class dimondCardJob implements ToCollection
             try {
             djobcardtables::create([
                 'confirmid' =>  $row[0],
-                'djobcardid' => $brand,
-                'service' => $row[1],
+                'djobcardid' => $row[1],
+                'service' => $row[2],
                 'dia' => $die,
-                'nop' => $row[4],
+                'nop' => $row[5],
                 'cut' => $cutCode ?? null,
-                'carat' => $row[3] ?? null,
-                'measure' =>  $row[5] ?? null,
+                'carat' => $row[4] ?? null,
+                'measure' =>  $row[6] ?? null,
                 'clarity' => $clarity ?? null,
                 'color' => $color_code ?? null,
-                'florosense' => $row[8] ?? null,
-                'finish' => $row[9] ?? null,
-                'tble' => $row[10] ?? null,
-                'crown' => $row[11] ?? null,
-                'pavilion' => $row[12] ?? null,
-                'culet' => $row[13] ?? null,
-                'girdle' => $row[14] ?? null,
-                'big_d' => $row[15] ?? 0,
+                'florosense' => $row[9] ?? null,
+                'finish' => $row[10] ?? null,
+                'tble' => $row[11] ?? null,
+                'crown' => $row[12] ?? null,
+                'pavilion' => $row[13] ?? null,
+                'culet' => $row[14] ?? null,
+                'girdle' => $row[15] ?? null,
+                'big_d' => $row[16] ?? 0,
                
                
             ]);
+            $this->totalInserted++;
             } catch (\Exception $e) {
                 dd($e->getMessage()); // Debug SQL errors
             }
+           
         }
+
+        session()->flash('totalRecords', max(0, $this->totalInserted+$this->totalSkipped));
+        session()->flash('totalInserted', $this->totalInserted);
+        session()->flash('totalSkipped', $this->totalSkipped);
 
     }
 }

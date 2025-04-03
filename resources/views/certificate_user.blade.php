@@ -1,4 +1,4 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.guest')
 
 @section('title', 'Gills Lab -2025 UploadsPage')
 @section('content')
@@ -7,7 +7,7 @@
               <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-primary text-white me-2">
                   <i class="mdi mdi-home"></i>
-                </span> Gems Jewelery Job Card
+                </span> Diamond Jewellery Job Upload:
               </h3>
               <nav aria-label="breadcrumb">
                 <ul class="breadcrumb">
@@ -30,52 +30,9 @@
                       <hr>
 
                       <div class="row">
-                        <div class="col-md-6">
-                       
-                          <div class="form-group row">
-                           <!-- value="0.01-0.28" -->
-                           @if (session('success'))
-                                <p style="color: green">{{ session('success') }}</p>
-                            @endif
-                           <div class="mb-3">
-                           <h4 for="formFile" class="card-title">  Gems Jewelery Job Card  Upload:</h4>
                       
-                            <form action="{{ route('importgemJeweleryCard') }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                   <div class="d-flex">
-                                        <input type="file" class="form-control" name="file" required>
-                                        <button class="btn btn-primary" type="submit">Upload</button>
-                                   </div>
-
-                                  
-                                </form>
-                              <a href="{{route('gemjewelery.download.files',['filename' => 'GemstoneJewelleryUpload.xlsx'])}}">Download sample file  Gems Jewelery Job Card </a>
-
-                          </div>
-                        
-                         
-                          </div>
-
-
-
-                         
-
+                  
                       </div>
-
-                     
-                       
-                      
-                          
-                          
-
-                             
-                            
-
-
-                  
-                        
-                  
-                  </div>
                 </div>
             </div>
 
@@ -88,12 +45,12 @@
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <input type="text" id="search" class="form-control" placeholder="Search Confirmation Id or Job Card Id...">
+                            <input type="text" id="search" class="form-control" placeholder="Search Confirmation Id or Job Card id..">
                         </div>
                     </div>
 
                     <div id="clientTable">
-                      @include('partials.client_table_gems_jewelery_card')
+                   
                   </div>
 
 
@@ -137,7 +94,7 @@ $(document).ready(function() {
         let search = $(this).val();
 
         $.ajax({
-            url: "{{ route('gemJeweleryCardJobIndex') }}",
+            url: "{{ route('viewdiamondjob') }}",
             type: "GET",
             data: { search: search },
             success: function(data) {

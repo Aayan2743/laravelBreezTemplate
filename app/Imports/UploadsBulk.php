@@ -6,6 +6,7 @@ use App\Models\jobcardtables;
 use App\Models\metals;
 use App\Models\claritys;
 use App\Models\colourtables;
+use App\Models\confirmentrys;
 use App\Models\cuttables;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Illuminate\Support\Collection;
@@ -20,125 +21,64 @@ use Illuminate\Validation\Rule;
 
 class UploadsBulk implements ToCollection
 {
-    /**
-    * @param Collection $collection
-    */
+    private $totalRecords = 0;
+    private $totalInserted = 0;
+    private $totalSkipped = 0;
+
     public function collection(Collection $rows)
     {
-        //
+        // $this->totalRecords = count($rows) - 1; // Exclude header row
+        $this->totalRecords = $rows->count() - 1;
 
         foreach ($rows as $index => $row) {
             if ($index === 0) {
-                continue; // Skip the header row if needed
+                continue; // Skip header row
             }
 
-            // Check if the row is not empty
-            if (empty($row[0]) || empty($row[6]) || empty($row[7])|| empty($row[8])) {
-                continue; // Skip empty or invalid rows
+            // Check if required fields are empty
+            if (empty($row[0]) || empty($row[6]) || empty($row[7]) || empty($row[8])) {
+                // $this->totalSkipped++;
+                continue;
             }
 
-            $die = rand(1000, 9999);
-            $uniqueNumber = time() . rand(1000, 9999);
-            $brand = "GILHJ" . $uniqueNumber;
+            // Check if jobcard already exists
+            if (jobcardtables::where('jobcardid', $row[1])->exists()) {
+                $this->totalSkipped++;
+                continue;
+            }
 
+            // Check if confirmation entry exists
+            if (!confirmentrys::where('confirmationid', $row[0])->exists()) {
+                $this->totalSkipped++;
+                continue;
+            }
 
-            // fetch service id from service name given from excel
-
-            
-          
-
-            // Insert data into the database
+            // Insert Data
             jobcardtables::create([
-                'jobcardid' => $brand,
+                'jobcardid' => $row[1],
                 'confirmid' => $row[0],
-                'service' => $row[1],
-                'dia' => $die,
-                'item' => $row[2],
-                'grwt' => $row[3] ?? null,
-                'estwt' => $row[4] ?? null,
-                'metal' => metals::where('code', $row[6])->value('metal_id') ?? null,
-                'calrity' => claritys::where('Clarity', $row[7])->value('calrity_id') ?? null,
-                'color' => colourtables::where('color_code', $row[8])->value('color_id') ?? null,
-                'cut' => cuttables::where('code', $row[9])->value('cut_id') ?? null,
-                'nol' => $row[5] ?? null,
-                'big_j' => $row[10] ?? null,
+                'service' => $row[2],
+                'dia' => rand(1000, 9999),
+                'item' => $row[3],
+                'grwt' => $row[4] ?? null,
+                'estwt' => $row[5] ?? null,
+                'metal' => metals::where('code', $row[7])->value('metal_id') ?? null,
+                'calrity' => claritys::where('Clarity', $row[8])->value('calrity_id') ?? null,
+                'color' => colourtables::where('color_code', $row[9])->value('color_id') ?? null,
+                'cut' => cuttables::where('code', $row[10])->value('cut_id') ?? null,
+                'nol' => $row[6] ?? null,
+                'big_j' => $row[11] ?? null,
             ]);
+
+            $this->totalInserted++;
         }
 
+        // Store counts in session
+        // session()->flash('totalRecords', $this->totalRecords);
+        session()->flash('totalRecords', max(0, $this->totalInserted+$this->totalSkipped));
+        session()->flash('totalInserted', $this->totalInserted);
+        session()->flash('totalSkipped', $this->totalSkipped);
     }
-
-    // public function model(array $row)
-    // {   
-
-    //     $columnCount = count($row);
-
-    //     // Debugging - Display the column count
-    //     // dd($columnCount);
-    
-    //     // Stop processing if required columns are not present
-    //     if ($columnCount < 13) {  // Adjust this number as needed
-    //         return null;
-    //     }
-
-       
-    //     // dd($row[3]);
-    //     $rules = [
-    //         '0'  => 'required',   // confirmid
-    //         '1'  => 'required',   // service
-    //         '2'  => 'required',   // item
-    //         '3'  => 'required',           // grwt
-    //         '4'  => 'required',           // estwt
-    //         '5'  => 'nullable',           // nol
-    //         '6'  => 'required',            // metal code
-    //         '7'  => 'required',            // clarity
-    //         '8' => 'required',            // color
-    //         '9' => 'required',            // cut
-    //         '10' => 'required',    // big_j
-    //         '11' => 'required',    // big_j
-    //         '12' => 'required',    // big_j
-    //     ];   // Validate the row
-    //     $validator = Validator::make($row, $rules);
-
-    //     // Skip row if validation fails
-    //     if ($validator->fails()) {
-
-    //         dd("dfgkljdfjg",$validator->errors()->toArray());
-    //         // Optional: Log or collect errors for review
-    //         // logger()->error('Validation failed for row:', $validator->errors()->toArray());
-    //         return null;
-    //     }
-
-    //     // Check foreign key constraints
-    //     $metalId = metals::where('code', $row[8])->value('metal_id');
-    //     $clarityId = claritys::where('Clarity', $row[9])->value('calrity_id');
-    //     $colorId = colourtables::where('color_code', $row[10])->value('color_id');
-    //     $cutId = cuttables::where('code', $row[11])->value('cut_id');
-
-    //     if (!$metalId || !$clarityId || !$colorId || !$cutId) {
-    //         // Skip row if any foreign key doesn't exist
-    //         return null;
-    //     }
-
-    //     $die = rand(1000, 9999);
-    //     $uniqueNumber = time() . rand(1000, 9999);
-    //     $brand = "GILHJ" . $uniqueNumber;
-
-    //     return new jobcardtables([
-    //         'jobcardid' => $brand,
-    //         'confirmid' => $row[0],
-    //         'service' => $row[3],
-    //         'dia' => $die,
-    //         'item' => $row[4],
-    //         'grwt' => $row[5],
-    //         'estwt' => $row[6],
-    //         'metal' => $metalId,
-    //         'calrity' => $clarityId,
-    //         'color' => $colorId,
-    //         'cut' => $cutId,
-    //         'nol' => $row[7] ?? null,  // Optional field
-    //         'big_j' => $row[12],
-    //     ]);
-    // } 
-
-       
 }
+
+
