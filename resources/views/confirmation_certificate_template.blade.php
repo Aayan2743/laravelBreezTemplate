@@ -1,129 +1,167 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmation Document</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+<html>
+  <head>
+    <title></title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    h4 {
+      margin-top: 5px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 40px;
-            background-color: #f8f8f8;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            background: #fff;
-            border: 2px solid #000;
-            padding: 20px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        .header {
-            text-align: center;
-            border-bottom: 2px solid #000;
-            padding-bottom: 10px;
-        }
-        .header img {
-            width: 120px;
-            margin-bottom: 10px;
-        }
-        .header h2 {
-            font-weight: 600;
-            color: #333;
-        }
-        .header h3 {
-            font-weight: 400;
-            color: #555;
-        }
-        .details {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-top: 20px;
-            font-size: 14px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #000;
-            padding: 10px;
-            text-align: left;
-            font-size: 14px;
-        }
-        th {
-            background: #f4f4f4;
-        }
-        .terms {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #555;
-        }
-        .signature {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 40px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <img src="logo.png" alt="Company Logo">  
-            <h2>GEMTECH INTERNATIONAL LABORATORIES</h2>
-            <h3>CONFIRMATION</h3>
-        </div>
-        
-        
+    th,
+    td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    .tablehead {
+      border: 0;
+      text-align: center;
+    }
+    .custom-table {
+      border-collapse: separate; /* Makes each cell have its own box */
+      border-spacing: 10px; /* Adds space between the boxes */
+      width: 100%;
+    }
+    .tablecell{
+        padding:6px;
+    }
+    @media print {
+  * {
+    -webkit-print-color-adjust: exact; /* For Safari/Chrome */
+    print-color-adjust: exact; /* Standard property */
+  }
+}
+  </style>
+  <body>
+   
+    <div style="padding: 5px">
       
-        <div class="details">
-            <p><strong>Confirmation No:</strong> {{$jobCards[0]->confirmid}}</p>
-            <p><strong>Received By:</strong> Mr. {{$jobCards[0]->confirmEntryDetails->reciever}}</p>
-            <p><strong>Print Date:</strong> {{now()}}</p>
-            <p><strong>Received On:</strong>  {{$jobCards[0]->confirmEntryDetails->recievedate}}</p>
-        </div>
-        <table>
-            <tr>
-                <th>Sr No.</th>
-                <th>Retailer</th>
-                <th>Supplier</th>
-                <th>Item</th>
-                <th>No of Pcs.</th>
-                <th>Weight</th>
-                <th>Services</th>
-            </tr>
 
-            @foreach($jobCards as $key=> $details)
-            <tr>
-                <td>{{$key+1}}</td>
+    <img src="{{ public_path('GIL.jpg') }}" alt="Company Logo">
+        <h3 style="text-align: center; margin-top: 10px; margin-bottom: 10px">
+          CONFIRMATION
+        </h3>
+      <div style="display: flex; justify-content: space-between">
+        <div>
+          <h4>
+            Confirmation No : <span style="font-weight: 300"> {{$jobCards[0]->confirmid}}</span>
+          </h4>
+          <h4>Received By : Mr. {{$jobCards[0]->confirmEntryDetails->reciever}} <span></span></h4>
+        </div>
+        <div>
+          <h4>
+            Print Date :
+            <span style="font-weight: 300">{{now()}}</span>
+          </h4>
+          <h4>
+            Received On :
+            <span style="font-weight: 300"> {{$jobCards[0]->confirmEntryDetails->recievedate}}</span>
+          </h4>
+        </div>
+      </div>
+      <div style="margin-top: 5px">
+        <table>
+          <tr>
+            <th>Sr No.</th>
+            <th>Retailer</th>
+            <th>Supplier</th>
+            <th>Item</th>
+            <th>No of Pcs.</th>
+            <th>Weight</th>
+            <th>Services</th>
+          </tr>
+          @foreach($jobCards as $key=> $details)
+          <tr>
+             <td>{{$key+1}}</td>
                 <td>{{$details->retailer}}</td>
                 <td>{{$details->supplier}}</td>
                 <td>{{$details->item}}</td>
                 <td>{{$details->nop}}</td>
                 <td>{{$details->weight}}</td>
                 <td>{{$details->serviceDetails->service_name}}</td>
-                
-            </tr>   
-            @endforeach
+          </tr>
+          @endforeach
         </table>
-        <p><strong>Total No. of Pieces:</strong> {{$totalNop}}</p>
-        <p><strong>Comments:</strong></p>
-        <p><strong>Delivery Details:</strong> {{$jobCards[0]->confirmEntryDetails->deliverydate}}</p>
-        <div class="terms">
-            <h4>Terms and Conditions:</h4>
-            <p>GIL shall not be held responsible for any damage or loss of the above listed stones/jewellery...</p>
+      </div>
+      <div style="margin-top: 10px; margin-bottom: 10px">
+        <h4>Total No. of Pieces :  {{$totalNop}}</h4>
+        <h4>Comments :</h4>
+        <h4>Delivery Details : {{$jobCards[0]->confirmEntryDetails->deliverydate}}</h4>
+      </div>
+      <div>
+        <h4>Terms and Conditions :</h4>
+        <p style="margin-top: 5px">
+          There are many variations of passages of Lorem Ipsum available, but
+          the majority have suffered alteration in some form, by injected
+          humour, or randomised words which don't look even slightly believable.
+          If you are going to use a passage of Lorem Ipsum, you need to be sure
+          there isn't anything embarrassing hidden in the middle of text.
+        </p>
+        <p style="margin-top: 5px; margin-left: 300px">
+          There are many variations of passages of Lorem Ipsum available, but
+          the majority have suffered alteration in some form, by injected
+          humour, or randomised words which don't look even slightly believable.
+          If you are going to use a passage of Lorem Ipsum, you need to be sure
+          there isn't anything embarrassing hidden in the middle of text.
+        </p>
+      </div>
+      <div
+        style="display: flex; justify-content: space-around; margin-top: 10px"
+      >
+        <div>
+          <h4>Receiver's Signature</h4>
         </div>
-        <div class="signature">
-            <p>Receiver's Signature</p>
-            <p>Depositor's Signature</p>
+        <div>
+          <h4>Depositor's Signature</h4>
+          <p style="margin-top: 10px">Deposited By</p>
         </div>
-        <p><strong>Deposited By:</strong> Mr. {{$jobCards[0]->confirmEntryDetails->depositer_name}}</p>
+      </div>
+      <div style="margin-top: 5px">
+        <table class="custom-table">
+          <tr>
+            <th class="tablehead">Sr No.</th>
+            <th class="tablehead">Retailer</th>
+            <th class="tablehead">Supplier</th>
+            <th class="tablehead">Item</th>
+            <th class="tablehead">No of Pcs.</th>
+          </tr>
+          <tr>
+            <td class="tabelcell"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+      <div style="margin-top:5px;background-color:#be9b55 ;color:white;text-align: center;padding: 10px;">
+        <p style="font-weight: 600;margin-top: 10px;">Head Office : # Door no. 107, C-Block, First Floor, Mayur Kushal Complex,</p>
+        <p style="font-weight: 600;margin-top: 5px;">Gunfoundary, Abids, Hyderabad - 500001, Telangana.</p>
+        <p style="font-weight: 600;margin-top: 5px; margin-bottom: 10px;">Mobile: +91-6301761854 | Email: gillabsIndia@gmail.com | www.gil-labs.com</p>
+      </div>
     </div>
-</body>
+  </body>
 </html>

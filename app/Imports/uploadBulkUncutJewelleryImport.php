@@ -5,6 +5,7 @@ use App\Models\jobcardtables;
 use App\Models\metals;
 use App\Models\claritys;
 use App\Models\itemtables;
+use App\Models\jobid;
 use App\Models\colourtables;
 use App\Models\cuttables;
 use App\Models\cjobcardtables;
@@ -63,6 +64,16 @@ class uploadBulkUncutJewelleryImport implements ToCollection
                 continue;
             }
 
+
+            
+
+            if (jobid::where('jobid', $row[1])->exists()) {
+                $this->totalSkipped++;
+                continue;
+            }     
+
+
+
             $die = rand(1000, 9999);
             $uniqueNumber = time() . rand(1000, 9999);
             $brand = "GILHJ" . $uniqueNumber;
@@ -82,6 +93,13 @@ class uploadBulkUncutJewelleryImport implements ToCollection
                 'cut' => cuttables::where('code', $row[8])->value('cut_id') ?? null,
                 'nol' => $row[5] ?? null,
                
+            ]);
+
+            jobid::create([
+                'jobid' => $row[1],
+                'confirm_id' => $row[0],
+                'model'=>'uncutcardtables'   
+                
             ]);
 
             $this->totalInserted++;

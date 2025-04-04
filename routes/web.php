@@ -19,6 +19,7 @@ use App\Http\Controllers\BillingController;
 use App\Http\Controllers\userprofileController;
 use App\Http\Controllers\ConfirmPrint;
 use App\Http\Controllers\extrainvoiceChargesController;
+use App\Http\Controllers\searchCertificate;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,9 +32,13 @@ use App\Http\Controllers\extrainvoiceChargesController;
 |
 */
 
-Route::get('/', function () {
-    return view('certificate_user');
-});
+// Route::get('/q', function () {
+//     return view('certificate_user');
+// });
+
+Route::get('/q',[searchCertificate::class,'index']); 
+// Route::post('search/{id}',)
+Route::post('/search',[searchCertificate::class,'search'])->name('user.certificate'); 
 
 Route::get('/dashboard', function () {
     return view('dashboard');

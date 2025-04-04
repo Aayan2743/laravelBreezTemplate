@@ -43,7 +43,7 @@
                 <td>{{ $client->confirmid }}</td>
                 <td>{{ $client->djobcardid }}</td>
                 <td>
-                                <input type="file" class="form-control w-50" name="images[{{ $client->djobcard_id}}]" accept="image/*" />
+                                <input type="file" class="form-control w-50" name="images[{{ $client->djobcard_id}}]" accept="image/*" required />
                                 @if($client->image)
                                     <br>
                                     <img src="{{ asset('storage/uploads/' . $client->image) }}" width="100" height="80">

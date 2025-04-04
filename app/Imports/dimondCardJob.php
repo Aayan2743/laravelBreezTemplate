@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use App\Models\jobcardtables;
 use App\Models\metals;
+use App\Models\jobid;
 use App\Models\claritys;
 use App\Models\colourtables;
 use App\Models\cuttables;
@@ -57,6 +58,14 @@ class dimondCardJob implements ToCollection
                 $this->totalSkipped++;
                 continue;
             }
+
+
+         
+
+        if (jobid::where('jobid', $row[1])->exists()) {
+                        $this->totalSkipped++;
+                        continue;
+                    }
           
           
 
@@ -93,6 +102,16 @@ class dimondCardJob implements ToCollection
                
                
             ]);
+
+            jobid::create([
+                'jobid' => $row[1],
+                'confirm_id' => $row[0],
+                'model'=>'djobcardtables'
+                
+            ]);
+
+
+
             $this->totalInserted++;
             } catch (\Exception $e) {
                 dd($e->getMessage()); // Debug SQL errors

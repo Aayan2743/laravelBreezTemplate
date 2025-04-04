@@ -65,7 +65,7 @@
                             <img id="previe"  name="logos"
                                       src="{{ asset('storage/' . $customerDetails->cobranding_logo ?? '') }}" 
                                       alt="Image Preview" 
-                                      style="margin-top: 10px; max-width: 100px; height: auto; border: 1px solid #ddd; padding: 5px; {{ isset($customerDetails->cobranding_logo) ? '' : 'display: non;' }}"> 
+                                      style="margin-top: 10px; max`-width: 100px; height: auto; border: 1px solid #ddd; padding: 5px; {{ isset($customerDetails->cobranding_logo) ? '' : 'display: non;' }}"> 
 
                              
                              

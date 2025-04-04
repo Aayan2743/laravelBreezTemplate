@@ -6,6 +6,7 @@ use App\Models\jobcardtables;
 use App\Models\confirmentrys;
 use App\Models\metals;
 use App\Models\claritys;
+use App\Models\jobid;
 use App\Models\colourtables;
 use App\Models\cuttables;
 use App\Models\gemstonejobcardtabs;
@@ -43,7 +44,7 @@ class UploadBulkGems implements ToCollection
 
             // Check if the row is not empty
             if (empty($row[0]) || empty($row[6]) || empty($row[7])|| empty($row[8])  ) {
-                $this->totalSkipped++;
+                // $this->totalSkipped++;
                 continue; // Skip empty or invalid rows
             }
 
@@ -57,6 +58,14 @@ class UploadBulkGems implements ToCollection
                 $this->totalSkipped++;
                 continue;
             }
+
+
+           
+
+            if (jobid::where('jobid', $row[1])->exists()) {
+                            $this->totalSkipped++;
+                            continue;
+                        }
 
 
 
@@ -82,6 +91,14 @@ class UploadBulkGems implements ToCollection
                 'comments' => $row[9] ?? null,
                
             ]);
+
+            jobid::create([
+                'jobid' => $row[1],
+                'confirm_id' => $row[0],
+                'model'=>'gemstonejobcardtabs'
+                
+            ]);
+
             $this->totalInserted++;
         }
         session()->flash('totalRecords', max(0, $this->totalInserted+$this->totalSkipped));

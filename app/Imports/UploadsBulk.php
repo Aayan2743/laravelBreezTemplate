@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Models\jobcardtables;
 use App\Models\metals;
 use App\Models\claritys;
+use App\Models\jobid;
 use App\Models\colourtables;
 use App\Models\confirmentrys;
 use App\Models\cuttables;
@@ -53,6 +54,12 @@ class UploadsBulk implements ToCollection
                 continue;
             }
 
+            if (jobid::where('jobid', $row[1])->exists()) {
+                $this->totalSkipped++;
+                continue;
+            }
+
+
             // Insert Data
             jobcardtables::create([
                 'jobcardid' => $row[1],
@@ -69,6 +76,15 @@ class UploadsBulk implements ToCollection
                 'nol' => $row[6] ?? null,
                 'big_j' => $row[11] ?? null,
             ]);
+
+            jobid::create([
+                'jobid' => $row[1],
+                'confirm_id' => $row[0],
+                'model'=>'jobcardtables'
+                
+            ]);
+
+
 
             $this->totalInserted++;
         }

@@ -8,6 +8,7 @@ use App\Models\claritys;
 use App\Models\itemtables;
 use App\Models\colourtables;
 use App\Models\cuttables;
+use App\Models\jobid;
 use App\Models\cjobcardtables;
 use App\Models\gemstonejobcardtabs;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -63,6 +64,16 @@ class uploadBulkGemsStoneJewellery implements ToCollection
                 continue;
             }
 
+           
+
+            if (jobid::where('jobid', $row[1])->exists()) {
+                $this->totalSkipped++;
+                continue;
+            }
+
+
+
+
             $die = rand(1000, 9999);
             $uniqueNumber = time() . rand(1000, 9999);
             $brand = "GILHJ" . $uniqueNumber;
@@ -82,6 +93,14 @@ class uploadBulkGemsStoneJewellery implements ToCollection
                 'cut' => cuttables::where('code', $row[7])->value('cut_id') ?? null,
                 'conc' => $row[5] ?? null,
                 'conc1' => $row[8] ?? null,
+            ]);
+
+            jobid::create([
+                'jobid' => $row[1],
+                'confirm_id' => $row[0],
+                'model'=>'cjobcardtables'
+                
+                
             ]);
 
             $this->totalInserted++;

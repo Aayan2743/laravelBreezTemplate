@@ -7,7 +7,7 @@
               <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-primary text-white me-2">
                   <i class="mdi mdi-home"></i>
-                </span> Diamond Jewellery Job Upload:
+                </span> Print Certificates
               </h3>
               <nav aria-label="breadcrumb">
                 <ul class="breadcrumb">
@@ -19,39 +19,31 @@
             </div>
            
 
-            <div class="col-12 grid-margin">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Uploads</h4>
-                    
-                    <div class="row">
-                       
-
-                      <hr>
-
-                      <div class="row">
-                      
-                  
-                      </div>
-                </div>
-            </div>
+          
 
             <div class="col-12 grid-margin">
             <div class="row">
               <div class="col-12 grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Client Details</h4>
+                    <h4 class="card-title">Enter Job id</h4>
 
                     <div class="row mb-3">
-                        <div class="col-md-6">
-                            <input type="text" id="search" class="form-control" placeholder="Search Confirmation Id or Job Card id..">
-                        </div>
-                    </div>
+                        <form method="post" action="{{route('user.certificate')}}">
+                          @csrf
+                            <div class="col-md-6">
+                                <input type="text" id="search" class="form-control" name="jobid" placeholder="Enter Job Card id..">
+                            </div>
 
-                    <div id="clientTable">
-                   
-                  </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-primary" type="submit"> Search </button>
+                            </div>
+                        </form>
+                     
+                    </div>
+                  
+
+                  
 
 
 

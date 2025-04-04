@@ -124,6 +124,11 @@
                
                     <!-- <div class="title">GEMTECH INTERNATIONAL LABORATORIES</div> -->
                 </div>
+                <div class="heade">
+                  
+                  <img src="{{ public_path('qr.jpeg') }}" alt="Qr" height="50px" width="50px">
+                  </div>
+
                 @php
                        
                 $desc = optional($jobCard->metal)->metal_name; // Avoids error if metal is null

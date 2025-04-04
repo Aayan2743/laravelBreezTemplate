@@ -83,6 +83,7 @@
         <div class="certificate-big">
             <div class="header">
                 <img src="{{ public_path('uploads/logo.png') }}" alt="Company Logo">
+                <img src="{{ public_path('uploads/qr.jpeg') }}" alt="Company Logo">
                 <!-- <div class="title">GEMTECH INTERNATIONAL LABORATORIES</div> -->
             </div>
                
@@ -113,11 +114,14 @@
                 <div class="header">
               
                 <img src="{{ public_path('GIL.jpg') }}" alt="Company Logo">
-               
-               
+             
                
                
                     <!-- <div class="title">GEMTECH INTERNATIONAL LABORATORIES</div> -->
+                </div>
+                <div class="heade">
+                  
+                <img src="{{ public_path('qr.jpeg') }}" alt="Qr" height="50px" width="50px">
                 </div>
                 @php
                        
